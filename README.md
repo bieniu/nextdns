@@ -6,7 +6,7 @@
 
 # nextdns
 
-Python wrapper for NextDNS API.
+Python wrapper for [NextDNS](https://nextdns.io/?from=u4xqh6ud) API.
 
 
 ## How to use package
