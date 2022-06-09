@@ -2,13 +2,15 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable
 from http import HTTPStatus
-from typing import Iterable, cast
+from typing import Any
 
 from aiohttp import ClientSession
 
-from .const import ATTR_PROFILES, ATTR_STATUS, ENDPOINTS
+from .const import ATTR_ANALYTICS, ATTR_PROFILE, ATTR_PROFILES, ENDPOINTS
 from .exceptions import ApiError, InvalidApiKeyError
+from .model import AnalyticsStatus
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -40,12 +42,28 @@ class NextDns:
         url = ENDPOINTS[ATTR_PROFILES]
         return await self._http_request("get", url)
 
-    async def get_status(self, profile: str) -> list[dict[str, str]]:
-        """Get profile status."""
-        url = ENDPOINTS[ATTR_STATUS].format(profile=profile)
+    async def get_profile(self, profile: str) -> dict[str, str]:
+        """Get profile."""
+        url = ENDPOINTS[ATTR_PROFILE].format(profile=profile)
         return await self._http_request("get", url)
 
-    async def _http_request(self, method: str, url: str) -> list[dict[str, str]]:
+    async def get_analytics_status(self, profile: str) -> AnalyticsStatus:
+        """Get profile analytics status."""
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="status")
+        resp = await self._http_request("get", url)
+        return AnalyticsStatus(*[item["queries"] for item in resp])
+
+    async def get_analytics_dnssec(self, profile: str) -> list[dict[str, str]]:
+        """Get profile analytics dnssec."""
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="dnssec")
+        return await self._http_request("get", url)
+
+    async def get_analytics_encryption(self, profile: str) -> list[dict[str, str]]:
+        """Get profile analytics encryption."""
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="encryption")
+        return await self._http_request("get", url)
+
+    async def _http_request(self, method: str, url: str) -> Any:
         """Retrieve data from the device."""
         _LOGGER.debug("Requesting %s, method: %s", url, method)
 
@@ -60,7 +78,7 @@ class NextDns:
             raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
 
         result = await resp.json()
-        return cast(list[dict[str, str]], result["data"])
+        return result["data"]
 
     @staticmethod
     def _parse_profiles(profiles: list[dict[str, str]]) -> Iterable[tuple[str, str]]:

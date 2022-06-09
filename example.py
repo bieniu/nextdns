@@ -17,10 +17,16 @@ async def main():
         try:
             nextdns = await NextDns.create(websession, API_KEY)
 
-            for profile_id, profile_name in nextdns.profiles:
-                print(f"Profile: {profile_name} ({profile_id})")
-                status = await nextdns.get_status(profile_id)
-                print(f"Status: {status}")
+            profile_id, profile_name = nextdns.profiles[0]
+            print(f"Profile: {profile_name} ({profile_id})")
+            profile = await nextdns.get_profile(profile_id)
+            print(f"Profile fingerprint: {profile['fingerprint']}")
+            status = await nextdns.get_analytics_status(profile_id)
+            print(f"Status: {status}")
+            dnssec = await nextdns.get_analytics_dnssec(profile_id)
+            print(f"Status: {dnssec}")
+            encryption = await nextdns.get_analytics_encryption(profile_id)
+            print(f"Status: {encryption}")
         except InvalidApiKeyError:
             print("Invalid API Key")
         except ApiError as error:
