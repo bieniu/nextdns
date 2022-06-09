@@ -2,7 +2,7 @@
 import asyncio
 import logging
 
-from aiohttp import ClientSession
+from aiohttp import ClientConnectorError, ClientSession
 
 from nextdns import ApiError, InvalidApiKeyError, NextDns
 
@@ -27,6 +27,8 @@ async def main():
             print("Invalid API Key")
         except ApiError as error:
             print(f"API Error: {error.status}")
+        except ClientConnectorError as error:
+            print(f"ClientConnectorError: {error}")
         else:
             print(f"Profile: {profile_name} ({profile_id})")
             print(profile)
