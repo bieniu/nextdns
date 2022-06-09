@@ -8,9 +8,26 @@ from typing import Any
 
 from aiohttp import ClientSession
 
-from .const import ATTR_ANALYTICS, ATTR_PROFILE, ATTR_PROFILES, ENDPOINTS
+from .const import (
+    ATTR_ANALYTICS,
+    ATTR_PROFILE,
+    ATTR_PROFILES,
+    DNSSEC_MAP,
+    ENCRYPTED_MAP,
+    ENDPOINTS,
+    IP_VERSIONS_MAP,
+    PROTOCOLS_MAP,
+    STATUS_MAP,
+)
 from .exceptions import ApiError, InvalidApiKeyError
-from .model import AnalyticsStatus
+from .model import (
+    AnalyticsDnssec,
+    AnalyticsEncrypted,
+    AnalyticsIpVersions,
+    AnalyticsProtocols,
+    AnalyticsStatus,
+    Profile,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -45,23 +62,48 @@ class NextDns:
     async def get_profile(self, profile: str) -> dict[str, str]:
         """Get profile."""
         url = ENDPOINTS[ATTR_PROFILE].format(profile=profile)
-        return await self._http_request("get", url)
+        resp = await self._http_request("get", url)
+        return Profile(**resp)
 
     async def get_analytics_status(self, profile: str) -> AnalyticsStatus:
         """Get profile analytics status."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="status")
         resp = await self._http_request("get", url)
-        return AnalyticsStatus(*[item["queries"] for item in resp])
+        return AnalyticsStatus(
+            **{STATUS_MAP[item["status"]]: item["queries"] for item in resp}
+        )
 
-    async def get_analytics_dnssec(self, profile: str) -> list[dict[str, str]]:
+    async def get_analytics_dnssec(self, profile: str) -> AnalyticsDnssec:
         """Get profile analytics dnssec."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="dnssec")
-        return await self._http_request("get", url)
+        resp = await self._http_request("get", url)
+        return AnalyticsDnssec(
+            **{DNSSEC_MAP[item["validated"]]: item["queries"] for item in resp}
+        )
 
-    async def get_analytics_encryption(self, profile: str) -> list[dict[str, str]]:
+    async def get_analytics_encryption(self, profile: str) -> AnalyticsEncrypted:
         """Get profile analytics encryption."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="encryption")
-        return await self._http_request("get", url)
+        resp = await self._http_request("get", url)
+        return AnalyticsEncrypted(
+            **{ENCRYPTED_MAP[item["encrypted"]]: item["queries"] for item in resp}
+        )
+
+    async def get_analytics_ip_versions(self, profile: str) -> AnalyticsIpVersions:
+        """Get profile analytics IP versions."""
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="ipVersions")
+        resp = await self._http_request("get", url)
+        return AnalyticsIpVersions(
+            **{IP_VERSIONS_MAP[item["version"]]: item["queries"] for item in resp}
+        )
+
+    async def get_analytics_protocols(self, profile: str) -> AnalyticsProtocols:
+        """Get profile analytics protocols."""
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="protocols")
+        resp = await self._http_request("get", url)
+        return AnalyticsProtocols(
+            **{PROTOCOLS_MAP[item["protocol"]]: item["queries"] for item in resp}
+        )
 
     async def _http_request(self, method: str, url: str) -> Any:
         """Retrieve data from the device."""
@@ -78,6 +120,7 @@ class NextDns:
             raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
 
         result = await resp.json()
+        _LOGGER.debug("Response result: %s", result)
         return result["data"]
 
     @staticmethod
