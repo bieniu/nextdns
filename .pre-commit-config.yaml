@@ -52,7 +52,7 @@ repos:
     hooks:
       - id: no-commit-to-branch
         args:
-          - --branch=main
+          - --branch=master
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.26.3
     hooks:
