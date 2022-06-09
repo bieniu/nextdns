@@ -21,7 +21,9 @@ setup(
     packages=["nextdns"],
     package_data={"nextdns": ["py.typed"]},
     python_requires=">=3.9",
-    install_requires=list(val.strip() for val in open("requirements.txt")),
+    install_requires=list(
+        val.strip() for val in open("requirements.txt", encoding="utf-8")
+    ),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: Apache Software License",

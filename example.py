@@ -16,7 +16,7 @@ async def main():
     async with ClientSession() as websession:
         try:
             nextdns = await NextDns.create(websession, API_KEY)
-            profile_id, profile_name = nextdns.profiles[0]
+            profile_id, profile_name = nextdns.profiles[2]
             profile = await nextdns.get_profile(profile_id)
             status = await nextdns.get_analytics_status(profile_id)
             dnssec = await nextdns.get_analytics_dnssec(profile_id)

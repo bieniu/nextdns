@@ -89,14 +89,14 @@ class AnalyticsProtocols:
 class Profile:
     """Profile class."""
 
-    id: str
-    fingerprint: str
-    name: str
-    setup: dict
-    security: dict
-    privacy: dict
-    settings: dict
-    parentalControl: dict
-    denylist: list
     allowlist: list
+    denylist: list
+    fingerprint: str
+    id: str
+    name: str
+    parental_control: dict
+    privacy: dict
     rewrites: list
+    security: dict
+    settings: dict
+    setup: dict
