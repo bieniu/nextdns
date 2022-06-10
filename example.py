@@ -1,6 +1,7 @@
 """Example of usage."""
 import asyncio
 import logging
+from dataclasses import astuple
 
 from aiohttp import ClientConnectorError, ClientSession
 
@@ -16,8 +17,7 @@ async def main():
     async with ClientSession() as websession:
         try:
             nextdns = await NextDns.create(websession, API_KEY)
-            profile_id, profile_name = nextdns.profiles[2]
-            profile = await nextdns.get_profile(profile_id)
+            profile_id, profile_name = astuple(nextdns.profiles[0])
             status = await nextdns.get_analytics_status(profile_id)
             dnssec = await nextdns.get_analytics_dnssec(profile_id)
             encryption = await nextdns.get_analytics_encryption(profile_id)
@@ -31,7 +31,6 @@ async def main():
             print(f"ClientConnectorError: {error}")
         else:
             print(f"Profile: {profile_name} ({profile_id})")
-            print(profile)
             print(status)
             print(dnssec)
             print(encryption)

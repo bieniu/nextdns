@@ -86,6 +86,17 @@ class AnalyticsProtocols:
 
 
 @dataclass
+class AllAnalytics:
+    """AllAnalytics class."""
+
+    dnssec: AnalyticsDnssec
+    encrypted: AnalyticsEncrypted
+    ip_versions: AnalyticsIpVersions
+    protocols: AnalyticsProtocols
+    status: AnalyticsStatus
+
+
+@dataclass
 class Profile:
     """Profile class."""
 
@@ -100,3 +111,11 @@ class Profile:
     security: dict
     settings: dict
     setup: dict
+
+
+@dataclass
+class ProfileInfo:
+    """ProfileInfo class."""
+
+    id: str
+    name: str

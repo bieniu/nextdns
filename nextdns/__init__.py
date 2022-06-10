@@ -1,6 +1,7 @@
 """Python wrapper for NextDNS API."""
 from __future__ import annotations
 
+import asyncio
 import logging
 from collections.abc import Iterable
 from http import HTTPStatus
@@ -22,12 +23,14 @@ from .const import (
 )
 from .exceptions import ApiError, InvalidApiKeyError
 from .model import (
+    AllAnalytics,
     AnalyticsDnssec,
     AnalyticsEncrypted,
     AnalyticsIpVersions,
     AnalyticsProtocols,
     AnalyticsStatus,
     Profile,
+    ProfileInfo,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -41,7 +44,7 @@ class NextDns:
         self._session = session
         self._headers = {"X-Api-Key": api_key}
         self._api_key = api_key
-        self._profiles: Iterable[tuple[str, str]]
+        self._profiles: list[ProfileInfo]
 
     @classmethod
     async def create(cls, session: ClientSession, api_key: str) -> NextDns:
@@ -53,7 +56,7 @@ class NextDns:
     async def initialize(self) -> None:
         """Initialize."""
         _LOGGER.debug("Initializing with API Key: %s...", self._api_key[:10])
-        self._profiles = self._parse_profiles(await self.get_profiles())
+        self._profiles = list(self._parse_profiles(await self.get_profiles()))
 
     async def get_profiles(self) -> list[dict[str, str]]:
         """Get all profiles."""
@@ -108,6 +111,17 @@ class NextDns:
             **{MAP_PROTOCOLS[item["protocol"]]: item["queries"] for item in resp}
         )
 
+    async def get_all_analytics(self, profile: str) -> AllAnalytics:
+        """Get profile analytics."""
+        resp = await asyncio.gather(
+            self.get_analytics_dnssec(profile),
+            self.get_analytics_encryption(profile),
+            self.get_analytics_ip_versions(profile),
+            self.get_analytics_protocols(profile),
+            self.get_analytics_status(profile),
+        )
+        return AllAnalytics(*resp)
+
     async def _http_request(self, method: str, url: str) -> Any:
         """Retrieve data from the device."""
         _LOGGER.debug("Requesting %s, method: %s", url, method)
@@ -126,12 +140,12 @@ class NextDns:
         return result["data"]
 
     @staticmethod
-    def _parse_profiles(profiles: list[dict[str, str]]) -> Iterable[tuple[str, str]]:
+    def _parse_profiles(profiles: list[dict[str, str]]) -> Iterable[ProfileInfo]:
         """Parse profiles."""
         for profile in profiles:
-            yield profile["id"], profile["name"]
+            yield ProfileInfo(profile["id"], profile["name"])
 
     @property
-    def profiles(self) -> list[tuple[str, str]]:
+    def profiles(self) -> list[ProfileInfo]:
         """Return profiles."""
-        return list(self._profiles)
+        return self._profiles
