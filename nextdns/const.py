@@ -1,4 +1,6 @@
 """NextDNS constants."""
+API_ENDPOINT = "https://api.nextdns.io"
+
 ATTR_ANALYTICS = "analytics"
 ATTR_PROFILE = "profile"
 ATTR_PROFILES = "profiles"
