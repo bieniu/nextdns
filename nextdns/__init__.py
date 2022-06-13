@@ -11,6 +11,7 @@ from aiohttp import ClientSession
 
 from .const import (
     ATTR_ANALYTICS,
+    ATTR_LOGS,
     ATTR_PROFILE,
     ATTR_PROFILES,
     ENDPOINTS,
@@ -111,6 +112,16 @@ class NextDns:
             **{MAP_PROTOCOLS[item["protocol"]]: item["queries"] for item in resp}
         )
 
+    async def clear_logs(self, profile: str) -> bool:
+        """Get profile analytics dnssec."""
+        url = ENDPOINTS[ATTR_LOGS].format(profile=profile)
+        result = await self._http_request("delete", url)
+
+        if result.get("success", False):
+            return True
+
+        return False
+
     async def get_all_analytics(self, profile: str) -> AllAnalytics:
         """Get profile analytics."""
         resp = await asyncio.gather(
@@ -132,6 +143,8 @@ class NextDns:
 
         if resp.status == HTTPStatus.FORBIDDEN.value:
             raise InvalidApiKeyError
+        if resp.status == HTTPStatus.NO_CONTENT.value and method == "delete":
+            return {"success": True}
         if resp.status != HTTPStatus.OK.value:
             result = await resp.json()
             raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
