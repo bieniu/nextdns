@@ -174,7 +174,7 @@ class NextDns:
     def _parse_profiles(profiles: list[dict[str, str]]) -> Iterable[ProfileInfo]:
         """Parse profiles."""
         for profile in profiles:
-            yield ProfileInfo(profile["id"], profile["name"])
+            yield ProfileInfo(profile["id"], profile["fingerprint"], profile["name"])
 
     @property
     def profiles(self) -> list[ProfileInfo]:

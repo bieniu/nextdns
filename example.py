@@ -17,12 +17,13 @@ async def main():
     async with ClientSession() as websession:
         try:
             nextdns = await NextDns.create(websession, API_KEY)
-            profile_id, profile_name = astuple(nextdns.profiles[0])
+            profile_id, profile_fingerprint, profile_name = astuple(nextdns.profiles[0])
             status = await nextdns.get_analytics_status(profile_id)
             dnssec = await nextdns.get_analytics_dnssec(profile_id)
             encryption = await nextdns.get_analytics_encryption(profile_id)
             ip_versions = await nextdns.get_analytics_ip_versions(profile_id)
             protocols = await nextdns.get_analytics_protocols(profile_id)
+            using_nextdns = await nextdns.using_nextdns()
         except InvalidApiKeyError:
             print("Invalid API Key")
         except ApiError as error:
@@ -30,7 +31,10 @@ async def main():
         except ClientConnectorError as error:
             print(f"ClientConnectorError: {error}")
         else:
-            print(f"Profile: {profile_name} ({profile_id})")
+            print(
+                f"Profile: {profile_name} (id: {profile_id}, fingerprint: {profile_fingerprint})"
+            )
+            print(f"Does this device use NextDNS?: {using_nextdns}")
             print(status)
             print(dnssec)
             print(encryption)

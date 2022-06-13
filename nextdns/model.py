@@ -139,4 +139,5 @@ class ProfileInfo:
     """ProfileInfo class."""
 
     id: str
+    fingerprint: str
     name: str
