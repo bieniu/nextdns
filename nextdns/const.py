@@ -5,12 +5,14 @@ ATTR_ANALYTICS = "analytics"
 ATTR_LOGS = "logs"
 ATTR_PROFILE = "profile"
 ATTR_PROFILES = "profiles"
+ATTR_TEST = "test"
 
 ENDPOINTS = {
     ATTR_ANALYTICS: "https://api.nextdns.io/profiles/{profile}/analytics/{type}",
     ATTR_LOGS: "https://api.nextdns.io/profiles/{profile}/logs",
     ATTR_PROFILE: "https://api.nextdns.io/profiles/{profile}",
     ATTR_PROFILES: "https://api.nextdns.io/profiles",
+    ATTR_TEST: "https://{identifier}.test.nextdns.io",
 }
 
 MAP_DNSSEC = {False: "not_validated_queries", True: "validated_queries"}
