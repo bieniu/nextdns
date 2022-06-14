@@ -5,7 +5,12 @@ from dataclasses import dataclass
 
 
 @dataclass
-class AnalyticsStatus:
+class NextDnsData:
+    """NextDNS data class."""
+
+
+@dataclass
+class AnalyticsStatus(NextDnsData):
     """AnalyticsStatus class."""
 
     default_queries: int = 0
@@ -28,7 +33,7 @@ class AnalyticsStatus:
 
 
 @dataclass
-class AnalyticsDnssec:
+class AnalyticsDnssec(NextDnsData):
     """AnalyticsDnssec class."""
 
     not_validated_queries: int = 0
@@ -47,7 +52,7 @@ class AnalyticsDnssec:
 
 
 @dataclass
-class AnalyticsEncrypted:
+class AnalyticsEncrypted(NextDnsData):
     """AnalyticsEncrypted class."""
 
     encrypted_queries: int = 0
@@ -66,7 +71,7 @@ class AnalyticsEncrypted:
 
 
 @dataclass
-class AnalyticsIpVersions:
+class AnalyticsIpVersions(NextDnsData):
     """AnalyticsIpVersions class."""
 
     ipv6_queries: int = 0
@@ -83,7 +88,7 @@ class AnalyticsIpVersions:
 
 
 @dataclass
-class AnalyticsProtocols:
+class AnalyticsProtocols(NextDnsData):
     """AnalyticsProtocols class."""
 
     doh_queries: int = 0
@@ -109,7 +114,7 @@ class AnalyticsProtocols:
 
 
 @dataclass
-class AllAnalytics:
+class AllAnalytics(NextDnsData):
     """AllAnalytics class."""
 
     dnssec: AnalyticsDnssec
@@ -120,7 +125,7 @@ class AllAnalytics:
 
 
 @dataclass
-class Profile:
+class Profile(NextDnsData):
     """Profile class."""
 
     allowlist: list
@@ -137,7 +142,7 @@ class Profile:
 
 
 @dataclass
-class ProfileInfo:
+class ProfileInfo(NextDnsData):
     """ProfileInfo class."""
 
     id: str
@@ -146,7 +151,7 @@ class ProfileInfo:
 
 
 @dataclass
-class ConnectionStatus:
+class ConnectionStatus(NextDnsData):
     """ConnectionStatus class."""
 
     connected: bool
