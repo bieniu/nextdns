@@ -23,7 +23,7 @@ async def main():
             encryption = await nextdns.get_analytics_encryption(profile_id)
             ip_versions = await nextdns.get_analytics_ip_versions(profile_id)
             protocols = await nextdns.get_analytics_protocols(profile_id)
-            using_nextdns = await nextdns.using_nextdns()
+            connection_status = await nextdns.connection_status(profile_id)
         except InvalidApiKeyError:
             print("Invalid API Key")
         except ApiError as error:
@@ -34,7 +34,9 @@ async def main():
             print(
                 f"Profile: {profile_name} (id: {profile_id}, fingerprint: {profile_fingerprint})"
             )
-            print(f"Does this device use NextDNS?: {using_nextdns}")
+            print(
+                f"Does this device use NextDNS?: {connection_status.connected}, using profile: {connection_status.profile}"
+            )
             print(status)
             print(dnssec)
             print(encryption)

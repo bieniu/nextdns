@@ -1,4 +1,6 @@
 """Type definitions for NextDNS."""
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -141,3 +143,11 @@ class ProfileInfo:
     id: str
     fingerprint: str
     name: str
+
+
+@dataclass
+class ConnectionStatus:
+    """ConnectionStatus class."""
+
+    connected: bool
+    profile: str | None = None

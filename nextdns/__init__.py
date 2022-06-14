@@ -5,7 +5,6 @@ import asyncio
 import logging
 from collections.abc import Iterable
 from http import HTTPStatus
-from random import randrange
 from typing import Any, cast
 
 from aiohttp import ClientSession
@@ -32,6 +31,7 @@ from .model import (
     AnalyticsIpVersions,
     AnalyticsProtocols,
     AnalyticsStatus,
+    ConnectionStatus,
     Profile,
     ProfileInfo,
 )
@@ -122,12 +122,18 @@ class NextDns:
             **{MAP_PROTOCOLS[item["protocol"]]: item["queries"] for item in resp}
         )
 
-    async def using_nextdns(self) -> bool:
+    async def connection_status(self, profile: str) -> ConnectionStatus:
         """Return True if the device is using NextDNS."""
-        url = ENDPOINTS[ATTR_TEST].format(identifier=randrange(99999))
+        url = ENDPOINTS[ATTR_TEST].format(identifier=profile)
         resp = await self._http_request("get", url)
 
-        return cast(bool, resp["status"] == "ok")
+        profile_id = None
+        if status := resp["status"] == "ok":
+            for item in self.profiles:
+                if item.fingerprint == resp.get("profile"):
+                    profile_id = item.id
+
+        return ConnectionStatus(status, profile_id)
 
     async def clear_logs(self, profile: str) -> bool:
         """Get profile analytics dnssec."""
