@@ -35,7 +35,7 @@ async def main():
                 f"Profile: {profile_name} (id: {profile_id}, fingerprint: {profile_fingerprint})"
             )
             print(
-                f"Does this device use NextDNS?: {connection_status.connected}, using profile: {connection_status.profile}"
+                f"Does this device use NextDNS?: {connection_status.connected}, using profile: {connection_status.profile_id}"
             )
             print(status)
             print(dnssec)

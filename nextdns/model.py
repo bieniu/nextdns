@@ -155,4 +155,4 @@ class ConnectionStatus(NextDnsData):
     """ConnectionStatus class."""
 
     connected: bool
-    profile: str | None = None
+    profile_id: str | None = None
