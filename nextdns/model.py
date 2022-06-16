@@ -52,8 +52,8 @@ class AnalyticsDnssec(NextDnsData):
 
 
 @dataclass
-class AnalyticsEncrypted(NextDnsData):
-    """AnalyticsEncrypted class."""
+class AnalyticsEncryption(NextDnsData):
+    """AnalyticsEncryption class."""
 
     encrypted_queries: int = 0
     unencrypted_queries: int = 0
@@ -118,7 +118,7 @@ class AllAnalytics(NextDnsData):
     """AllAnalytics class."""
 
     dnssec: AnalyticsDnssec
-    encrypted: AnalyticsEncrypted
+    encrypted: AnalyticsEncryption
     ip_versions: AnalyticsIpVersions
     protocols: AnalyticsProtocols
     status: AnalyticsStatus

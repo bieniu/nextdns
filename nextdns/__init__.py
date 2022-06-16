@@ -27,7 +27,7 @@ from .exceptions import ApiError, InvalidApiKeyError
 from .model import (
     AllAnalytics,
     AnalyticsDnssec,
-    AnalyticsEncrypted,
+    AnalyticsEncryption,
     AnalyticsIpVersions,
     AnalyticsProtocols,
     AnalyticsStatus,
@@ -95,12 +95,12 @@ class NextDns:
             **{MAP_DNSSEC[item["validated"]]: item["queries"] for item in resp}
         )
 
-    async def get_analytics_encryption(self, profile: str) -> AnalyticsEncrypted:
+    async def get_analytics_encryption(self, profile: str) -> AnalyticsEncryption:
         """Get profile analytics encryption."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="encryption")
         resp = await self._http_request("get", url)
 
-        return AnalyticsEncrypted(
+        return AnalyticsEncryption(
             **{MAP_ENCRYPTED[item["encrypted"]]: item["queries"] for item in resp}
         )
 
