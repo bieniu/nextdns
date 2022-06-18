@@ -13,16 +13,22 @@ class NextDnsData:
 class AnalyticsStatus(NextDnsData):
     """AnalyticsStatus class."""
 
-    default_queries: int = 0
-    blocked_queries: int = 0
-    allowed_queries: int = 0
     all_queries: int = 0
+    allowed_queries: int = 0
+    blocked_queries: int = 0
+    default_queries: int = 0
+    relayed_queries: int = 0
     blocked_queries_ratio: float = 0
 
     def __post_init__(self) -> None:
         """Call after initialization."""
         self.all_queries = sum(
-            [self.default_queries, self.blocked_queries, self.allowed_queries]
+            [
+                self.default_queries,
+                self.blocked_queries,
+                self.allowed_queries,
+                self.relayed_queries,
+            ]
         )
 
         self.blocked_queries_ratio = (
@@ -92,9 +98,11 @@ class AnalyticsProtocols(NextDnsData):
     """AnalyticsProtocols class."""
 
     doh_queries: int = 0
+    doq_queries: int = 0
     dot_queries: int = 0
     udp_queries: int = 0
     doh_queries_ratio: float = 0
+    doq_queries_ratio: float = 0
     dot_queries_ratio: float = 0
     udp_queries_ratio: float = 0
 
@@ -104,6 +112,9 @@ class AnalyticsProtocols(NextDnsData):
 
         self.doh_queries_ratio = (
             0 if not all_queries else round(self.doh_queries / all_queries * 100, 1)
+        )
+        self.doq_queries_ratio = (
+            0 if not all_queries else round(self.doq_queries / all_queries * 100, 1)
         )
         self.dot_queries_ratio = (
             0 if not all_queries else round(self.dot_queries / all_queries * 100, 1)

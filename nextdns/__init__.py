@@ -174,6 +174,8 @@ class NextDns:
 
         result = await resp.json()
 
+        _LOGGER.debug("Response: %s", result)
+
         return result["data"] if "data" in result else result
 
     @staticmethod
