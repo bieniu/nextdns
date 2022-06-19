@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 from collections.abc import Iterable
 from http import HTTPStatus
@@ -14,6 +15,7 @@ from .const import (
     ATTR_LOGS,
     ATTR_PROFILE,
     ATTR_PROFILES,
+    ATTR_SETTINGS,
     ATTR_TEST,
     ENDPOINTS,
     MAP_DNSSEC,
@@ -45,7 +47,7 @@ class NextDns:
     def __init__(self, session: ClientSession, api_key: str) -> None:
         """Initialize NextDNS API wrapper."""
         self._session = session
-        self._headers = {"X-Api-Key": api_key}
+        self._headers = {"X-Api-Key": api_key, "Content-Type": "application/json"}
         self._api_key = api_key
         self._profiles: list[ProfileInfo]
 
@@ -154,19 +156,31 @@ class NextDns:
 
         return AllAnalytics(*resp)
 
-    async def _http_request(self, method: str, url: str) -> Any:
-        """Retrieve data from the device."""
-        _LOGGER.debug("Requesting %s, method: %s", url, method)
+    async def set_web3(self, profile: str, state: bool) -> bool:
+        """Toggle Web3 setting."""
+        url = ENDPOINTS[ATTR_SETTINGS].format(profile=profile)
+        resp = await self._http_request("patch", url, data={"web3": state})
 
-        resp = await self._session.request(
-            method, url, headers=self._headers, allow_redirects=False
-        )
+        return resp.get("success", False) is True
+
+    async def _http_request(
+        self, method: str, url: str, data: dict[str, Any] | None = None
+    ) -> Any:
+        """Make an HTTP request."""
+        _LOGGER.debug("Requesting %s, method: %s, data: %s", url, method, data)
+
+        if data:
+            resp = await self._session.request(
+                method, url, headers=self._headers, data=json.dumps(data)
+            )
+        else:
+            resp = await self._session.request(method, url, headers=self._headers)
 
         _LOGGER.debug("Response status: %s", resp.status)
 
         if resp.status == HTTPStatus.FORBIDDEN.value:
             raise InvalidApiKeyError
-        if resp.status == HTTPStatus.NO_CONTENT.value and method == "delete":
+        if resp.status == HTTPStatus.NO_CONTENT.value and method in ("delete", "patch"):
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
             result = await resp.json()

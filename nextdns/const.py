@@ -5,6 +5,7 @@ ATTR_ANALYTICS = "analytics"
 ATTR_LOGS = "logs"
 ATTR_PROFILE = "profile"
 ATTR_PROFILES = "profiles"
+ATTR_SETTINGS = "settings"
 ATTR_TEST = "test"
 
 ENDPOINTS = {
@@ -12,6 +13,7 @@ ENDPOINTS = {
     ATTR_LOGS: "https://api.nextdns.io/profiles/{profile}/logs",
     ATTR_PROFILE: "https://api.nextdns.io/profiles/{profile}",
     ATTR_PROFILES: "https://api.nextdns.io/profiles",
+    ATTR_SETTINGS: "https://api.nextdns.io/profiles/{profile}/settings",
     ATTR_TEST: "https://{identifier}.test.nextdns.io",
 }
 
