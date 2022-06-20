@@ -41,6 +41,7 @@ from .model import (
     ConnectionStatus,
     Profile,
     ProfileInfo,
+    Settings,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -82,6 +83,19 @@ class NextDns:
 
         return Profile(
             **{MAP_PROFILE.get(key, key): value for key, value in resp.items()}
+        )
+
+    async def get_settings(self, profile_id: str) -> Settings:
+        """Get profile settings."""
+        profile_data = await self.get_profile(profile_id)
+
+        return Settings(
+            block_page=profile_data.settings["blockPage"]["enabled"],
+            cache_boost=profile_data.settings["performance"]["cacheBoost"],
+            cname_flattening=profile_data.settings["performance"]["cnameFlattening"],
+            ecs=profile_data.settings["performance"]["ecs"],
+            logs=profile_data.settings["logs"]["enabled"],
+            web3=profile_data.settings["web3"],
         )
 
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:

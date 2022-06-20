@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass
@@ -139,17 +140,29 @@ class AllAnalytics(NextDnsData):
 class Profile(NextDnsData):
     """Profile class."""
 
-    allowlist: list
-    denylist: list
+    allowlist: list[dict[str, Any]]
+    denylist: list[dict[str, Any]]
     fingerprint: str
     id: str
     name: str
-    parental_control: dict
-    privacy: dict
+    parental_control: dict[str, Any]
+    privacy: dict[str, Any]
     rewrites: list
-    security: dict
-    settings: dict
-    setup: dict
+    security: dict[str, Any]
+    settings: dict[str, Any]
+    setup: dict[str, Any]
+
+
+@dataclass
+class Settings(NextDnsData):
+    """Settings class."""
+
+    block_page: bool
+    cache_boost: bool
+    cname_flattening: bool
+    ecs: bool
+    logs: bool
+    web3: bool
 
 
 @dataclass
