@@ -19,4 +19,8 @@ class ApiError(NextDnsError):
 
 
 class ProfileIdNotFoundError(NextDnsError):
-    """Raised to indicate profile id not found error."""
+    """Raised to indicate profile ID not found error."""
+
+
+class ProfileNameNotFoundError(NextDnsError):
+    """Raised to indicate profile name not found error."""

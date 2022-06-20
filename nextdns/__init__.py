@@ -25,7 +25,12 @@ from .const import (
     MAP_PROTOCOLS,
     MAP_STATUS,
 )
-from .exceptions import ApiError, InvalidApiKeyError, ProfileIdNotFoundError
+from .exceptions import (
+    ApiError,
+    InvalidApiKeyError,
+    ProfileIdNotFoundError,
+    ProfileNameNotFoundError,
+)
 from .model import (
     AllAnalytics,
     AnalyticsDnssec,
@@ -199,6 +204,14 @@ class NextDns:
                 return profile.name
 
         raise ProfileIdNotFoundError
+
+    def get_profile_id(self, profile_name: str) -> str:
+        """Get profile ID."""
+        for profile in self.profiles:
+            if profile.name == profile_name:
+                return profile.id
+
+        raise ProfileNameNotFoundError
 
     @staticmethod
     def _parse_profiles(profiles: list[dict[str, str]]) -> Iterable[ProfileInfo]:
