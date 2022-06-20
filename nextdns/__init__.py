@@ -25,7 +25,7 @@ from .const import (
     MAP_PROTOCOLS,
     MAP_STATUS,
 )
-from .exceptions import ApiError, InvalidApiKeyError
+from .exceptions import ApiError, InvalidApiKeyError, ProfileIdNotFoundError
 from .model import (
     AllAnalytics,
     AnalyticsDnssec,
@@ -70,95 +70,95 @@ class NextDns:
 
         return cast(list[dict[str, str]], await self._http_request("get", url))
 
-    async def get_profile(self, profile: str) -> Profile:
+    async def get_profile(self, profile_id: str) -> Profile:
         """Get profile."""
-        url = ENDPOINTS[ATTR_PROFILE].format(profile=profile)
+        url = ENDPOINTS[ATTR_PROFILE].format(profile_id=profile_id)
         resp = await self._http_request("get", url)
 
         return Profile(
             **{MAP_PROFILE.get(key, key): value for key, value in resp.items()}
         )
 
-    async def get_analytics_status(self, profile: str) -> AnalyticsStatus:
+    async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
         """Get profile analytics status."""
-        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="status")
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="status")
         resp = await self._http_request("get", url)
 
         return AnalyticsStatus(
             **{MAP_STATUS[item["status"]]: item["queries"] for item in resp}
         )
 
-    async def get_analytics_dnssec(self, profile: str) -> AnalyticsDnssec:
+    async def get_analytics_dnssec(self, profile_id: str) -> AnalyticsDnssec:
         """Get profile analytics dnssec."""
-        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="dnssec")
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="dnssec")
         resp = await self._http_request("get", url)
 
         return AnalyticsDnssec(
             **{MAP_DNSSEC[item["validated"]]: item["queries"] for item in resp}
         )
 
-    async def get_analytics_encryption(self, profile: str) -> AnalyticsEncryption:
+    async def get_analytics_encryption(self, profile_id: str) -> AnalyticsEncryption:
         """Get profile analytics encryption."""
-        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="encryption")
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="encryption")
         resp = await self._http_request("get", url)
 
         return AnalyticsEncryption(
             **{MAP_ENCRYPTED[item["encrypted"]]: item["queries"] for item in resp}
         )
 
-    async def get_analytics_ip_versions(self, profile: str) -> AnalyticsIpVersions:
+    async def get_analytics_ip_versions(self, profile_id: str) -> AnalyticsIpVersions:
         """Get profile analytics IP versions."""
-        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="ipVersions")
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="ipVersions")
         resp = await self._http_request("get", url)
 
         return AnalyticsIpVersions(
             **{MAP_IP_VERSIONS[item["version"]]: item["queries"] for item in resp}
         )
 
-    async def get_analytics_protocols(self, profile: str) -> AnalyticsProtocols:
+    async def get_analytics_protocols(self, profile_id: str) -> AnalyticsProtocols:
         """Get profile analytics protocols."""
-        url = ENDPOINTS[ATTR_ANALYTICS].format(profile=profile, type="protocols")
+        url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="protocols")
         resp = await self._http_request("get", url)
 
         return AnalyticsProtocols(
             **{MAP_PROTOCOLS[item["protocol"]]: item["queries"] for item in resp}
         )
 
-    async def connection_status(self, profile: str) -> ConnectionStatus:
+    async def connection_status(self, profile_id: str) -> ConnectionStatus:
         """Return True if the device is using NextDNS."""
-        url = ENDPOINTS[ATTR_TEST].format(identifier=profile)
+        url = ENDPOINTS[ATTR_TEST].format(profile_id=profile_id)
         resp = await self._http_request("get", url)
 
-        profile_id = None
+        used_profile_id = None
         if status := resp["status"] == "ok":
             for item in self.profiles:
                 if item.fingerprint == resp.get("profile"):
-                    profile_id = item.id
+                    used_profile_id = item.id
 
-        return ConnectionStatus(status, profile_id)
+        return ConnectionStatus(status, used_profile_id)
 
-    async def clear_logs(self, profile: str) -> bool:
+    async def clear_logs(self, profile_id: str) -> bool:
         """Get profile analytics dnssec."""
-        url = ENDPOINTS[ATTR_LOGS].format(profile=profile)
+        url = ENDPOINTS[ATTR_LOGS].format(profile_id=profile_id)
         result = await self._http_request("delete", url)
 
         return result.get("success", False) is True
 
-    async def get_all_analytics(self, profile: str) -> AllAnalytics:
+    async def get_all_analytics(self, profile_id: str) -> AllAnalytics:
         """Get profile analytics."""
         resp = await asyncio.gather(
-            self.get_analytics_dnssec(profile),
-            self.get_analytics_encryption(profile),
-            self.get_analytics_ip_versions(profile),
-            self.get_analytics_protocols(profile),
-            self.get_analytics_status(profile),
+            self.get_analytics_dnssec(profile_id),
+            self.get_analytics_encryption(profile_id),
+            self.get_analytics_ip_versions(profile_id),
+            self.get_analytics_protocols(profile_id),
+            self.get_analytics_status(profile_id),
         )
 
         return AllAnalytics(*resp)
 
-    async def set_web3(self, profile: str, state: bool) -> bool:
+    async def set_web3(self, profile_id: str, state: bool) -> bool:
         """Toggle Web3 setting."""
-        url = ENDPOINTS[ATTR_SETTINGS].format(profile=profile)
+        url = ENDPOINTS[ATTR_SETTINGS].format(profile_id=profile_id)
         resp = await self._http_request("patch", url, data={"web3": state})
 
         return resp.get("success", False) is True
@@ -191,6 +191,14 @@ class NextDns:
         _LOGGER.debug("Response: %s", result)
 
         return result["data"] if "data" in result else result
+
+    def get_profile_name(self, profile_id: str) -> str:
+        """Get profile name."""
+        for profile in self.profiles:
+            if profile.id == profile_id:
+                return profile.name
+
+        raise ProfileIdNotFoundError
 
     @staticmethod
     def _parse_profiles(profiles: list[dict[str, str]]) -> Iterable[ProfileInfo]:

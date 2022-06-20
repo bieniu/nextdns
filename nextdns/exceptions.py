@@ -16,3 +16,7 @@ class ApiError(NextDnsError):
         """Initialize."""
         super().__init__(status)
         self.status = status
+
+
+class ProfileIdNotFoundError(NextDnsError):
+    """Raised to indicate profile id not found error."""
