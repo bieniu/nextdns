@@ -5,11 +5,11 @@ ATTR_ANALYTICS = "analytics"
 ATTR_BLOCK_PAGE = "block_page"
 ATTR_CACHE_BOOST = "cache_boost"
 ATTR_CNAME_FLATTENING = "cname_flattening"
+ATTR_DATA_NAME = "setting_name"
 ATTR_ECS = "ecs"
 ATTR_LOGS = "logs"
 ATTR_PROFILE = "profile"
 ATTR_PROFILES = "profiles"
-ATTR_SETTING_NAME = "setting_name"
 ATTR_TEST = "test"
 ATTR_URL = "url"
 ATTR_WEB3 = "web3"
@@ -42,27 +42,27 @@ MAP_STATUS = {
 
 MAP_SETTING = {
     ATTR_BLOCK_PAGE: {
-        ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings",
-        ATTR_SETTING_NAME: "blockPage",
+        ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings/blockPage",
+        ATTR_DATA_NAME: "enabled",
     },
     ATTR_CACHE_BOOST: {
         ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings/performance",
-        ATTR_SETTING_NAME: "cacheBoost",
+        ATTR_DATA_NAME: "cacheBoost",
     },
     ATTR_CNAME_FLATTENING: {
         ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings/performance",
-        ATTR_SETTING_NAME: "cnameFlattening",
+        ATTR_DATA_NAME: "cnameFlattening",
     },
     ATTR_ECS: {
         ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings/performance",
-        ATTR_SETTING_NAME: "ecs",
+        ATTR_DATA_NAME: "ecs",
     },
     ATTR_LOGS: {
-        ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings",
-        ATTR_SETTING_NAME: "logs",
+        ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings/logs",
+        ATTR_DATA_NAME: "enabled",
     },
     ATTR_WEB3: {
         ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings",
-        ATTR_SETTING_NAME: "web3",
+        ATTR_DATA_NAME: "web3",
     },
 }

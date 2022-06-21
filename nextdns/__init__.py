@@ -12,10 +12,10 @@ from aiohttp import ClientSession
 
 from .const import (
     ATTR_ANALYTICS,
+    ATTR_DATA_NAME,
     ATTR_LOGS,
     ATTR_PROFILE,
     ATTR_PROFILES,
-    ATTR_SETTING_NAME,
     ATTR_TEST,
     ATTR_URL,
     ENDPOINTS,
@@ -185,7 +185,7 @@ class NextDns:
 
         url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
         resp = await self._http_request(
-            "patch", url, data={MAP_SETTING[setting][ATTR_SETTING_NAME]: state}
+            "patch", url, data={MAP_SETTING[setting][ATTR_DATA_NAME]: state}
         )
 
         return resp.get("success", False) is True
