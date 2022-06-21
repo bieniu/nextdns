@@ -25,7 +25,7 @@ setup(
         val.strip() for val in open("requirements.txt", encoding="utf-8")
     ),
     classifiers=[
-        "Development Status :: 3 - Beta",
+        "Development Status :: 4 - Beta",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
