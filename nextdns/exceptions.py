@@ -24,3 +24,7 @@ class ProfileIdNotFoundError(NextDnsError):
 
 class ProfileNameNotFoundError(NextDnsError):
     """Raised to indicate profile name not found error."""
+
+
+class SettingNotSupportedError(NextDnsError):
+    """Raised to indicate setting not supported error."""

@@ -15,7 +15,6 @@ from .const import (
     ATTR_LOGS,
     ATTR_PROFILE,
     ATTR_PROFILES,
-    ATTR_SETTINGS,
     ATTR_TEST,
     ENDPOINTS,
     MAP_DNSSEC,
@@ -23,6 +22,7 @@ from .const import (
     MAP_IP_VERSIONS,
     MAP_PROFILE,
     MAP_PROTOCOLS,
+    MAP_SETTING,
     MAP_STATUS,
 )
 from .exceptions import (
@@ -30,6 +30,7 @@ from .exceptions import (
     InvalidApiKeyError,
     ProfileIdNotFoundError,
     ProfileNameNotFoundError,
+    SettingNotSupportedError,
 )
 from .model import (
     AllAnalytics,
@@ -175,10 +176,13 @@ class NextDns:
 
         return AllAnalytics(*resp)
 
-    async def set_web3(self, profile_id: str, state: bool) -> bool:
-        """Toggle Web3 setting."""
-        url = ENDPOINTS[ATTR_SETTINGS].format(profile_id=profile_id)
-        resp = await self._http_request("patch", url, data={"web3": state})
+    async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
+        """Toggle settings."""
+        if setting not in MAP_SETTING:
+            raise SettingNotSupportedError
+
+        url = MAP_SETTING[setting].format(profile_id=profile_id)
+        resp = await self._http_request("patch", url, data={setting: state})
 
         return resp.get("success", False) is True
 

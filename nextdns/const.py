@@ -5,15 +5,14 @@ ATTR_ANALYTICS = "analytics"
 ATTR_LOGS = "logs"
 ATTR_PROFILE = "profile"
 ATTR_PROFILES = "profiles"
-ATTR_SETTINGS = "settings"
 ATTR_TEST = "test"
+ATTR_WEB3 = "web3"
 
 ENDPOINTS = {
     ATTR_ANALYTICS: "https://api.nextdns.io/profiles/{profile_id}/analytics/{type}",
     ATTR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/logs",
     ATTR_PROFILE: "https://api.nextdns.io/profiles/{profile_id}",
     ATTR_PROFILES: "https://api.nextdns.io/profiles",
-    ATTR_SETTINGS: "https://api.nextdns.io/profiles/{profile_id}/settings",
     ATTR_TEST: "https://{profile_id}.test.nextdns.io",
 }
 
@@ -32,4 +31,8 @@ MAP_STATUS = {
     "blocked": "blocked_queries",
     "default": "default_queries",
     "relayed": "relayed_queries",
+}
+
+MAP_SETTING = {
+    ATTR_WEB3: "https://api.nextdns.io/profiles/{profile_id}/settings",
 }
