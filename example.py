@@ -24,6 +24,7 @@ async def main():
             ip_versions = await nextdns.get_analytics_ip_versions(profile_id)
             protocols = await nextdns.get_analytics_protocols(profile_id)
             connection_status = await nextdns.connection_status(profile_id)
+            settings = await nextdns.get_settings(profile_id)
         except InvalidApiKeyError:
             print("Invalid API Key")
         except ApiError as error:
@@ -42,6 +43,7 @@ async def main():
             print(encryption)
             print(ip_versions)
             print(protocols)
+            print(settings)
 
 
 loop = asyncio.new_event_loop()

@@ -11,13 +11,36 @@ from typing import Any, cast
 from aiohttp import ClientSession
 
 from .const import (
+    API_AI_THREAT_TETECTION,
+    API_ALLOW_AFFILIATE,
+    API_BLOCK_BYPASS,
+    API_CACHE_BOOST,
+    API_CNAME_FLATTENING,
+    API_CRYPTOJACKING,
+    API_CSAM,
+    API_DGA,
+    API_DISGUISED_TRACKERS,
+    API_DNS_REBINDING,
+    API_ECS,
+    API_GOOGLE_SAFE_BROWSING,
+    API_IDN_HOMOGRAPHS,
+    API_NRD,
+    API_PARKING,
+    API_SAFESEARCH,
+    API_THREAT_INTELLIGENCE_FEEDS,
+    API_TYPOSQUATTING,
+    API_YOUTUBE_RESTRICTED_MODE,
     ATTR_ANALYTICS,
-    ATTR_DATA_NAME,
+    ATTR_CLEAR_LOGS,
+    ATTR_ENABLED,
     ATTR_LOGS,
+    ATTR_NAME,
+    ATTR_PERFORMANCE,
     ATTR_PROFILE,
     ATTR_PROFILES,
     ATTR_TEST,
     ATTR_URL,
+    ATTR_WEB3,
     ENDPOINTS,
     MAP_DNSSEC,
     MAP_ENCRYPTED,
@@ -93,12 +116,34 @@ class NextDns:
         profile_data = await self.get_profile(profile_id)
 
         return Settings(
-            block_page=profile_data.settings["blockPage"]["enabled"],
-            cache_boost=profile_data.settings["performance"]["cacheBoost"],
-            cname_flattening=profile_data.settings["performance"]["cnameFlattening"],
-            ecs=profile_data.settings["performance"]["ecs"],
-            logs=profile_data.settings["logs"]["enabled"],
-            web3=profile_data.settings["web3"],
+            block_page=profile_data.settings["blockPage"][ATTR_ENABLED],
+            cache_boost=profile_data.settings[ATTR_PERFORMANCE][API_CACHE_BOOST],
+            cname_flattening=profile_data.settings[ATTR_PERFORMANCE][
+                API_CNAME_FLATTENING
+            ],
+            anonymized_ecs=profile_data.settings[ATTR_PERFORMANCE][API_ECS],
+            logs=profile_data.settings[ATTR_LOGS][ATTR_ENABLED],
+            web3=profile_data.settings[ATTR_WEB3],
+            allow_affiliate=profile_data.privacy[API_ALLOW_AFFILIATE],
+            block_disguised_trackers=profile_data.privacy[API_DISGUISED_TRACKERS],
+            ai_threat_detection=profile_data.security[API_AI_THREAT_TETECTION],
+            block_csam=profile_data.security[API_CSAM],
+            block_nrd=profile_data.security[API_NRD],
+            block_parked_domains=profile_data.security[API_PARKING],
+            cryptojacking_protection=profile_data.security[API_CRYPTOJACKING],
+            dga_protection=profile_data.security[API_DGA],
+            dns_rebinding_protection=profile_data.security[API_DNS_REBINDING],
+            google_safe_browsing=profile_data.security[API_GOOGLE_SAFE_BROWSING],
+            idn_homograph_attacks_protection=profile_data.security[API_IDN_HOMOGRAPHS],
+            threat_intelligence_feeds=profile_data.security[
+                API_THREAT_INTELLIGENCE_FEEDS
+            ],
+            typosquatting_protection=profile_data.security[API_TYPOSQUATTING],
+            block_bypass_methods=profile_data.parental_control[API_BLOCK_BYPASS],
+            safesearch=profile_data.parental_control[API_SAFESEARCH],
+            youtube_restricted_mode=profile_data.parental_control[
+                API_YOUTUBE_RESTRICTED_MODE
+            ],
         )
 
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
@@ -161,7 +206,7 @@ class NextDns:
 
     async def clear_logs(self, profile_id: str) -> bool:
         """Get profile analytics dnssec."""
-        url = ENDPOINTS[ATTR_LOGS].format(profile_id=profile_id)
+        url = ENDPOINTS[ATTR_CLEAR_LOGS].format(profile_id=profile_id)
         result = await self._http_request("delete", url)
 
         return result.get("success", False) is True
@@ -185,7 +230,7 @@ class NextDns:
 
         url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
         resp = await self._http_request(
-            "patch", url, data={MAP_SETTING[setting][ATTR_DATA_NAME]: state}
+            "patch", url, data={MAP_SETTING[setting][ATTR_NAME]: state}
         )
 
         return resp.get("success", False) is True

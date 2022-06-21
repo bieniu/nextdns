@@ -160,9 +160,28 @@ class Settings(NextDnsData):
     block_page: bool
     cache_boost: bool
     cname_flattening: bool
-    ecs: bool
+    anonymized_ecs: bool
     logs: bool
     web3: bool
+
+    allow_affiliate: bool
+    block_disguised_trackers: bool
+
+    ai_threat_detection: bool
+    block_csam: bool
+    block_nrd: bool
+    block_parked_domains: bool
+    cryptojacking_protection: bool
+    dga_protection: bool
+    dns_rebinding_protection: bool
+    google_safe_browsing: bool
+    idn_homograph_attacks_protection: bool
+    threat_intelligence_feeds: bool
+    typosquatting_protection: bool
+
+    block_bypass_methods: bool
+    safesearch: bool
+    youtube_restricted_mode: bool
 
 
 @dataclass
