@@ -55,11 +55,11 @@ MAP_SETTING = {
     },
     ATTR_ECS: {
         ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings/performance",
-        ATTR_SETTING_NAME: "web3",
+        ATTR_SETTING_NAME: "ecs",
     },
     ATTR_LOGS: {
         ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings",
-        ATTR_SETTING_NAME: "ecs",
+        ATTR_SETTING_NAME: "logs",
     },
     ATTR_WEB3: {
         ATTR_URL: "https://api.nextdns.io/profiles/{profile_id}/settings",
