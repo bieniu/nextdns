@@ -15,7 +15,9 @@ from .const import (
     ATTR_LOGS,
     ATTR_PROFILE,
     ATTR_PROFILES,
+    ATTR_SETTING_NAME,
     ATTR_TEST,
+    ATTR_URL,
     ENDPOINTS,
     MAP_DNSSEC,
     MAP_ENCRYPTED,
@@ -181,8 +183,10 @@ class NextDns:
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
-        url = MAP_SETTING[setting].format(profile_id=profile_id)
-        resp = await self._http_request("patch", url, data={setting: state})
+        url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
+        resp = await self._http_request(
+            "patch", url, data={MAP_SETTING[setting][ATTR_SETTING_NAME]: state}
+        )
 
         return resp.get("success", False) is True
 
