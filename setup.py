@@ -5,7 +5,7 @@ from setuptools import setup
 
 PROJECT_DIR = Path(__file__).parent.resolve()
 README_FILE = PROJECT_DIR / "README.md"
-VERSION = "0.0.12"
+VERSION = "0.1.0"
 
 
 setup(
@@ -25,7 +25,7 @@ setup(
         val.strip() for val in open("requirements.txt", encoding="utf-8")
     ),
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 3 - Beta",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
