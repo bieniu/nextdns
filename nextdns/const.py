@@ -8,6 +8,7 @@ API_ALLOW_AFFILIATE = "allowAffiliate"
 API_DISGUISED_TRACKERS = "disguisedTrackers"
 API_AI_THREAT_TETECTION = "aiThreatDetection"
 API_CSAM = "csam"
+API_DDNS = "ddns"
 API_NRD = "nrd"
 API_PARKING = "parking"
 API_CRYPTOJACKING = "cryptojacking"
@@ -48,6 +49,7 @@ ATTR_BLOCK_DISGUISED_TRACKERS = "block_disguised_trackers"
 
 ATTR_AI_THREAT_DETECTION = "ai_threat_detection"
 ATTR_BLOCK_CSAM = "block_csam"
+ATTR_BLOCK_DDNS = "block_ddns"
 ATTR_BLOCK_NRD = "block_nrd"
 ATTR_BLOCK_PARKED_DOMAINS = "block_parked_domains"
 ATTR_CRYPTOJACKING_PROTECTION = "cryptojacking_protection"
@@ -135,6 +137,10 @@ MAP_SETTING = {
     ATTR_BLOCK_CSAM: {
         ATTR_URL: ENDPOINTS[ATTR_SECURITY],
         ATTR_NAME: API_CSAM,
+    },
+    ATTR_BLOCK_DDNS: {
+        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
+        ATTR_NAME: API_DDNS,
     },
     ATTR_BLOCK_NRD: {
         ATTR_URL: ENDPOINTS[ATTR_SECURITY],

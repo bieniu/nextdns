@@ -169,6 +169,7 @@ class Settings(NextDnsData):
 
     ai_threat_detection: bool
     block_csam: bool
+    block_ddns: bool
     block_nrd: bool
     block_parked_domains: bool
     cryptojacking_protection: bool
