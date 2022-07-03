@@ -1,0 +1,119 @@
+{
+    "data": {
+        "id": "fakepr",
+        "fingerprint": "fakeprofile12",
+        "name": "Fake Profile",
+        "setup": {
+            "ipv4": [],
+            "ipv6": [],
+            "linkedIp": {
+                "servers": [
+                    "0.0.0.0",
+                    "0.0.0.0"
+                ],
+                "ip": "0.0.0.0",
+                "ddns": null,
+                "updateToken": "xxyyzz12345"
+            },
+            "dnscrypt": "sdns://zxy123"
+        },
+        "security": {
+            "threatIntelligenceFeeds": true,
+            "aiThreatDetection": true,
+            "googleSafeBrowsing": true,
+            "cryptojacking": true,
+            "dnsRebinding": true,
+            "idnHomographs": true,
+            "typosquatting": true,
+            "dga": true,
+            "nrd": true,
+            "ddns": true,
+            "parking": true,
+            "csam": true,
+            "tlds": []
+        },
+        "privacy": {
+            "disguisedTrackers": true,
+            "allowAffiliate": true,
+            "blocklists": [],
+            "natives": [
+                {
+                    "id": "samsung"
+                },
+                {
+                    "id": "huawei"
+                },
+                {
+                    "id": "alexa"
+                },
+                {
+                    "id": "windows"
+                },
+                {
+                    "id": "apple"
+                },
+                {
+                    "id": "roku"
+                },
+                {
+                    "id": "sonos"
+                }
+            ]
+        },
+        "parentalControl": {
+            "safeSearch": false,
+            "youtubeRestrictedMode": false,
+            "blockBypass": true,
+            "services": [],
+            "categories": [
+                {
+                    "id": "porn",
+                    "recreation": false,
+                    "active": true
+                },
+                {
+                    "id": "gambling",
+                    "recreation": false,
+                    "active": true
+                },
+                {
+                    "id": "dating",
+                    "recreation": false,
+                    "active": true
+                },
+                {
+                    "id": "piracy",
+                    "recreation": false,
+                    "active": true
+                }
+            ],
+            "recreation": {
+                "times": {},
+                "timezone": null
+            }
+        },
+        "settings": {
+            "logs": {
+                "enabled": true,
+                "drop": {
+                    "ip": false,
+                    "domain": false
+                },
+                "retention": 2592000,
+                "location": "ch"
+            },
+            "blockPage": {
+                "enabled": false
+            },
+            "performance": {
+                "ecs": true,
+                "cacheBoost": true,
+                "cnameFlattening": true
+            },
+            "web3": true
+        },
+        "denylist": [],
+        "allowlist": [],
+        "rewrites": []
+    }
+}
