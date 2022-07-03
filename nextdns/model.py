@@ -130,7 +130,7 @@ class AllAnalytics(NextDnsData):
     """AllAnalytics class."""
 
     dnssec: AnalyticsDnssec
-    encrypted: AnalyticsEncryption
+    encryption: AnalyticsEncryption
     ip_versions: AnalyticsIpVersions
     protocols: AnalyticsProtocols
     status: AnalyticsStatus

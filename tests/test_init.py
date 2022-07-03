@@ -12,6 +12,8 @@ from nextdns import (
     ATTR_TEST,
     ENDPOINTS,
     NextDns,
+    ProfileIdNotFoundError,
+    ProfileNameNotFoundError,
 )
 
 
@@ -70,11 +72,12 @@ async def test_valid_data():
 
         nextdns = await NextDns.create(session, "fakeapikey")
 
-        dnssec = await nextdns.get_analytics_dnssec(profile_id)
-        encryption = await nextdns.get_analytics_encryption(profile_id)
-        ip_versions = await nextdns.get_analytics_ip_versions(profile_id)
-        protocols = await nextdns.get_analytics_protocols(profile_id)
-        status = await nextdns.get_analytics_status(profile_id)
+        analitycs = await nextdns.get_all_analytics(profile_id)
+        dnssec = analitycs.dnssec
+        encryption = analitycs.encryption
+        ip_versions = analitycs.ip_versions
+        protocols = analitycs.protocols
+        status = analitycs.status
         connection_status = await nextdns.connection_status(profile_id)
         settings = await nextdns.get_settings(profile_id)
 
@@ -139,3 +142,48 @@ async def test_valid_data():
     assert settings.block_bypass_methods is True
     assert settings.safesearch is False
     assert settings.youtube_restricted_mode is False
+
+    assert nextdns.get_profile_name(profile_id) == "Fake Profile"
+    assert nextdns.get_profile_id("Fake Profile") == profile_id
+
+
+@pytest.mark.asyncio
+async def test_profile_id_not_found():
+    """Test with wrong profile id."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+    await session.close()
+
+    try:
+        nextdns.get_profile_name("xxyyxx")
+    except Exception as exc:
+        assert isinstance(exc, ProfileIdNotFoundError) is True
+
+
+@pytest.mark.asyncio
+async def test_profile_name_not_found():
+    """Test with wrong name id."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+    await session.close()
+
+    try:
+        nextdns.get_profile_id("xxyyxx")
+    except Exception as exc:
+        assert isinstance(exc, ProfileNameNotFoundError) is True
