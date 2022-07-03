@@ -25,6 +25,13 @@ async def main():
             protocols = await nextdns.get_analytics_protocols(profile_id)
             connection_status = await nextdns.connection_status(profile_id)
             settings = await nextdns.get_settings(profile_id)
+
+            # clear logs
+            # await nextdns.clear_logs(profile_id)
+
+            # enable block page
+            # await nextdns.set_setting(profile_id, "block_page", True)
+
         except InvalidApiKeyError:
             print("Invalid API Key")
         except ApiError as error:
