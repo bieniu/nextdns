@@ -18,7 +18,7 @@ from nextdns import (
 
 
 @pytest.mark.asyncio
-async def test_valid_data():
+async def test_valid_data():  # pylint: disable=too-many-locals,too-many-statements
     """Test with valid data."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -164,7 +164,7 @@ async def test_profile_id_not_found():
 
     try:
         nextdns.get_profile_name("xxyyxx")
-    except Exception as exc:
+    except Exception as exc:  # pylint: disable=broad-except
         assert isinstance(exc, ProfileIdNotFoundError) is True
 
 
@@ -184,6 +184,6 @@ async def test_profile_name_not_found():
     await session.close()
 
     try:
-        nextdns.get_profile_id("xxyyxx")
-    except Exception as exc:
+        nextdns.get_profile_id("Profile Name")
+    except Exception as exc:  # pylint: disable=broad-except
         assert isinstance(exc, ProfileNameNotFoundError) is True

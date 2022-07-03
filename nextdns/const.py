@@ -97,7 +97,7 @@ MAP_STATUS = {
     "relayed": "relayed_queries",
 }
 
-MAP_SETTING = {
+MAP_SETTING = {  # pylint: disable=consider-using-namedtuple-or-dataclass
     ATTR_BLOCK_PAGE: {
         ATTR_URL: ENDPOINTS[ATTR_BLOCK_PAGE],
         ATTR_NAME: ATTR_ENABLED,
