@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "status": "default",
+            "queries": 837764
+        },
+        {
+            "status": "blocked",
+            "queries": 530805
+        },
+        {
+            "status": "relayed",
+            "queries": 6279
+        },
+        {
+            "status": "allowed",
+            "queries": 5452
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "cursor": null
+        }
+    }
+}

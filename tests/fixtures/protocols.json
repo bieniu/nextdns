@@ -1,0 +1,21 @@
+{
+    "data": [
+        {
+            "protocol": "DNS-over-TLS",
+            "queries": 1261772
+        },
+        {
+            "protocol": "DNS-over-HTTPS",
+            "queries": 118488
+        },
+        {
+            "protocol": "UDP",
+            "queries": 40
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "cursor": null
+        }
+    }
+}

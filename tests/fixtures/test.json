@@ -1,0 +1,13 @@
+{
+    "status": "ok",
+    "protocol": "DOT",
+    "profile": "fakeprofile12",
+    "client": "0.0.0.0",
+    "srcIP": "0.0.0.0",
+    "destIP": "0.0.0.0",
+    "anycast": true,
+    "server": "server-name",
+    "clientName": "unknown-dot",
+    "deviceName": "client-name",
+    "deviceID": "XXYYZZ"
+}
