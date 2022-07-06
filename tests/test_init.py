@@ -107,13 +107,15 @@ async def test_valid_data():  # pylint: disable=too-many-locals,too-many-stateme
     assert ip_versions.ipv6_queries_ratio == 3.1
 
     assert protocols.doh_queries == 118488
-    assert protocols.doq_queries == 0
+    assert protocols.doq_queries == 5000
     assert protocols.dot_queries == 1261772
-    assert protocols.udp_queries == 40
-    assert protocols.doh_queries_ratio == 8.6
-    assert protocols.doq_queries_ratio == 0.0
-    assert protocols.dot_queries_ratio == 91.4
-    assert protocols.udp_queries_ratio == 0.0
+    assert protocols.tcp_queries == 1000
+    assert protocols.udp_queries == 4000
+    assert protocols.doh_queries_ratio == 8.5
+    assert protocols.doq_queries_ratio == 0.4
+    assert protocols.dot_queries_ratio == 90.8
+    assert protocols.tcp_queries_ratio == 0.1
+    assert protocols.udp_queries_ratio == 0.3
 
     assert status.all_queries == 1380300
     assert status.allowed_queries == 5452

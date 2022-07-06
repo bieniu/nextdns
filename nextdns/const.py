@@ -88,6 +88,7 @@ MAP_PROTOCOLS = {
     "DNS-over-HTTPS": "doh_queries",
     "DNS-over-QUIC": "doq_queries",
     "DNS-over-TLS": "dot_queries",
+    "TCP": "tcp_queries",
     "UDP": "udp_queries",
 }
 MAP_STATUS = {
