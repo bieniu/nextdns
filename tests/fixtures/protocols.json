@@ -9,8 +9,16 @@
             "queries": 118488
         },
         {
+            "protocol": "DNS-over-QUIC",
+            "queries": 5000
+        },
+        {
             "protocol": "UDP",
-            "queries": 40
+            "queries": 4000
+        },
+        {
+            "protocol": "TCP",
+            "queries": 1000
         }
     ],
     "meta": {

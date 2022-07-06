@@ -101,15 +101,25 @@ class AnalyticsProtocols(NextDnsData):
     doh_queries: int = 0
     doq_queries: int = 0
     dot_queries: int = 0
+    tcp_queries: int = 0
     udp_queries: int = 0
     doh_queries_ratio: float = 0
     doq_queries_ratio: float = 0
     dot_queries_ratio: float = 0
+    tcp_queries_ratio: float = 0
     udp_queries_ratio: float = 0
 
     def __post_init__(self) -> None:
         """Call after initialization."""
-        all_queries = sum([self.doh_queries, self.dot_queries, self.udp_queries])
+        all_queries = sum(
+            [
+                self.doh_queries,
+                self.doq_queries,
+                self.dot_queries,
+                self.tcp_queries,
+                self.udp_queries,
+            ]
+        )
 
         self.doh_queries_ratio = (
             0 if not all_queries else round(self.doh_queries / all_queries * 100, 1)
@@ -119,6 +129,9 @@ class AnalyticsProtocols(NextDnsData):
         )
         self.dot_queries_ratio = (
             0 if not all_queries else round(self.dot_queries / all_queries * 100, 1)
+        )
+        self.tcp_queries_ratio = (
+            0 if not all_queries else round(self.tcp_queries / all_queries * 100, 1)
         )
         self.udp_queries_ratio = (
             0 if not all_queries else round(self.udp_queries / all_queries * 100, 1)
