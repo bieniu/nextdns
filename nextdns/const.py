@@ -1,26 +1,29 @@
 """NextDNS constants."""
 API_ENDPOINT = "https://api.nextdns.io"
 
+API_AI_THREAT_TETECTION = "aiThreatDetection"
+API_ALLOW_AFFILIATE = "allowAffiliate"
+API_BLOCK_BYPASS = "blockBypass"
 API_CACHE_BOOST = "cacheBoost"
 API_CNAME_FLATTENING = "cnameFlattening"
-API_ECS = "ecs"
-API_ALLOW_AFFILIATE = "allowAffiliate"
-API_DISGUISED_TRACKERS = "disguisedTrackers"
-API_AI_THREAT_TETECTION = "aiThreatDetection"
+API_CRYPTOJACKING = "cryptojacking"
 API_CSAM = "csam"
 API_DDNS = "ddns"
-API_NRD = "nrd"
-API_PARKING = "parking"
-API_CRYPTOJACKING = "cryptojacking"
 API_DGA = "dga"
+API_DISGUISED_TRACKERS = "disguisedTrackers"
 API_DNS_REBINDING = "dnsRebinding"
+API_ECS = "ecs"
 API_GOOGLE_SAFE_BROWSING = "googleSafeBrowsing"
 API_IDN_HOMOGRAPHS = "idnHomographs"
-API_THREAT_INTELLIGENCE_FEEDS = "threatIntelligenceFeeds"
-API_TYPOSQUATTING = "typosquatting"
-API_BLOCK_BYPASS = "blockBypass"
+API_NRD = "nrd"
+API_PARKING = "parking"
 API_SAFESEARCH = "safeSearch"
+API_SERVICES = "services"
+API_THREAT_INTELLIGENCE_FEEDS = "threatIntelligenceFeeds"
+API_TIKTOK = "tiktok"
+API_TYPOSQUATTING = "typosquatting"
 API_YOUTUBE_RESTRICTED_MODE = "youtubeRestrictedMode"
+ATTR_BLOCK_TIKTOK = "block_tiktok"
 
 ATTR_ANALYTICS = "analytics"
 ATTR_ENABLED = "enabled"
@@ -190,5 +193,9 @@ MAP_SETTING = {  # pylint: disable=consider-using-namedtuple-or-dataclass
     ATTR_YOUTUBE_RESTRICTED_MODE: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL],
         ATTR_NAME: API_YOUTUBE_RESTRICTED_MODE,
+    },
+    ATTR_BLOCK_TIKTOK: {
+        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL],
+        ATTR_NAME: API_TIKTOK,
     },
 }

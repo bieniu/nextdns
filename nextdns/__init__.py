@@ -28,10 +28,12 @@ from .const import (
     API_NRD,
     API_PARKING,
     API_SAFESEARCH,
+    API_SERVICES,
     API_THREAT_INTELLIGENCE_FEEDS,
     API_TYPOSQUATTING,
     API_YOUTUBE_RESTRICTED_MODE,
     ATTR_ANALYTICS,
+    ATTR_BLOCK_TIKTOK,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
     ATTR_LOGS,
@@ -116,6 +118,11 @@ class NextDns:
         """Get profile settings."""
         profile_data = await self.get_profile(profile_id)
 
+        services = {
+            service["id"]: service["active"]
+            for service in profile_data.parental_control[API_SERVICES]
+        }
+
         return Settings(
             block_page=profile_data.settings["blockPage"][ATTR_ENABLED],
             cache_boost=profile_data.settings[ATTR_PERFORMANCE][API_CACHE_BOOST],
@@ -146,6 +153,7 @@ class NextDns:
             youtube_restricted_mode=profile_data.parental_control[
                 API_YOUTUBE_RESTRICTED_MODE
             ],
+            block_tiktok=services.get("tiktok", False),
         )
 
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
@@ -231,9 +239,11 @@ class NextDns:
             raise SettingNotSupportedError
 
         url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
-        resp = await self._http_request(
-            "patch", url, data={MAP_SETTING[setting][ATTR_NAME]: state}
-        )
+        if setting in (ATTR_BLOCK_TIKTOK):
+            data = {"id": MAP_SETTING[setting][ATTR_NAME], "active": state}
+        else:
+            data = {MAP_SETTING[setting][ATTR_NAME]: state}
+        resp = await self._http_request("patch", url, data=data)
 
         return resp.get("success", False) is True
 

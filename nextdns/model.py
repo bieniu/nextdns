@@ -197,6 +197,8 @@ class Settings(NextDnsData):
     safesearch: bool
     youtube_restricted_mode: bool
 
+    block_tiktok: bool
+
 
 @dataclass
 class ProfileInfo(NextDnsData):
