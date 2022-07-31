@@ -237,6 +237,7 @@ class NextDns:
     async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
         """Toggle settings."""
         data: dict[str, Any]
+
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
