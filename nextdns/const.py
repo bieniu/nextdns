@@ -30,6 +30,7 @@ ATTR_ENABLED = "enabled"
 ATTR_NAME = "name"
 ATTR_PARENTAL_CONTROL = "parental_control"
 ATTR_PARENTAL_CONTROL_SERVICE = "parental_control_service"
+ATTR_PARENTAL_CONTROL_SERVICES = "parental_control_services"
 ATTR_PERFORMANCE = "performance"
 ATTR_PRIVACY = "privacy"
 ATTR_PROFILE = "profile"
@@ -81,6 +82,7 @@ ENDPOINTS = {
     ATTR_SECURITY: "https://api.nextdns.io/profiles/{profile_id}/security",
     ATTR_PARENTAL_CONTROL: "https://api.nextdns.io/profiles/{profile_id}/parentalControl",
     ATTR_PARENTAL_CONTROL_SERVICE: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services/{service}",
+    ATTR_PARENTAL_CONTROL_SERVICES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services",
     ATTR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/settings/logs",
     ATTR_BLOCK_PAGE: "https://api.nextdns.io/profiles/{profile_id}/settings/blockPage",
 }

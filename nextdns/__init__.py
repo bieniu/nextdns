@@ -38,6 +38,7 @@ from .const import (
     ATTR_ENABLED,
     ATTR_LOGS,
     ATTR_NAME,
+    ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PERFORMANCE,
     ATTR_PROFILE,
     ATTR_PROFILES,
@@ -235,18 +236,28 @@ class NextDns:
 
     async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
         """Toggle settings."""
+        data: dict[str, Any]
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
         if setting in (ATTR_BLOCK_TIKTOK):
-            url = MAP_SETTING[setting][ATTR_URL].format(
-                profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
+            url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
+                profile_id=profile_id
             )
-            data = {"active": state}
+            data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+            try:
+                resp = await self._http_request("post", url, data=data)
+            except ApiError as exc:
+                if exc.status == "400, duplicate":
+                    url = MAP_SETTING[setting][ATTR_URL].format(
+                        profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
+                    )
+                    data = {"active": state}
+                    resp = await self._http_request("patch", url, data=data)
         else:
             url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
             data = {MAP_SETTING[setting][ATTR_NAME]: state}
-        resp = await self._http_request("patch", url, data=data)
+            resp = await self._http_request("patch", url, data=data)
 
         return resp.get("success", False) is True
 
@@ -267,7 +278,11 @@ class NextDns:
 
         if resp.status == HTTPStatus.FORBIDDEN.value:
             raise InvalidApiKeyError
-        if resp.status == HTTPStatus.NO_CONTENT.value and method in ("delete", "patch"):
+        if resp.status == HTTPStatus.NO_CONTENT.value and method in (
+            "delete",
+            "patch",
+            "post",
+        ):
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
             result = await resp.json()
