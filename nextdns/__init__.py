@@ -238,10 +238,13 @@ class NextDns:
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
-        url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
         if setting in (ATTR_BLOCK_TIKTOK):
-            data = {"id": MAP_SETTING[setting][ATTR_NAME], "active": state}
+            url = MAP_SETTING[setting][ATTR_URL].format(
+                profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
+            )
+            data = {"active": state}
         else:
+            url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
             data = {MAP_SETTING[setting][ATTR_NAME]: state}
         resp = await self._http_request("patch", url, data=data)
 

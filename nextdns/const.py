@@ -29,6 +29,7 @@ ATTR_ANALYTICS = "analytics"
 ATTR_ENABLED = "enabled"
 ATTR_NAME = "name"
 ATTR_PARENTAL_CONTROL = "parental_control"
+ATTR_PARENTAL_CONTROL_SERVICE = "parental_control_service"
 ATTR_PERFORMANCE = "performance"
 ATTR_PRIVACY = "privacy"
 ATTR_PROFILE = "profile"
@@ -79,6 +80,7 @@ ENDPOINTS = {
     ATTR_PRIVACY: "https://api.nextdns.io/profiles/{profile_id}/privacy",
     ATTR_SECURITY: "https://api.nextdns.io/profiles/{profile_id}/security",
     ATTR_PARENTAL_CONTROL: "https://api.nextdns.io/profiles/{profile_id}/parentalControl",
+    ATTR_PARENTAL_CONTROL_SERVICE: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services/{service}",
     ATTR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/settings/logs",
     ATTR_BLOCK_PAGE: "https://api.nextdns.io/profiles/{profile_id}/settings/blockPage",
 }
@@ -195,7 +197,7 @@ MAP_SETTING = {  # pylint: disable=consider-using-namedtuple-or-dataclass
         ATTR_NAME: API_YOUTUBE_RESTRICTED_MODE,
     },
     ATTR_BLOCK_TIKTOK: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL],
+        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
         ATTR_NAME: API_TIKTOK,
     },
 }
