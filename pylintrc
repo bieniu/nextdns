@@ -1,6 +1,6 @@
 [MASTER]
 load-plugins=pylint.extensions.code_style,pylint.extensions.typing,pylint_strict_informational,pylint.extensions.docparams
-disable=consider-alternative-union-syntax
+disable=consider-alternative-union-syntax,line-too-long
 persistent=no
 extension-pkg-whitelist=ciso8601,cv2
 
