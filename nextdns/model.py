@@ -197,7 +197,43 @@ class Settings(NextDnsData):
     safesearch: bool
     youtube_restricted_mode: bool
 
+    block_9gag: bool
+    block_amazon: bool
+    block_blizzard: bool
+    block_dailymotion: bool
+    block_discord: bool
+    block_disneyplus: bool
+    block_ebay: bool
+    block_facebook: bool
+    block_fortnite: bool
+    block_hulu: bool
+    block_imgur: bool
+    block_instagram: bool
+    block_leagueoflegends: bool
+    block_messenger: bool
+    block_minecraft: bool
+    block_netflix: bool
+    block_pinterest: bool
+    block_primevideo: bool
+    block_reddit: bool
+    block_roblox: bool
+    block_signal: bool
+    block_skype: bool
+    block_snapchat: bool
+    block_spotify: bool
+    block_steam: bool
+    block_telegram: bool
     block_tiktok: bool
+    block_tinder: bool
+    block_tumblr: bool
+    block_twitch: bool
+    block_twitter: bool
+    block_vimeo: bool
+    block_vk: bool
+    block_whatsapp: bool
+    block_xboxlive: bool
+    block_youtube: bool
+    block_zoom: bool
 
 
 @dataclass
