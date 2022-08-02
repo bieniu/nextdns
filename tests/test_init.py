@@ -13,6 +13,7 @@ from nextdns import (
     ATTR_PROFILES,
     ATTR_TEST,
     ENDPOINTS,
+    MAP_SETTING,
     ApiError,
     InvalidApiKeyError,
     NextDns,
@@ -151,6 +152,44 @@ async def test_valid_data():  # pylint: disable=too-many-locals,too-many-stateme
     assert settings.safesearch is False
     assert settings.youtube_restricted_mode is False
 
+    assert settings.block_9gag is False
+    assert settings.block_amazon is False
+    assert settings.block_blizzard is False
+    assert settings.block_dailymotion is False
+    assert settings.block_discord is False
+    assert settings.block_disneyplus is False
+    assert settings.block_ebay is False
+    assert settings.block_facebook is False
+    assert settings.block_fortnite is False
+    assert settings.block_hulu is False
+    assert settings.block_imgur is False
+    assert settings.block_instagram is False
+    assert settings.block_leagueoflegends is False
+    assert settings.block_messenger is False
+    assert settings.block_minecraft is False
+    assert settings.block_netflix is False
+    assert settings.block_pinterest is False
+    assert settings.block_primevideo is False
+    assert settings.block_reddit is False
+    assert settings.block_roblox is False
+    assert settings.block_signal is False
+    assert settings.block_skype is False
+    assert settings.block_snapchat is False
+    assert settings.block_spotify is False
+    assert settings.block_steam is False
+    assert settings.block_telegram is False
+    assert settings.block_tiktok is False
+    assert settings.block_tinder is False
+    assert settings.block_tumblr is False
+    assert settings.block_twitch is False
+    assert settings.block_twitter is False
+    assert settings.block_vimeo is False
+    assert settings.block_vk is False
+    assert settings.block_whatsapp is False
+    assert settings.block_xboxlive is False
+    assert settings.block_youtube is False
+    assert settings.block_zoom is False
+
     assert nextdns.get_profile_name(PROFILE_ID) == "Fake Profile"
     assert nextdns.get_profile_id("Fake Profile") == PROFILE_ID
 
@@ -222,7 +261,19 @@ async def test_clear_logs():
 
 
 @pytest.mark.asyncio
-async def test_set_setting():
+@pytest.mark.parametrize(
+    "setting,url",
+    [
+        ("block_page", ENDPOINTS[ATTR_BLOCK_PAGE].format(profile_id=PROFILE_ID)),
+        (
+            "block_tinder",
+            MAP_SETTING["block_tinder"]["url"].format(
+                profile_id=PROFILE_ID, service=MAP_SETTING["block_tinder"]["name"]
+            ),
+        ),
+    ],
+)
+async def test_set_setting(setting, url):
     """Test set_setting() method."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -231,14 +282,11 @@ async def test_set_setting():
 
     with aioresponses() as session_mock:
         session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
-        session_mock.patch(
-            ENDPOINTS[ATTR_BLOCK_PAGE].format(profile_id=PROFILE_ID),
-            status=HTTPStatus.NO_CONTENT.value,
-        )
+        session_mock.patch(url, status=HTTPStatus.NO_CONTENT.value)
 
         nextdns = await NextDns.create(session, "fakeapikey")
 
-        result = await nextdns.set_setting(PROFILE_ID, "block_page", True)
+        result = await nextdns.set_setting(PROFILE_ID, setting, True)
 
     await session.close()
 
