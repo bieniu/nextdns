@@ -2,7 +2,33 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from enum import Enum
+from typing import Any, TypeVar
+
+_StrEnumSelfT = TypeVar("_StrEnumSelfT", bound="StrEnum")
+
+
+class StrEnum(str, Enum):
+    """Partial backport of Python 3.11's StrEnum for our basic use cases."""
+
+    def __new__(
+        cls: type[_StrEnumSelfT], value: str, *args: Any, **kwargs: Any
+    ) -> _StrEnumSelfT:
+        """Create a new StrEnum instance."""
+        if not isinstance(value, str):
+            raise TypeError(f"{value!r} is not a string")
+        return super().__new__(cls, value, *args, **kwargs)
+
+    def __str__(self) -> str:
+        """Return self.value."""
+        return str(self.value)
+
+    @staticmethod
+    def _generate_next_value_(
+        name: str, start: int, count: int, last_values: list[Any]
+    ) -> Any:
+        """Make `auto()` explicitly unsupported."""
+        raise TypeError("auto() is not supported by this implementation")
 
 
 @dataclass
@@ -251,3 +277,45 @@ class ConnectionStatus(NextDnsData):
 
     connected: bool
     profile_id: str | None = None
+
+
+class ParentalControlServices(StrEnum):
+    """Service type for parental control."""
+
+    AMAZON = "amazon"
+    BLIZZARD = "blizzard"
+    DAILYMOTION = "dailymotion"
+    DISCORD = "discord"
+    DISNEYPLUS = "disneyplus"
+    EBAY = "ebay"
+    FACEBOOK = "facebook"
+    FORTNITE = "fortnite"
+    HULU = "hulu"
+    IMGUR = "imgur"
+    INSTAGRAM = "instagram"
+    LEAGUEOFLEGENDS = "leagueoflegends"
+    MESSENGER = "messenger"
+    MINECRAFT = "minecraft"
+    NETFLIX = "netflix"
+    NINEGAG = "9gag"
+    PINTEREST = "pinterest"
+    PRIMEVIDEO = "primevideo"
+    REDDIT = "reddit"
+    ROBLOX = "roblox"
+    SIGNAL = "signal"
+    SKYPE = "skype"
+    SNAPCHAT = "snapchat"
+    SPOTIFY = "spotify"
+    STEAM = "steam"
+    TELEGRAM = "telegram"
+    TIKTOK = "tiktok"
+    TINDER = "tinder"
+    TUMBLR = "tumblr"
+    TWITCH = "twitch"
+    TWITTER = "twitter"
+    VIMEO = "vimeo"
+    VK = "vk"
+    WHATSAPP = "whatsapp"
+    XBOXLIVE = "xboxlive"
+    YOUTUBE = "youtube"
+    ZOOM = "zoom"

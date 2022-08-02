@@ -1,4 +1,6 @@
 """NextDNS constants."""
+from .model import ParentalControlServices
+
 API_ENDPOINT = "https://api.nextdns.io"
 
 API_AI_THREAT_TETECTION = "aiThreatDetection"
@@ -22,44 +24,6 @@ API_SERVICES = "services"
 API_THREAT_INTELLIGENCE_FEEDS = "threatIntelligenceFeeds"
 API_TYPOSQUATTING = "typosquatting"
 API_YOUTUBE_RESTRICTED_MODE = "youtubeRestrictedMode"
-
-API_9GAG = "9gag"
-API_AMAZON = "amazon"
-API_BLIZZARD = "blizzard"
-API_DAILYMOTION = "dailymotion"
-API_DISCORD = "discord"
-API_DISNEYPLUS = "disneyplus"
-API_EBAY = "ebay"
-API_FACEBOOK = "facebook"
-API_FORTNITE = "fortnite"
-API_HULU = "hulu"
-API_IMGUR = "imgur"
-API_INSTAGRAM = "instagram"
-API_LEAGUEOFLEGENDS = "leagueoflegends"
-API_MESSENGER = "messenger"
-API_MINECRAFT = "minecraft"
-API_NETFLIX = "netflix"
-API_PINTEREST = "pinterest"
-API_PRIMEVIDEO = "primevideo"
-API_REDDIT = "reddit"
-API_ROBLOX = "roblox"
-API_SIGNAL = "signal"
-API_SKYPE = "skype"
-API_SNAPCHAT = "snapchat"
-API_SPOTIFY = "spotify"
-API_STEAM = "steam"
-API_TELEGRAM = "telegram"
-API_TIKTOK = "tiktok"
-API_TINDER = "tinder"
-API_TUMBLR = "tumblr"
-API_TWITCH = "twitch"
-API_TWITTER = "twitter"
-API_VIMEO = "vimeo"
-API_VK = "vk"
-API_WHATSAPP = "whatsapp"
-API_XBOXLIVE = "xboxlive"
-API_YOUTUBE = "youtube"
-API_ZOOM = "zoom"
 
 ATTR_ANALYTICS = "analytics"
 ATTR_ENABLED = "enabled"
@@ -314,150 +278,150 @@ MAP_SETTING = {  # pylint: disable=consider-using-namedtuple-or-dataclass
     },
     ATTR_BLOCK_TIKTOK: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_TIKTOK,
+        ATTR_NAME: ParentalControlServices.TIKTOK,
     },
     ATTR_BLOCK_TINDER: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_TINDER,
+        ATTR_NAME: ParentalControlServices.TINDER,
     },
     ATTR_BLOCK_FACEBOOK: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_FACEBOOK,
+        ATTR_NAME: ParentalControlServices.FACEBOOK,
     },
     ATTR_BLOCK_SNAPCHAT: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_SNAPCHAT,
+        ATTR_NAME: ParentalControlServices.SNAPCHAT,
     },
     ATTR_BLOCK_INSTAGRAM: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_INSTAGRAM,
+        ATTR_NAME: ParentalControlServices.INSTAGRAM,
     },
     ATTR_BLOCK_FORTNITE: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_FORTNITE,
+        ATTR_NAME: ParentalControlServices.FORTNITE,
     },
     ATTR_BLOCK_MESSENGER: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_MESSENGER,
+        ATTR_NAME: ParentalControlServices.MESSENGER,
     },
     ATTR_BLOCK_LEAGUEOFLEGENDS: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_LEAGUEOFLEGENDS,
+        ATTR_NAME: ParentalControlServices.LEAGUEOFLEGENDS,
     },
     ATTR_BLOCK_VK: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_VK,
+        ATTR_NAME: ParentalControlServices.VK,
     },
     ATTR_BLOCK_9GAG: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_9GAG,
+        ATTR_NAME: ParentalControlServices.NINEGAG,
     },
     ATTR_BLOCK_TUMBLR: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_TUMBLR,
+        ATTR_NAME: ParentalControlServices.TUMBLR,
     },
     ATTR_BLOCK_ROBLOX: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_ROBLOX,
+        ATTR_NAME: ParentalControlServices.ROBLOX,
     },
     ATTR_BLOCK_TWITCH: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_TWITCH,
+        ATTR_NAME: ParentalControlServices.TWITCH,
     },
     ATTR_BLOCK_MINECRAFT: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_MINECRAFT,
+        ATTR_NAME: ParentalControlServices.MINECRAFT,
     },
     ATTR_BLOCK_TWITTER: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_TWITTER,
+        ATTR_NAME: ParentalControlServices.TWITTER,
     },
     ATTR_BLOCK_DISCORD: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_DISCORD,
+        ATTR_NAME: ParentalControlServices.DISCORD,
     },
     ATTR_BLOCK_DAILYMOTION: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_DAILYMOTION,
+        ATTR_NAME: ParentalControlServices.DAILYMOTION,
     },
     ATTR_BLOCK_PINTEREST: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_PINTEREST,
+        ATTR_NAME: ParentalControlServices.PINTEREST,
     },
     ATTR_BLOCK_YOUTUBE: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_YOUTUBE,
+        ATTR_NAME: ParentalControlServices.YOUTUBE,
     },
     ATTR_BLOCK_STEAM: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_STEAM,
+        ATTR_NAME: ParentalControlServices.STEAM,
     },
     ATTR_BLOCK_HULU: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_HULU,
+        ATTR_NAME: ParentalControlServices.HULU,
     },
     ATTR_BLOCK_WHATSAPP: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_WHATSAPP,
+        ATTR_NAME: ParentalControlServices.WHATSAPP,
     },
     ATTR_BLOCK_REDDIT: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_REDDIT,
+        ATTR_NAME: ParentalControlServices.REDDIT,
     },
     ATTR_BLOCK_BLIZZARD: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_BLIZZARD,
+        ATTR_NAME: ParentalControlServices.BLIZZARD,
     },
     ATTR_BLOCK_NETFLIX: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_NETFLIX,
+        ATTR_NAME: ParentalControlServices.NETFLIX,
     },
     ATTR_BLOCK_IMGUR: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_IMGUR,
+        ATTR_NAME: ParentalControlServices.IMGUR,
     },
     ATTR_BLOCK_TELEGRAM: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_TELEGRAM,
+        ATTR_NAME: ParentalControlServices.TELEGRAM,
     },
     ATTR_BLOCK_DISNEYPLUS: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_DISNEYPLUS,
+        ATTR_NAME: ParentalControlServices.DISNEYPLUS,
     },
     ATTR_BLOCK_VIMEO: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_VIMEO,
+        ATTR_NAME: ParentalControlServices.VIMEO,
     },
     ATTR_BLOCK_SKYPE: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_SKYPE,
+        ATTR_NAME: ParentalControlServices.SKYPE,
     },
     ATTR_BLOCK_EBAY: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_EBAY,
+        ATTR_NAME: ParentalControlServices.EBAY,
     },
     ATTR_BLOCK_SPOTIFY: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_SPOTIFY,
+        ATTR_NAME: ParentalControlServices.SPOTIFY,
     },
     ATTR_BLOCK_PRIMEVIDEO: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_PRIMEVIDEO,
+        ATTR_NAME: ParentalControlServices.PRIMEVIDEO,
     },
     ATTR_BLOCK_ZOOM: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_ZOOM,
+        ATTR_NAME: ParentalControlServices.ZOOM,
     },
     ATTR_BLOCK_AMAZON: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_AMAZON,
+        ATTR_NAME: ParentalControlServices.AMAZON,
     },
     ATTR_BLOCK_XBOXLIVE: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_XBOXLIVE,
+        ATTR_NAME: ParentalControlServices.XBOXLIVE,
     },
     ATTR_BLOCK_SIGNAL: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: API_SIGNAL,
+        ATTR_NAME: ParentalControlServices.SIGNAL,
     },
 }
