@@ -9,6 +9,7 @@ from aioresponses import aioresponses
 from nextdns import (
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
+    ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PROFILE,
     ATTR_PROFILES,
     ATTR_TEST,
@@ -287,6 +288,37 @@ async def test_set_setting(setting, url):
         nextdns = await NextDns.create(session, "fakeapikey")
 
         result = await nextdns.set_setting(PROFILE_ID, setting, True)
+
+    await session.close()
+
+    assert result is True
+
+
+@pytest.mark.asyncio
+async def test_set_parental_contrl_service():
+    """Test set_setting() method for parental control service."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+        session_mock.patch(
+            MAP_SETTING["block_tinder"]["url"].format(
+                profile_id=PROFILE_ID, service=MAP_SETTING["block_tinder"]["name"]
+            ),
+            status=HTTPStatus.NOT_FOUND.value,
+            payload={"errors": [{"code": "notFound"}]},
+        )
+        session_mock.post(
+            ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(profile_id=PROFILE_ID),
+            status=HTTPStatus.NO_CONTENT.value,
+        )
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+        result = await nextdns.set_setting(PROFILE_ID, "block_tinder", True)
 
     await session.close()
 
