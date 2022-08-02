@@ -237,24 +237,25 @@ class NextDns:
     async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
         """Toggle settings."""
         data: dict[str, Any]
+        resp = {}
 
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
         if setting in (ATTR_BLOCK_TIKTOK):
-            url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
-                profile_id=profile_id
+            url = MAP_SETTING[setting][ATTR_URL].format(
+                profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
             )
-            data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+            data = {"active": state}
             try:
-                resp = await self._http_request("post", url, data=data)
+                resp = await self._http_request("patch", url, data=data)
             except ApiError as exc:
-                if exc.status == "400, duplicate":
-                    url = MAP_SETTING[setting][ATTR_URL].format(
-                        profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
+                if exc.status == "404, notFound" and state is True:
+                    url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
+                        profile_id=profile_id
                     )
-                    data = {"active": state}
-                    resp = await self._http_request("patch", url, data=data)
+                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    resp = await self._http_request("post", url, data=data)
         else:
             url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
             data = {MAP_SETTING[setting][ATTR_NAME]: state}
