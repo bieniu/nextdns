@@ -340,7 +340,10 @@ class NextDns:
 
         if data:
             resp = await self._session.request(
-                method, url, headers=self._headers, data=orjson.dumps(data)
+                method,
+                url,
+                headers=self._headers,
+                data=orjson.dumps(data),  # pylint: disable=no-member
             )
         else:
             resp = await self._session.request(method, url, headers=self._headers)
@@ -356,10 +359,10 @@ class NextDns:
         ):
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
-            result = await resp.json(loads=orjson.loads)
+            result = await resp.json(loads=orjson.loads)  # pylint: disable=no-member
             raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
 
-        result = await resp.json(loads=orjson.loads)
+        result = await resp.json(loads=orjson.loads)  # pylint: disable=no-member
 
         return result["data"] if "data" in result else result
 
