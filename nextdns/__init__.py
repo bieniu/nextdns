@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 from collections.abc import Iterable
 from http import HTTPStatus
 from typing import Any, cast
 
+import orjson as json
 from aiohttp import ClientSession
 
 from .const import (
