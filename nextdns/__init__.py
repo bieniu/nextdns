@@ -15,6 +15,7 @@ from .const import (
     API_ALLOW_AFFILIATE,
     API_BLOCK_BYPASS,
     API_CACHE_BOOST,
+    API_CATEGORIES,
     API_CNAME_FLATTENING,
     API_CRYPTOJACKING,
     API_CSAM,
@@ -28,6 +29,7 @@ from .const import (
     API_NRD,
     API_PARKING,
     API_SAFESEARCH,
+    API_SERVICES,
     API_THREAT_INTELLIGENCE_FEEDS,
     API_TYPOSQUATTING,
     API_YOUTUBE_RESTRICTED_MODE,
@@ -36,6 +38,8 @@ from .const import (
     ATTR_ENABLED,
     ATTR_LOGS,
     ATTR_NAME,
+    ATTR_PARENTAL_CONTROL_CATEGORIES,
+    ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PERFORMANCE,
     ATTR_PROFILE,
     ATTR_PROFILES,
@@ -50,6 +54,8 @@ from .const import (
     MAP_PROTOCOLS,
     MAP_SETTING,
     MAP_STATUS,
+    PARENTAL_CONTROL_CATEGORIES,
+    PARENTAL_CONTROL_SERVICES,
 )
 from .exceptions import (
     ApiError,
@@ -66,6 +72,8 @@ from .model import (
     AnalyticsProtocols,
     AnalyticsStatus,
     ConnectionStatus,
+    ParentalControlCategories,
+    ParentalControlServices,
     Profile,
     ProfileInfo,
     Settings,
@@ -116,6 +124,16 @@ class NextDns:
         """Get profile settings."""
         profile_data = await self.get_profile(profile_id)
 
+        services = {
+            service["id"]: service["active"]
+            for service in profile_data.parental_control[API_SERVICES]
+        }
+
+        categories = {
+            category["id"]: category["active"]
+            for category in profile_data.parental_control[API_CATEGORIES]
+        }
+
         return Settings(
             block_page=profile_data.settings["blockPage"][ATTR_ENABLED],
             cache_boost=profile_data.settings[ATTR_PERFORMANCE][API_CACHE_BOOST],
@@ -146,6 +164,52 @@ class NextDns:
             youtube_restricted_mode=profile_data.parental_control[
                 API_YOUTUBE_RESTRICTED_MODE
             ],
+            block_9gag=services.get(ParentalControlServices.NINEGAG, False),
+            block_amazon=services.get(ParentalControlServices.AMAZON, False),
+            block_blizzard=services.get(ParentalControlServices.BLIZZARD, False),
+            block_dailymotion=services.get(ParentalControlServices.DAILYMOTION, False),
+            block_discord=services.get(ParentalControlServices.DISCORD, False),
+            block_disneyplus=services.get(ParentalControlServices.DISNEYPLUS, False),
+            block_ebay=services.get(ParentalControlServices.EBAY, False),
+            block_facebook=services.get(ParentalControlServices.FACEBOOK, False),
+            block_fortnite=services.get(ParentalControlServices.FORTNITE, False),
+            block_hulu=services.get(ParentalControlServices.HULU, False),
+            block_imgur=services.get(ParentalControlServices.IMGUR, False),
+            block_instagram=services.get(ParentalControlServices.INSTAGRAM, False),
+            block_leagueoflegends=services.get(
+                ParentalControlServices.LEAGUEOFLEGENDS, False
+            ),
+            block_messenger=services.get(ParentalControlServices.MESSENGER, False),
+            block_minecraft=services.get(ParentalControlServices.MINECRAFT, False),
+            block_netflix=services.get(ParentalControlServices.NETFLIX, False),
+            block_pinterest=services.get(ParentalControlServices.PINTEREST, False),
+            block_primevideo=services.get(ParentalControlServices.PRIMEVIDEO, False),
+            block_reddit=services.get(ParentalControlServices.REDDIT, False),
+            block_roblox=services.get(ParentalControlServices.ROBLOX, False),
+            block_signal=services.get(ParentalControlServices.SIGNAL, False),
+            block_skype=services.get(ParentalControlServices.SKYPE, False),
+            block_snapchat=services.get(ParentalControlServices.SNAPCHAT, False),
+            block_spotify=services.get(ParentalControlServices.SPOTIFY, False),
+            block_steam=services.get(ParentalControlServices.STEAM, False),
+            block_telegram=services.get(ParentalControlServices.TELEGRAM, False),
+            block_tiktok=services.get(ParentalControlServices.TIKTOK, False),
+            block_tinder=services.get(ParentalControlServices.TINDER, False),
+            block_tumblr=services.get(ParentalControlServices.TUMBLR, False),
+            block_twitch=services.get(ParentalControlServices.TWITCH, False),
+            block_twitter=services.get(ParentalControlServices.TWITTER, False),
+            block_vimeo=services.get(ParentalControlServices.VIMEO, False),
+            block_vk=services.get(ParentalControlServices.VK, False),
+            block_whatsapp=services.get(ParentalControlServices.WHATSAPP, False),
+            block_xboxlive=services.get(ParentalControlServices.XBOXLIVE, False),
+            block_youtube=services.get(ParentalControlServices.YOUTUBE, False),
+            block_zoom=services.get(ParentalControlServices.ZOOM, False),
+            block_dating=categories.get(ParentalControlCategories.DATING, False),
+            block_gambling=categories.get(ParentalControlCategories.GAMBLING, False),
+            block_piracy=categories.get(ParentalControlCategories.PIRACY, False),
+            block_porn=categories.get(ParentalControlCategories.PORN, False),
+            block_social_networks=categories.get(
+                ParentalControlCategories.SOCIAL_NETWORKS, False
+            ),
         )
 
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
@@ -227,13 +291,44 @@ class NextDns:
 
     async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
         """Toggle settings."""
+        data: dict[str, Any]
+        resp = {}
+
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
-        url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
-        resp = await self._http_request(
-            "patch", url, data={MAP_SETTING[setting][ATTR_NAME]: state}
-        )
+        if setting in PARENTAL_CONTROL_CATEGORIES:
+            url = MAP_SETTING[setting][ATTR_URL].format(
+                profile_id=profile_id, category=MAP_SETTING[setting][ATTR_NAME]
+            )
+            data = {"active": state}
+            try:
+                resp = await self._http_request("patch", url, data=data)
+            except ApiError as exc:
+                if exc.status == "404, notFound" and state is True:
+                    url = ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(
+                        profile_id=profile_id
+                    )
+                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    resp = await self._http_request("post", url, data=data)
+        elif setting in PARENTAL_CONTROL_SERVICES:
+            url = MAP_SETTING[setting][ATTR_URL].format(
+                profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
+            )
+            data = {"active": state}
+            try:
+                resp = await self._http_request("patch", url, data=data)
+            except ApiError as exc:
+                if exc.status == "404, notFound" and state is True:
+                    url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
+                        profile_id=profile_id
+                    )
+                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    resp = await self._http_request("post", url, data=data)
+        else:
+            url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
+            data = {MAP_SETTING[setting][ATTR_NAME]: state}
+            resp = await self._http_request("patch", url, data=data)
 
         return resp.get("success", False) is True
 
@@ -254,7 +349,11 @@ class NextDns:
 
         if resp.status == HTTPStatus.FORBIDDEN.value:
             raise InvalidApiKeyError
-        if resp.status == HTTPStatus.NO_CONTENT.value and method in ("delete", "patch"):
+        if resp.status == HTTPStatus.NO_CONTENT.value and method in (
+            "delete",
+            "patch",
+            "post",
+        ):
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
             result = await resp.json()

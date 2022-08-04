@@ -2,7 +2,33 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from enum import Enum
+from typing import Any, TypeVar
+
+_StrEnumSelfT = TypeVar("_StrEnumSelfT", bound="StrEnum")
+
+
+class StrEnum(str, Enum):
+    """Partial backport of Python 3.11's StrEnum for our basic use cases."""
+
+    def __new__(
+        cls: type[_StrEnumSelfT], value: str, *args: Any, **kwargs: Any
+    ) -> _StrEnumSelfT:
+        """Create a new StrEnum instance."""
+        if not isinstance(value, str):
+            raise TypeError(f"{value!r} is not a string")
+        return super().__new__(cls, value, *args, **kwargs)
+
+    def __str__(self) -> str:
+        """Return self.value."""
+        return str(self.value)
+
+    @staticmethod
+    def _generate_next_value_(
+        name: str, start: int, count: int, last_values: list[Any]
+    ) -> Any:
+        """Make `auto()` explicitly unsupported."""
+        raise TypeError("auto() is not supported by this implementation")
 
 
 @dataclass
@@ -203,6 +229,50 @@ class Settings(NextDnsData):
     safesearch: bool
     youtube_restricted_mode: bool
 
+    block_9gag: bool
+    block_amazon: bool
+    block_blizzard: bool
+    block_dailymotion: bool
+    block_discord: bool
+    block_disneyplus: bool
+    block_ebay: bool
+    block_facebook: bool
+    block_fortnite: bool
+    block_hulu: bool
+    block_imgur: bool
+    block_instagram: bool
+    block_leagueoflegends: bool
+    block_messenger: bool
+    block_minecraft: bool
+    block_netflix: bool
+    block_pinterest: bool
+    block_primevideo: bool
+    block_reddit: bool
+    block_roblox: bool
+    block_signal: bool
+    block_skype: bool
+    block_snapchat: bool
+    block_spotify: bool
+    block_steam: bool
+    block_telegram: bool
+    block_tiktok: bool
+    block_tinder: bool
+    block_tumblr: bool
+    block_twitch: bool
+    block_twitter: bool
+    block_vimeo: bool
+    block_vk: bool
+    block_whatsapp: bool
+    block_xboxlive: bool
+    block_youtube: bool
+    block_zoom: bool
+
+    block_dating: bool
+    block_gambling: bool
+    block_piracy: bool
+    block_porn: bool
+    block_social_networks: bool
+
 
 @dataclass
 class ProfileInfo(NextDnsData):
@@ -219,3 +289,107 @@ class ConnectionStatus(NextDnsData):
 
     connected: bool
     profile_id: str | None = None
+
+
+class ParentalControlServices(StrEnum):
+    """Service type for parental control."""
+
+    AMAZON = "amazon"
+    BLIZZARD = "blizzard"
+    DAILYMOTION = "dailymotion"
+    DISCORD = "discord"
+    DISNEYPLUS = "disneyplus"
+    EBAY = "ebay"
+    FACEBOOK = "facebook"
+    FORTNITE = "fortnite"
+    HULU = "hulu"
+    IMGUR = "imgur"
+    INSTAGRAM = "instagram"
+    LEAGUEOFLEGENDS = "leagueoflegends"
+    MESSENGER = "messenger"
+    MINECRAFT = "minecraft"
+    NETFLIX = "netflix"
+    NINEGAG = "9gag"
+    PINTEREST = "pinterest"
+    PRIMEVIDEO = "primevideo"
+    REDDIT = "reddit"
+    ROBLOX = "roblox"
+    SIGNAL = "signal"
+    SKYPE = "skype"
+    SNAPCHAT = "snapchat"
+    SPOTIFY = "spotify"
+    STEAM = "steam"
+    TELEGRAM = "telegram"
+    TIKTOK = "tiktok"
+    TINDER = "tinder"
+    TUMBLR = "tumblr"
+    TWITCH = "twitch"
+    TWITTER = "twitter"
+    VIMEO = "vimeo"
+    VK = "vk"
+    WHATSAPP = "whatsapp"
+    XBOXLIVE = "xboxlive"
+    YOUTUBE = "youtube"
+    ZOOM = "zoom"
+
+
+class ParentalControlServicesAttrs(StrEnum):
+    """Service type attributes for parental control."""
+
+    BLOCK_9GAG = "block_9gag"
+    BLOCK_AMAZON = "block_amazon"
+    BLOCK_BLIZZARD = "block_blizzard"
+    BLOCK_DAILYMOTION = "block_dailymotion"
+    BLOCK_DISCORD = "block_discord"
+    BLOCK_DISNEYPLUS = "block_disneyplus"
+    BLOCK_EBAY = "block_ebay"
+    BLOCK_FACEBOOK = "block_facebook"
+    BLOCK_FORTNITE = "block_fortnite"
+    BLOCK_HULU = "block_hulu"
+    BLOCK_IMGUR = "block_imgur"
+    BLOCK_INSTAGRAM = "block_instagram"
+    BLOCK_LEAGUEOFLEGENDS = "block_leagueoflegends"
+    BLOCK_MESSENGER = "block_messenger"
+    BLOCK_MINECRAFT = "block_minecraft"
+    BLOCK_NETFLIX = "block_netflix"
+    BLOCK_PINTEREST = "block_pinterest"
+    BLOCK_PRIMEVIDEO = "block_primevideo"
+    BLOCK_REDDIT = "block_reddit"
+    BLOCK_ROBLOX = "block_roblox"
+    BLOCK_SIGNAL = "block_signal"
+    BLOCK_SKYPE = "block_skype"
+    BLOCK_SNAPCHAT = "block_snapchat"
+    BLOCK_SPOTIFY = "block_spotify"
+    BLOCK_STEAM = "block_steam"
+    BLOCK_TELEGRAM = "block_telegram"
+    BLOCK_TIKTOK = "block_tiktok"
+    BLOCK_TINDER = "block_tinder"
+    BLOCK_TUMBLR = "block_tumblr"
+    BLOCK_TWITCH = "block_twitch"
+    BLOCK_TWITTER = "block_twitter"
+    BLOCK_VIMEO = "block_vimeo"
+    BLOCK_VK = "block_vk"
+    BLOCK_WHATSAPP = "block_whatsapp"
+    BLOCK_XBOXLIVE = "block_xboxlive"
+    BLOCK_YOUTUBE = "block_youtube"
+    BLOCK_ZOOM = "block_zoom"
+
+
+class ParentalControlCategories(StrEnum):
+    """Categories type for parental control."""
+
+    DATING = "dating"
+    GAMBLING = "gambling"
+    PIRACY = "piracy"
+    PORN = "porn"
+    SOCIAL_NETWORKS = "social-networks"
+
+
+class ParentalControlCategoriesAttrs(StrEnum):
+    """Categories type attributes for parental control."""
+
+    BLOCK_DATING = "block_dating"
+    BLOCK_GAMBLING = "block_gambling"
+    BLOCK_PIRACY = "block_piracy"
+    BLOCK_PORN = "block_porn"
+    BLOCK_SOCIAL_NETWORKS = "block_social_networks"
