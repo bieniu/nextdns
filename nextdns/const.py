@@ -86,6 +86,7 @@ MAP_IP_VERSIONS = {4: "ipv4_queries", 6: "ipv6_queries"}
 MAP_PROFILE = {"parentalControl": "parental_control"}
 MAP_PROTOCOLS = {
     "DNS-over-HTTPS": "doh_queries",
+    "DNS-over-HTTP/3": "doh3_queries",
     "DNS-over-QUIC": "doq_queries",
     "DNS-over-TLS": "dot_queries",
     "TCP": "tcp_queries",
