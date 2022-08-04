@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 from collections.abc import Iterable
 from http import HTTPStatus
 from typing import Any, cast
 
+import orjson
 from aiohttp import ClientSession
 
 from .const import (
@@ -340,7 +340,10 @@ class NextDns:
 
         if data:
             resp = await self._session.request(
-                method, url, headers=self._headers, data=json.dumps(data)
+                method,
+                url,
+                headers=self._headers,
+                data=orjson.dumps(data),  # pylint: disable=no-member
             )
         else:
             resp = await self._session.request(method, url, headers=self._headers)
@@ -356,10 +359,10 @@ class NextDns:
         ):
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
-            result = await resp.json()
+            result = await resp.json(loads=orjson.loads)  # pylint: disable=no-member
             raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
 
-        result = await resp.json()
+        result = await resp.json(loads=orjson.loads)  # pylint: disable=no-member
 
         return result["data"] if "data" in result else result
 
