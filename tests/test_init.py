@@ -9,6 +9,7 @@ from aioresponses import aioresponses
 from nextdns import (
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
+    ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PROFILE,
     ATTR_PROFILES,
@@ -191,6 +192,12 @@ async def test_valid_data():  # pylint: disable=too-many-locals,too-many-stateme
     assert settings.block_youtube is False
     assert settings.block_zoom is False
 
+    assert settings.block_dating is True
+    assert settings.block_gambling is True
+    assert settings.block_piracy is True
+    assert settings.block_porn is True
+    assert settings.block_social_networks is False
+
     assert nextdns.get_profile_name(PROFILE_ID) == "Fake Profile"
     assert nextdns.get_profile_id("Fake Profile") == PROFILE_ID
 
@@ -272,6 +279,12 @@ async def test_clear_logs():
                 profile_id=PROFILE_ID, service=MAP_SETTING["block_tinder"]["name"]
             ),
         ),
+        (
+            "block_piracy",
+            MAP_SETTING["block_piracy"]["url"].format(
+                profile_id=PROFILE_ID, category=MAP_SETTING["block_piracy"]["name"]
+            ),
+        ),
     ],
 )
 async def test_set_setting(setting, url):
@@ -319,6 +332,37 @@ async def test_set_parental_contrl_service():
         nextdns = await NextDns.create(session, "fakeapikey")
 
         result = await nextdns.set_setting(PROFILE_ID, "block_tinder", True)
+
+    await session.close()
+
+    assert result is True
+
+
+@pytest.mark.asyncio
+async def test_set_parental_contrl_category():
+    """Test set_setting() method for parental control category."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+        session_mock.patch(
+            MAP_SETTING["block_piracy"]["url"].format(
+                profile_id=PROFILE_ID, category=MAP_SETTING["block_piracy"]["name"]
+            ),
+            status=HTTPStatus.NOT_FOUND.value,
+            payload={"errors": [{"code": "notFound"}]},
+        )
+        session_mock.post(
+            ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(profile_id=PROFILE_ID),
+            status=HTTPStatus.NO_CONTENT.value,
+        )
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+        result = await nextdns.set_setting(PROFILE_ID, "block_piracy", True)
 
     await session.close()
 
