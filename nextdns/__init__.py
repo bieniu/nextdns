@@ -15,6 +15,7 @@ from .const import (
     API_ALLOW_AFFILIATE,
     API_BLOCK_BYPASS,
     API_CACHE_BOOST,
+    API_CATEGORIES,
     API_CNAME_FLATTENING,
     API_CRYPTOJACKING,
     API_CSAM,
@@ -37,6 +38,7 @@ from .const import (
     ATTR_ENABLED,
     ATTR_LOGS,
     ATTR_NAME,
+    ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PERFORMANCE,
     ATTR_PROFILE,
@@ -52,6 +54,7 @@ from .const import (
     MAP_PROTOCOLS,
     MAP_SETTING,
     MAP_STATUS,
+    PARENTAL_CONTROL_CATEGORIES,
     PARENTAL_CONTROL_SERVICES,
 )
 from .exceptions import (
@@ -69,6 +72,7 @@ from .model import (
     AnalyticsProtocols,
     AnalyticsStatus,
     ConnectionStatus,
+    ParentalControlCategories,
     ParentalControlServices,
     Profile,
     ProfileInfo,
@@ -123,6 +127,11 @@ class NextDns:
         services = {
             service["id"]: service["active"]
             for service in profile_data.parental_control[API_SERVICES]
+        }
+
+        categories = {
+            category["id"]: category["active"]
+            for category in profile_data.parental_control[API_CATEGORIES]
         }
 
         return Settings(
@@ -194,6 +203,13 @@ class NextDns:
             block_xboxlive=services.get(ParentalControlServices.XBOXLIVE, False),
             block_youtube=services.get(ParentalControlServices.YOUTUBE, False),
             block_zoom=services.get(ParentalControlServices.ZOOM, False),
+            block_dating=categories.get(ParentalControlCategories.DATING, False),
+            block_gambling=categories.get(ParentalControlCategories.GAMBLING, False),
+            block_piracy=categories.get(ParentalControlCategories.PIRACY, False),
+            block_porn=categories.get(ParentalControlCategories.PORN, False),
+            block_social_networks=categories.get(
+                ParentalControlCategories.SOCIAL_NETWORKS, False
+            ),
         )
 
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
@@ -281,7 +297,21 @@ class NextDns:
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
-        if setting in PARENTAL_CONTROL_SERVICES:
+        if setting in PARENTAL_CONTROL_CATEGORIES:
+            url = MAP_SETTING[setting][ATTR_URL].format(
+                profile_id=profile_id, category=MAP_SETTING[setting][ATTR_NAME]
+            )
+            data = {"active": state}
+            try:
+                resp = await self._http_request("patch", url, data=data)
+            except ApiError as exc:
+                if exc.status == "404, notFound" and state is True:
+                    url = ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(
+                        profile_id=profile_id
+                    )
+                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    resp = await self._http_request("post", url, data=data)
+        elif setting in PARENTAL_CONTROL_SERVICES:
             url = MAP_SETTING[setting][ATTR_URL].format(
                 profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
             )

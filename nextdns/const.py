@@ -1,5 +1,10 @@
 """NextDNS constants."""
-from .model import ParentalControlServices, ParentalControlServicesAttrs
+from .model import (
+    ParentalControlCategories,
+    ParentalControlCategoriesAttrs,
+    ParentalControlServices,
+    ParentalControlServicesAttrs,
+)
 
 API_ENDPOINT = "https://api.nextdns.io"
 
@@ -7,6 +12,7 @@ API_AI_THREAT_TETECTION = "aiThreatDetection"
 API_ALLOW_AFFILIATE = "allowAffiliate"
 API_BLOCK_BYPASS = "blockBypass"
 API_CACHE_BOOST = "cacheBoost"
+API_CATEGORIES = "categories"
 API_CNAME_FLATTENING = "cnameFlattening"
 API_CRYPTOJACKING = "cryptojacking"
 API_CSAM = "csam"
@@ -26,9 +32,12 @@ API_TYPOSQUATTING = "typosquatting"
 API_YOUTUBE_RESTRICTED_MODE = "youtubeRestrictedMode"
 
 ATTR_ANALYTICS = "analytics"
+ATTR_CLEAR_LOGS = "clear_logs"
 ATTR_ENABLED = "enabled"
 ATTR_NAME = "name"
 ATTR_PARENTAL_CONTROL = "parental_control"
+ATTR_PARENTAL_CONTROL_CATEGORIES = "parental_control_categories"
+ATTR_PARENTAL_CONTROL_CATEGORY = "parental_control_category"
 ATTR_PARENTAL_CONTROL_SERVICE = "parental_control_service"
 ATTR_PARENTAL_CONTROL_SERVICES = "parental_control_services"
 ATTR_PERFORMANCE = "performance"
@@ -40,7 +49,6 @@ ATTR_SECURITY = "security"
 ATTR_SETTINGS = "settings"
 ATTR_TEST = "test"
 ATTR_URL = "url"
-ATTR_CLEAR_LOGS = "clear_logs"
 
 ATTR_BLOCK_PAGE = "block_page"
 ATTR_CACHE_BOOST = "cache_boost"
@@ -109,6 +117,8 @@ PARENTAL_CONTROL_SERVICES = (
     ParentalControlServicesAttrs.BLOCK_ZOOM,
 )
 
+PARENTAL_CONTROL_CATEGORIES = tuple(item for item in ParentalControlCategoriesAttrs)
+
 ENDPOINTS = {
     ATTR_ANALYTICS: "https://api.nextdns.io/profiles/{profile_id}/analytics/{type}",
     ATTR_CLEAR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/logs",
@@ -121,6 +131,8 @@ ENDPOINTS = {
     ATTR_PRIVACY: "https://api.nextdns.io/profiles/{profile_id}/privacy",
     ATTR_SECURITY: "https://api.nextdns.io/profiles/{profile_id}/security",
     ATTR_PARENTAL_CONTROL: "https://api.nextdns.io/profiles/{profile_id}/parentalControl",
+    ATTR_PARENTAL_CONTROL_CATEGORY: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories/{category}",
+    ATTR_PARENTAL_CONTROL_CATEGORIES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories",
     ATTR_PARENTAL_CONTROL_SERVICE: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services/{service}",
     ATTR_PARENTAL_CONTROL_SERVICES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services",
     ATTR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/settings/logs",
@@ -385,5 +397,25 @@ MAP_SETTING = {  # pylint: disable=consider-using-namedtuple-or-dataclass
     ParentalControlServicesAttrs.BLOCK_SIGNAL: {
         ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
         ATTR_NAME: ParentalControlServices.SIGNAL,
+    },
+    ParentalControlCategoriesAttrs.BLOCK_DATING: {
+        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ATTR_NAME: ParentalControlCategories.DATING,
+    },
+    ParentalControlCategoriesAttrs.BLOCK_GAMBLING: {
+        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ATTR_NAME: ParentalControlCategories.GAMBLING,
+    },
+    ParentalControlCategoriesAttrs.BLOCK_PIRACY: {
+        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ATTR_NAME: ParentalControlCategories.PIRACY,
+    },
+    ParentalControlCategoriesAttrs.BLOCK_PORN: {
+        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ATTR_NAME: ParentalControlCategories.PORN,
+    },
+    ParentalControlCategoriesAttrs.BLOCK_SOCIAL_NETWORKS: {
+        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ATTR_NAME: ParentalControlCategories.SOCIAL_NETWORKS,
     },
 }

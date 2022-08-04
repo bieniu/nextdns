@@ -261,6 +261,12 @@ class Settings(NextDnsData):
     block_youtube: bool
     block_zoom: bool
 
+    block_dating: bool
+    block_gambling: bool
+    block_piracy: bool
+    block_porn: bool
+    block_social_networks: bool
+
 
 @dataclass
 class ProfileInfo(NextDnsData):
@@ -361,3 +367,23 @@ class ParentalControlServicesAttrs(StrEnum):
     BLOCK_XBOXLIVE = "block_xboxlive"
     BLOCK_YOUTUBE = "block_youtube"
     BLOCK_ZOOM = "block_zoom"
+
+
+class ParentalControlCategories(StrEnum):
+    """Categories type for parental control."""
+
+    DATING = "dating"
+    GAMBLING = "gambling"
+    PIRACY = "piracy"
+    PORN = "porn"
+    SOCIAL_NETWORKS = "social-networks"
+
+
+class ParentalControlCategoriesAttrs(StrEnum):
+    """Categories type attributes for parental control."""
+
+    BLOCK_DATING = "block_dating"
+    BLOCK_GAMBLING = "block_gambling"
+    BLOCK_PIRACY = "block_piracy"
+    BLOCK_PORN = "block_porn"
+    BLOCK_SOCIAL_NETWORKS = "block_social_networks"
