@@ -77,46 +77,7 @@ ATTR_BLOCK_BYPASS_METHODS = "block_bypass_methods"
 ATTR_SAFESEARCH = "safesearch"
 ATTR_YOUTUBE_RESTRICTED_MODE = "youtube_restricted_mode"
 
-PARENTAL_CONTROL_SERVICES = (
-    ParentalControlServicesAttrs.BLOCK_9GAG,
-    ParentalControlServicesAttrs.BLOCK_AMAZON,
-    ParentalControlServicesAttrs.BLOCK_BLIZZARD,
-    ParentalControlServicesAttrs.BLOCK_DAILYMOTION,
-    ParentalControlServicesAttrs.BLOCK_DISCORD,
-    ParentalControlServicesAttrs.BLOCK_DISNEYPLUS,
-    ParentalControlServicesAttrs.BLOCK_EBAY,
-    ParentalControlServicesAttrs.BLOCK_FACEBOOK,
-    ParentalControlServicesAttrs.BLOCK_FORTNITE,
-    ParentalControlServicesAttrs.BLOCK_HULU,
-    ParentalControlServicesAttrs.BLOCK_IMGUR,
-    ParentalControlServicesAttrs.BLOCK_INSTAGRAM,
-    ParentalControlServicesAttrs.BLOCK_LEAGUEOFLEGENDS,
-    ParentalControlServicesAttrs.BLOCK_MESSENGER,
-    ParentalControlServicesAttrs.BLOCK_MINECRAFT,
-    ParentalControlServicesAttrs.BLOCK_NETFLIX,
-    ParentalControlServicesAttrs.BLOCK_PINTEREST,
-    ParentalControlServicesAttrs.BLOCK_PRIMEVIDEO,
-    ParentalControlServicesAttrs.BLOCK_REDDIT,
-    ParentalControlServicesAttrs.BLOCK_ROBLOX,
-    ParentalControlServicesAttrs.BLOCK_SIGNAL,
-    ParentalControlServicesAttrs.BLOCK_SKYPE,
-    ParentalControlServicesAttrs.BLOCK_SNAPCHAT,
-    ParentalControlServicesAttrs.BLOCK_SPOTIFY,
-    ParentalControlServicesAttrs.BLOCK_STEAM,
-    ParentalControlServicesAttrs.BLOCK_TELEGRAM,
-    ParentalControlServicesAttrs.BLOCK_TIKTOK,
-    ParentalControlServicesAttrs.BLOCK_TINDER,
-    ParentalControlServicesAttrs.BLOCK_TUMBLR,
-    ParentalControlServicesAttrs.BLOCK_TWITCH,
-    ParentalControlServicesAttrs.BLOCK_TWITTER,
-    ParentalControlServicesAttrs.BLOCK_VIMEO,
-    ParentalControlServicesAttrs.BLOCK_VK,
-    ParentalControlServicesAttrs.BLOCK_WHATSAPP,
-    ParentalControlServicesAttrs.BLOCK_XBOXLIVE,
-    ParentalControlServicesAttrs.BLOCK_YOUTUBE,
-    ParentalControlServicesAttrs.BLOCK_ZOOM,
-)
-
+PARENTAL_CONTROL_SERVICES = tuple(item for item in ParentalControlServicesAttrs)
 PARENTAL_CONTROL_CATEGORIES = tuple(item for item in ParentalControlCategoriesAttrs)
 
 ENDPOINTS = {
