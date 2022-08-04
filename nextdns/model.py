@@ -99,11 +99,13 @@ class AnalyticsProtocols(NextDnsData):
     """AnalyticsProtocols class."""
 
     doh_queries: int = 0
+    doh3_queries: int = 0
     doq_queries: int = 0
     dot_queries: int = 0
     tcp_queries: int = 0
     udp_queries: int = 0
     doh_queries_ratio: float = 0
+    doh3_queries_ratio: float = 0
     doq_queries_ratio: float = 0
     dot_queries_ratio: float = 0
     tcp_queries_ratio: float = 0
@@ -114,6 +116,7 @@ class AnalyticsProtocols(NextDnsData):
         all_queries = sum(
             [
                 self.doh_queries,
+                self.doh3_queries,
                 self.doq_queries,
                 self.dot_queries,
                 self.tcp_queries,
@@ -123,6 +126,9 @@ class AnalyticsProtocols(NextDnsData):
 
         self.doh_queries_ratio = (
             0 if not all_queries else round(self.doh_queries / all_queries * 100, 1)
+        )
+        self.doh3_queries_ratio = (
+            0 if not all_queries else round(self.doh3_queries / all_queries * 100, 1)
         )
         self.doq_queries_ratio = (
             0 if not all_queries else round(self.doq_queries / all_queries * 100, 1)

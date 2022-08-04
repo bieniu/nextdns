@@ -2,23 +2,27 @@
     "data": [
         {
             "protocol": "DNS-over-TLS",
-            "queries": 1261772
+            "queries": 101010
         },
         {
             "protocol": "DNS-over-HTTPS",
-            "queries": 118488
+            "queries": 99999
+        },
+        {
+            "protocol": "DNS-over-HTTP/3",
+            "queries": 88888
         },
         {
             "protocol": "DNS-over-QUIC",
-            "queries": 5000
+            "queries": 55555
         },
         {
             "protocol": "UDP",
-            "queries": 4000
+            "queries": 44444
         },
         {
             "protocol": "TCP",
-            "queries": 1000
+            "queries": 33333
         }
     ],
     "meta": {
