@@ -393,3 +393,11 @@ class ParentalControlCategoriesAttrs(StrEnum):
     BLOCK_PIRACY = "block_piracy"
     BLOCK_PORN = "block_porn"
     BLOCK_SOCIAL_NETWORKS = "block_social_networks"
+
+
+@dataclass
+class SettingDescription:
+    """SettingDescription class."""
+
+    url: str
+    name: str

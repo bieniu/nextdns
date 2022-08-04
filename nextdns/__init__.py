@@ -37,14 +37,12 @@ from .const import (
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
     ATTR_LOGS,
-    ATTR_NAME,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PERFORMANCE,
     ATTR_PROFILE,
     ATTR_PROFILES,
     ATTR_TEST,
-    ATTR_URL,
     ATTR_WEB3,
     ENDPOINTS,
     MAP_DNSSEC,
@@ -298,8 +296,8 @@ class NextDns:
             raise SettingNotSupportedError
 
         if setting in PARENTAL_CONTROL_CATEGORIES:
-            url = MAP_SETTING[setting][ATTR_URL].format(
-                profile_id=profile_id, category=MAP_SETTING[setting][ATTR_NAME]
+            url = MAP_SETTING[setting].url.format(
+                profile_id=profile_id, category=MAP_SETTING[setting].name
             )
             data = {"active": state}
             try:
@@ -309,11 +307,11 @@ class NextDns:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(
                         profile_id=profile_id
                     )
-                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    data = {"id": MAP_SETTING[setting].name}
                     resp = await self._http_request("post", url, data=data)
         elif setting in PARENTAL_CONTROL_SERVICES:
-            url = MAP_SETTING[setting][ATTR_URL].format(
-                profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
+            url = MAP_SETTING[setting].url.format(
+                profile_id=profile_id, service=MAP_SETTING[setting].name
             )
             data = {"active": state}
             try:
@@ -323,11 +321,11 @@ class NextDns:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
                         profile_id=profile_id
                     )
-                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    data = {"id": MAP_SETTING[setting].name}
                     resp = await self._http_request("post", url, data=data)
         else:
-            url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
-            data = {MAP_SETTING[setting][ATTR_NAME]: state}
+            url = MAP_SETTING[setting].url.format(profile_id=profile_id)
+            data = {MAP_SETTING[setting].name: state}
             resp = await self._http_request("patch", url, data=data)
 
         return resp.get("success", False) is True

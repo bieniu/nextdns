@@ -4,6 +4,7 @@ from .model import (
     ParentalControlCategoriesAttrs,
     ParentalControlServices,
     ParentalControlServicesAttrs,
+    SettingDescription,
 )
 
 API_ENDPOINT = "https://api.nextdns.io"
@@ -34,7 +35,6 @@ API_YOUTUBE_RESTRICTED_MODE = "youtubeRestrictedMode"
 ATTR_ANALYTICS = "analytics"
 ATTR_CLEAR_LOGS = "clear_logs"
 ATTR_ENABLED = "enabled"
-ATTR_NAME = "name"
 ATTR_PARENTAL_CONTROL = "parental_control"
 ATTR_PARENTAL_CONTROL_CATEGORIES = "parental_control_categories"
 ATTR_PARENTAL_CONTROL_CATEGORY = "parental_control_category"
@@ -48,7 +48,6 @@ ATTR_SECURITY = "security"
 ATTR_SECURITY = "security"
 ATTR_SETTINGS = "settings"
 ATTR_TEST = "test"
-ATTR_URL = "url"
 
 ATTR_BLOCK_PAGE = "block_page"
 ATTR_CACHE_BOOST = "cache_boost"
@@ -119,265 +118,185 @@ MAP_STATUS = {
     "relayed": "relayed_queries",
 }
 
-MAP_SETTING = {  # pylint: disable=consider-using-namedtuple-or-dataclass
-    ATTR_BLOCK_PAGE: {
-        ATTR_URL: ENDPOINTS[ATTR_BLOCK_PAGE],
-        ATTR_NAME: ATTR_ENABLED,
-    },
-    ATTR_CACHE_BOOST: {
-        ATTR_URL: ENDPOINTS[ATTR_PERFORMANCE],
-        ATTR_NAME: API_CACHE_BOOST,
-    },
-    ATTR_CNAME_FLATTENING: {
-        ATTR_URL: ENDPOINTS[ATTR_PERFORMANCE],
-        ATTR_NAME: API_CNAME_FLATTENING,
-    },
-    ATTR_ANONYMIZED_ECS: {
-        ATTR_URL: ENDPOINTS[ATTR_PERFORMANCE],
-        ATTR_NAME: API_ECS,
-    },
-    ATTR_WEB3: {
-        ATTR_URL: ENDPOINTS[ATTR_SETTINGS],
-        ATTR_NAME: ATTR_WEB3,
-    },
-    ATTR_LOGS: {
-        ATTR_URL: ENDPOINTS[ATTR_LOGS],
-        ATTR_NAME: ATTR_ENABLED,
-    },
-    ATTR_ALLOW_AFFILIATE: {
-        ATTR_URL: ENDPOINTS[ATTR_PRIVACY],
-        ATTR_NAME: API_ALLOW_AFFILIATE,
-    },
-    ATTR_BLOCK_DISGUISED_TRACKERS: {
-        ATTR_URL: ENDPOINTS[ATTR_PRIVACY],
-        ATTR_NAME: API_DISGUISED_TRACKERS,
-    },
-    ATTR_AI_THREAT_DETECTION: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_AI_THREAT_TETECTION,
-    },
-    ATTR_BLOCK_CSAM: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_CSAM,
-    },
-    ATTR_BLOCK_DDNS: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_DDNS,
-    },
-    ATTR_BLOCK_NRD: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_NRD,
-    },
-    ATTR_BLOCK_PARKED_DOMAINS: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_PARKING,
-    },
-    ATTR_CRYPTOJACKING_PROTECTION: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_CRYPTOJACKING,
-    },
-    ATTR_DGA_PROTECTION: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_DGA,
-    },
-    ATTR_DNS_REBINDING_PROTECTION: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_DNS_REBINDING,
-    },
-    ATTR_GOOGLE_SAFE_BROWSING: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_GOOGLE_SAFE_BROWSING,
-    },
-    ATTR_IDN_HOMOGRAPH_ATTACKS_PROTECTION: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_IDN_HOMOGRAPHS,
-    },
-    ATTR_THREAT_INTELLIGENCE_FEEDS: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_THREAT_INTELLIGENCE_FEEDS,
-    },
-    ATTR_TYPOSQUATTING_PROTECTION: {
-        ATTR_URL: ENDPOINTS[ATTR_SECURITY],
-        ATTR_NAME: API_TYPOSQUATTING,
-    },
-    ATTR_BLOCK_BYPASS_METHODS: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL],
-        ATTR_NAME: API_BLOCK_BYPASS,
-    },
-    ATTR_SAFESEARCH: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL],
-        ATTR_NAME: API_SAFESEARCH,
-    },
-    ATTR_YOUTUBE_RESTRICTED_MODE: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL],
-        ATTR_NAME: API_YOUTUBE_RESTRICTED_MODE,
-    },
-    ParentalControlServicesAttrs.BLOCK_TIKTOK: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.TIKTOK,
-    },
-    ParentalControlServicesAttrs.BLOCK_TINDER: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.TINDER,
-    },
-    ParentalControlServicesAttrs.BLOCK_FACEBOOK: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.FACEBOOK,
-    },
-    ParentalControlServicesAttrs.BLOCK_SNAPCHAT: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.SNAPCHAT,
-    },
-    ParentalControlServicesAttrs.BLOCK_INSTAGRAM: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.INSTAGRAM,
-    },
-    ParentalControlServicesAttrs.BLOCK_FORTNITE: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.FORTNITE,
-    },
-    ParentalControlServicesAttrs.BLOCK_MESSENGER: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.MESSENGER,
-    },
-    ParentalControlServicesAttrs.BLOCK_LEAGUEOFLEGENDS: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.LEAGUEOFLEGENDS,
-    },
-    ParentalControlServicesAttrs.BLOCK_VK: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.VK,
-    },
-    ParentalControlServicesAttrs.BLOCK_9GAG: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.NINEGAG,
-    },
-    ParentalControlServicesAttrs.BLOCK_TUMBLR: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.TUMBLR,
-    },
-    ParentalControlServicesAttrs.BLOCK_ROBLOX: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.ROBLOX,
-    },
-    ParentalControlServicesAttrs.BLOCK_TWITCH: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.TWITCH,
-    },
-    ParentalControlServicesAttrs.BLOCK_MINECRAFT: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.MINECRAFT,
-    },
-    ParentalControlServicesAttrs.BLOCK_TWITTER: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.TWITTER,
-    },
-    ParentalControlServicesAttrs.BLOCK_DISCORD: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.DISCORD,
-    },
-    ParentalControlServicesAttrs.BLOCK_DAILYMOTION: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.DAILYMOTION,
-    },
-    ParentalControlServicesAttrs.BLOCK_PINTEREST: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.PINTEREST,
-    },
-    ParentalControlServicesAttrs.BLOCK_YOUTUBE: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.YOUTUBE,
-    },
-    ParentalControlServicesAttrs.BLOCK_STEAM: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.STEAM,
-    },
-    ParentalControlServicesAttrs.BLOCK_HULU: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.HULU,
-    },
-    ParentalControlServicesAttrs.BLOCK_WHATSAPP: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.WHATSAPP,
-    },
-    ParentalControlServicesAttrs.BLOCK_REDDIT: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.REDDIT,
-    },
-    ParentalControlServicesAttrs.BLOCK_BLIZZARD: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.BLIZZARD,
-    },
-    ParentalControlServicesAttrs.BLOCK_NETFLIX: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.NETFLIX,
-    },
-    ParentalControlServicesAttrs.BLOCK_IMGUR: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.IMGUR,
-    },
-    ParentalControlServicesAttrs.BLOCK_TELEGRAM: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.TELEGRAM,
-    },
-    ParentalControlServicesAttrs.BLOCK_DISNEYPLUS: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.DISNEYPLUS,
-    },
-    ParentalControlServicesAttrs.BLOCK_VIMEO: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.VIMEO,
-    },
-    ParentalControlServicesAttrs.BLOCK_SKYPE: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.SKYPE,
-    },
-    ParentalControlServicesAttrs.BLOCK_EBAY: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.EBAY,
-    },
-    ParentalControlServicesAttrs.BLOCK_SPOTIFY: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.SPOTIFY,
-    },
-    ParentalControlServicesAttrs.BLOCK_PRIMEVIDEO: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.PRIMEVIDEO,
-    },
-    ParentalControlServicesAttrs.BLOCK_ZOOM: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.ZOOM,
-    },
-    ParentalControlServicesAttrs.BLOCK_AMAZON: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.AMAZON,
-    },
-    ParentalControlServicesAttrs.BLOCK_XBOXLIVE: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.XBOXLIVE,
-    },
-    ParentalControlServicesAttrs.BLOCK_SIGNAL: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ATTR_NAME: ParentalControlServices.SIGNAL,
-    },
-    ParentalControlCategoriesAttrs.BLOCK_DATING: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ATTR_NAME: ParentalControlCategories.DATING,
-    },
-    ParentalControlCategoriesAttrs.BLOCK_GAMBLING: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ATTR_NAME: ParentalControlCategories.GAMBLING,
-    },
-    ParentalControlCategoriesAttrs.BLOCK_PIRACY: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ATTR_NAME: ParentalControlCategories.PIRACY,
-    },
-    ParentalControlCategoriesAttrs.BLOCK_PORN: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ATTR_NAME: ParentalControlCategories.PORN,
-    },
-    ParentalControlCategoriesAttrs.BLOCK_SOCIAL_NETWORKS: {
-        ATTR_URL: ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ATTR_NAME: ParentalControlCategories.SOCIAL_NETWORKS,
-    },
+MAP_SETTING = {
+    ATTR_BLOCK_PAGE: SettingDescription(ENDPOINTS[ATTR_BLOCK_PAGE], ATTR_ENABLED),
+    ATTR_CACHE_BOOST: SettingDescription(ENDPOINTS[ATTR_PERFORMANCE], API_CACHE_BOOST),
+    ATTR_CNAME_FLATTENING: SettingDescription(
+        ENDPOINTS[ATTR_PERFORMANCE], API_CNAME_FLATTENING
+    ),
+    ATTR_ANONYMIZED_ECS: SettingDescription(ENDPOINTS[ATTR_PERFORMANCE], API_ECS),
+    ATTR_WEB3: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_WEB3),
+    ATTR_LOGS: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_ENABLED),
+    ATTR_ALLOW_AFFILIATE: SettingDescription(
+        ENDPOINTS[ATTR_PRIVACY], API_ALLOW_AFFILIATE
+    ),
+    ATTR_BLOCK_DISGUISED_TRACKERS: SettingDescription(
+        ENDPOINTS[ATTR_PRIVACY], API_DISGUISED_TRACKERS
+    ),
+    ATTR_AI_THREAT_DETECTION: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_AI_THREAT_TETECTION
+    ),
+    ATTR_BLOCK_CSAM: SettingDescription(ENDPOINTS[ATTR_SECURITY], API_CSAM),
+    ATTR_BLOCK_DDNS: SettingDescription(ENDPOINTS[ATTR_SECURITY], API_DDNS),
+    ATTR_BLOCK_NRD: SettingDescription(ENDPOINTS[ATTR_SECURITY], API_NRD),
+    ATTR_BLOCK_PARKED_DOMAINS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_PARKING
+    ),
+    ATTR_CRYPTOJACKING_PROTECTION: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_CRYPTOJACKING
+    ),
+    ATTR_DGA_PROTECTION: SettingDescription(ENDPOINTS[ATTR_SECURITY], API_DGA),
+    ATTR_DNS_REBINDING_PROTECTION: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_DNS_REBINDING
+    ),
+    ATTR_GOOGLE_SAFE_BROWSING: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_GOOGLE_SAFE_BROWSING
+    ),
+    ATTR_IDN_HOMOGRAPH_ATTACKS_PROTECTION: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_IDN_HOMOGRAPHS
+    ),
+    ATTR_THREAT_INTELLIGENCE_FEEDS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_THREAT_INTELLIGENCE_FEEDS
+    ),
+    ATTR_TYPOSQUATTING_PROTECTION: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], API_TYPOSQUATTING
+    ),
+    ATTR_BLOCK_BYPASS_METHODS: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL], API_BLOCK_BYPASS
+    ),
+    ATTR_SAFESEARCH: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL], API_SAFESEARCH
+    ),
+    ATTR_YOUTUBE_RESTRICTED_MODE: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL], API_YOUTUBE_RESTRICTED_MODE
+    ),
+    ParentalControlServicesAttrs.BLOCK_TIKTOK: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TIKTOK
+    ),
+    ParentalControlServicesAttrs.BLOCK_TINDER: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TINDER
+    ),
+    ParentalControlServicesAttrs.BLOCK_FACEBOOK: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.FACEBOOK
+    ),
+    ParentalControlServicesAttrs.BLOCK_SNAPCHAT: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.SNAPCHAT
+    ),
+    ParentalControlServicesAttrs.BLOCK_INSTAGRAM: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.INSTAGRAM
+    ),
+    ParentalControlServicesAttrs.BLOCK_FORTNITE: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.FORTNITE
+    ),
+    ParentalControlServicesAttrs.BLOCK_MESSENGER: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.MESSENGER
+    ),
+    ParentalControlServicesAttrs.BLOCK_LEAGUEOFLEGENDS: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
+        ParentalControlServices.LEAGUEOFLEGENDS,
+    ),
+    ParentalControlServicesAttrs.BLOCK_VK: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.VK
+    ),
+    ParentalControlServicesAttrs.BLOCK_9GAG: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.NINEGAG
+    ),
+    ParentalControlServicesAttrs.BLOCK_TUMBLR: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TUMBLR
+    ),
+    ParentalControlServicesAttrs.BLOCK_ROBLOX: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.ROBLOX
+    ),
+    ParentalControlServicesAttrs.BLOCK_TWITCH: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TWITCH
+    ),
+    ParentalControlServicesAttrs.BLOCK_MINECRAFT: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.MINECRAFT
+    ),
+    ParentalControlServicesAttrs.BLOCK_TWITTER: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TWITTER
+    ),
+    ParentalControlServicesAttrs.BLOCK_DISCORD: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.DISCORD
+    ),
+    ParentalControlServicesAttrs.BLOCK_DAILYMOTION: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.DAILYMOTION
+    ),
+    ParentalControlServicesAttrs.BLOCK_PINTEREST: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.PINTEREST
+    ),
+    ParentalControlServicesAttrs.BLOCK_YOUTUBE: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.YOUTUBE
+    ),
+    ParentalControlServicesAttrs.BLOCK_STEAM: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.STEAM
+    ),
+    ParentalControlServicesAttrs.BLOCK_HULU: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.HULU
+    ),
+    ParentalControlServicesAttrs.BLOCK_WHATSAPP: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.WHATSAPP
+    ),
+    ParentalControlServicesAttrs.BLOCK_REDDIT: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.REDDIT
+    ),
+    ParentalControlServicesAttrs.BLOCK_BLIZZARD: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.BLIZZARD
+    ),
+    ParentalControlServicesAttrs.BLOCK_NETFLIX: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.NETFLIX
+    ),
+    ParentalControlServicesAttrs.BLOCK_IMGUR: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.IMGUR
+    ),
+    ParentalControlServicesAttrs.BLOCK_TELEGRAM: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TELEGRAM
+    ),
+    ParentalControlServicesAttrs.BLOCK_DISNEYPLUS: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.DISNEYPLUS
+    ),
+    ParentalControlServicesAttrs.BLOCK_VIMEO: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.VIMEO
+    ),
+    ParentalControlServicesAttrs.BLOCK_SKYPE: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
+        ParentalControlServices.SKYPE,
+    ),
+    ParentalControlServicesAttrs.BLOCK_EBAY: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.EBAY
+    ),
+    ParentalControlServicesAttrs.BLOCK_SPOTIFY: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.SPOTIFY
+    ),
+    ParentalControlServicesAttrs.BLOCK_PRIMEVIDEO: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.PRIMEVIDEO
+    ),
+    ParentalControlServicesAttrs.BLOCK_ZOOM: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.ZOOM
+    ),
+    ParentalControlServicesAttrs.BLOCK_AMAZON: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.AMAZON
+    ),
+    ParentalControlServicesAttrs.BLOCK_XBOXLIVE: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.XBOXLIVE
+    ),
+    ParentalControlServicesAttrs.BLOCK_SIGNAL: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.SIGNAL
+    ),
+    ParentalControlCategoriesAttrs.BLOCK_DATING: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.DATING
+    ),
+    ParentalControlCategoriesAttrs.BLOCK_GAMBLING: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.GAMBLING
+    ),
+    ParentalControlCategoriesAttrs.BLOCK_PIRACY: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.PIRACY
+    ),
+    ParentalControlCategoriesAttrs.BLOCK_PORN: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.PORN
+    ),
+    ParentalControlCategoriesAttrs.BLOCK_SOCIAL_NETWORKS: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ParentalControlCategories.SOCIAL_NETWORKS,
+    ),
 }

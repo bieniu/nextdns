@@ -277,14 +277,14 @@ async def test_clear_logs():
         ("block_page", ENDPOINTS[ATTR_BLOCK_PAGE].format(profile_id=PROFILE_ID)),
         (
             "block_tinder",
-            MAP_SETTING["block_tinder"]["url"].format(
-                profile_id=PROFILE_ID, service=MAP_SETTING["block_tinder"]["name"]
+            MAP_SETTING["block_tinder"].url.format(
+                profile_id=PROFILE_ID, service=MAP_SETTING["block_tinder"].name
             ),
         ),
         (
             "block_piracy",
-            MAP_SETTING["block_piracy"]["url"].format(
-                profile_id=PROFILE_ID, category=MAP_SETTING["block_piracy"]["name"]
+            MAP_SETTING["block_piracy"].url.format(
+                profile_id=PROFILE_ID, category=MAP_SETTING["block_piracy"].name
             ),
         ),
     ],
@@ -320,8 +320,8 @@ async def test_set_parental_contrl_service():
     with aioresponses() as session_mock:
         session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
         session_mock.patch(
-            MAP_SETTING["block_tinder"]["url"].format(
-                profile_id=PROFILE_ID, service=MAP_SETTING["block_tinder"]["name"]
+            MAP_SETTING["block_tinder"].url.format(
+                profile_id=PROFILE_ID, service=MAP_SETTING["block_tinder"].name
             ),
             status=HTTPStatus.NOT_FOUND.value,
             payload={"errors": [{"code": "notFound"}]},
@@ -351,8 +351,8 @@ async def test_set_parental_contrl_category():
     with aioresponses() as session_mock:
         session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
         session_mock.patch(
-            MAP_SETTING["block_piracy"]["url"].format(
-                profile_id=PROFILE_ID, category=MAP_SETTING["block_piracy"]["name"]
+            MAP_SETTING["block_piracy"].url.format(
+                profile_id=PROFILE_ID, category=MAP_SETTING["block_piracy"].name
             ),
             status=HTTPStatus.NOT_FOUND.value,
             payload={"errors": [{"code": "notFound"}]},
