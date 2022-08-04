@@ -77,8 +77,8 @@ ATTR_BLOCK_BYPASS_METHODS = "block_bypass_methods"
 ATTR_SAFESEARCH = "safesearch"
 ATTR_YOUTUBE_RESTRICTED_MODE = "youtube_restricted_mode"
 
-PARENTAL_CONTROL_SERVICES = tuple(item for item in ParentalControlServicesAttrs)
 PARENTAL_CONTROL_CATEGORIES = tuple(item for item in ParentalControlCategoriesAttrs)
+PARENTAL_CONTROL_SERVICES = tuple(item for item in ParentalControlServicesAttrs)
 
 ENDPOINTS = {
     ATTR_ANALYTICS: "https://api.nextdns.io/profiles/{profile_id}/analytics/{type}",
