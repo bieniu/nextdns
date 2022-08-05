@@ -11,40 +11,16 @@ import orjson
 from aiohttp import ClientSession
 
 from .const import (
-    API_AI_THREAT_TETECTION,
-    API_ALLOW_AFFILIATE,
-    API_BLOCK_BYPASS,
-    API_CACHE_BOOST,
-    API_CATEGORIES,
-    API_CNAME_FLATTENING,
-    API_CRYPTOJACKING,
-    API_CSAM,
-    API_DDNS,
-    API_DGA,
-    API_DISGUISED_TRACKERS,
-    API_DNS_REBINDING,
-    API_ECS,
-    API_GOOGLE_SAFE_BROWSING,
-    API_IDN_HOMOGRAPHS,
-    API_NRD,
-    API_PARKING,
-    API_SAFESEARCH,
-    API_SERVICES,
-    API_THREAT_INTELLIGENCE_FEEDS,
-    API_TYPOSQUATTING,
-    API_YOUTUBE_RESTRICTED_MODE,
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
     ATTR_LOGS,
-    ATTR_NAME,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PERFORMANCE,
     ATTR_PROFILE,
     ATTR_PROFILES,
     ATTR_TEST,
-    ATTR_URL,
     ATTR_WEB3,
     ENDPOINTS,
     MAP_DNSSEC,
@@ -71,6 +47,7 @@ from .model import (
     AnalyticsIpVersions,
     AnalyticsProtocols,
     AnalyticsStatus,
+    ApiNames,
     ConnectionStatus,
     ParentalControlCategories,
     ParentalControlServices,
@@ -126,43 +103,45 @@ class NextDns:
 
         services = {
             service["id"]: service["active"]
-            for service in profile_data.parental_control[API_SERVICES]
+            for service in profile_data.parental_control[ApiNames.SERVICES]
         }
 
         categories = {
             category["id"]: category["active"]
-            for category in profile_data.parental_control[API_CATEGORIES]
+            for category in profile_data.parental_control[ApiNames.CATEGORIES]
         }
 
         return Settings(
             block_page=profile_data.settings["blockPage"][ATTR_ENABLED],
-            cache_boost=profile_data.settings[ATTR_PERFORMANCE][API_CACHE_BOOST],
+            cache_boost=profile_data.settings[ATTR_PERFORMANCE][ApiNames.CACHE_BOOST],
             cname_flattening=profile_data.settings[ATTR_PERFORMANCE][
-                API_CNAME_FLATTENING
+                ApiNames.CNAME_FLATTENING
             ],
-            anonymized_ecs=profile_data.settings[ATTR_PERFORMANCE][API_ECS],
+            anonymized_ecs=profile_data.settings[ATTR_PERFORMANCE][ApiNames.ECS],
             logs=profile_data.settings[ATTR_LOGS][ATTR_ENABLED],
             web3=profile_data.settings[ATTR_WEB3],
-            allow_affiliate=profile_data.privacy[API_ALLOW_AFFILIATE],
-            block_disguised_trackers=profile_data.privacy[API_DISGUISED_TRACKERS],
-            ai_threat_detection=profile_data.security[API_AI_THREAT_TETECTION],
-            block_csam=profile_data.security[API_CSAM],
-            block_ddns=profile_data.security[API_DDNS],
-            block_nrd=profile_data.security[API_NRD],
-            block_parked_domains=profile_data.security[API_PARKING],
-            cryptojacking_protection=profile_data.security[API_CRYPTOJACKING],
-            dga_protection=profile_data.security[API_DGA],
-            dns_rebinding_protection=profile_data.security[API_DNS_REBINDING],
-            google_safe_browsing=profile_data.security[API_GOOGLE_SAFE_BROWSING],
-            idn_homograph_attacks_protection=profile_data.security[API_IDN_HOMOGRAPHS],
-            threat_intelligence_feeds=profile_data.security[
-                API_THREAT_INTELLIGENCE_FEEDS
+            allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
+            block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
+            ai_threat_detection=profile_data.security[ApiNames.AI_THREAT_TETECTION],
+            block_csam=profile_data.security[ApiNames.CSAM],
+            block_ddns=profile_data.security[ApiNames.DDNS],
+            block_nrd=profile_data.security[ApiNames.NRD],
+            block_parked_domains=profile_data.security[ApiNames.PARKING],
+            cryptojacking_protection=profile_data.security[ApiNames.CRYPTOJACKING],
+            dga_protection=profile_data.security[ApiNames.DGA],
+            dns_rebinding_protection=profile_data.security[ApiNames.DNS_REBINDING],
+            google_safe_browsing=profile_data.security[ApiNames.GOOGLE_SAFE_BROWSING],
+            idn_homograph_attacks_protection=profile_data.security[
+                ApiNames.IDN_HOMOGRAPHS
             ],
-            typosquatting_protection=profile_data.security[API_TYPOSQUATTING],
-            block_bypass_methods=profile_data.parental_control[API_BLOCK_BYPASS],
-            safesearch=profile_data.parental_control[API_SAFESEARCH],
+            threat_intelligence_feeds=profile_data.security[
+                ApiNames.THREAT_INTELLIGENCE_FEEDS
+            ],
+            typosquatting_protection=profile_data.security[ApiNames.TYPOSQUATTING],
+            block_bypass_methods=profile_data.parental_control[ApiNames.BLOCK_BYPASS],
+            safesearch=profile_data.parental_control[ApiNames.SAFESEARCH],
             youtube_restricted_mode=profile_data.parental_control[
-                API_YOUTUBE_RESTRICTED_MODE
+                ApiNames.YOUTUBE_RESTRICTED_MODE
             ],
             block_9gag=services.get(ParentalControlServices.NINEGAG, False),
             block_amazon=services.get(ParentalControlServices.AMAZON, False),
@@ -298,8 +277,8 @@ class NextDns:
             raise SettingNotSupportedError
 
         if setting in PARENTAL_CONTROL_CATEGORIES:
-            url = MAP_SETTING[setting][ATTR_URL].format(
-                profile_id=profile_id, category=MAP_SETTING[setting][ATTR_NAME]
+            url = MAP_SETTING[setting].url.format(
+                profile_id=profile_id, category=MAP_SETTING[setting].name
             )
             data = {"active": state}
             try:
@@ -309,11 +288,11 @@ class NextDns:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(
                         profile_id=profile_id
                     )
-                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    data = {"id": MAP_SETTING[setting].name}
                     resp = await self._http_request("post", url, data=data)
         elif setting in PARENTAL_CONTROL_SERVICES:
-            url = MAP_SETTING[setting][ATTR_URL].format(
-                profile_id=profile_id, service=MAP_SETTING[setting][ATTR_NAME]
+            url = MAP_SETTING[setting].url.format(
+                profile_id=profile_id, service=MAP_SETTING[setting].name
             )
             data = {"active": state}
             try:
@@ -323,11 +302,11 @@ class NextDns:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
                         profile_id=profile_id
                     )
-                    data = {"id": MAP_SETTING[setting][ATTR_NAME]}
+                    data = {"id": MAP_SETTING[setting].name}
                     resp = await self._http_request("post", url, data=data)
         else:
-            url = MAP_SETTING[setting][ATTR_URL].format(profile_id=profile_id)
-            data = {MAP_SETTING[setting][ATTR_NAME]: state}
+            url = MAP_SETTING[setting].url.format(profile_id=profile_id)
+            data = {MAP_SETTING[setting].name: state}
             resp = await self._http_request("patch", url, data=data)
 
         return resp.get("success", False) is True

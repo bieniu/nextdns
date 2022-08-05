@@ -393,3 +393,38 @@ class ParentalControlCategoriesAttrs(StrEnum):
     BLOCK_PIRACY = "block_piracy"
     BLOCK_PORN = "block_porn"
     BLOCK_SOCIAL_NETWORKS = "block_social_networks"
+
+
+class ApiNames(StrEnum):
+    """Names type for API."""
+
+    AI_THREAT_TETECTION = "aiThreatDetection"
+    ALLOW_AFFILIATE = "allowAffiliate"
+    BLOCK_BYPASS = "blockBypass"
+    CACHE_BOOST = "cacheBoost"
+    CATEGORIES = "categories"
+    CNAME_FLATTENING = "cnameFlattening"
+    CRYPTOJACKING = "cryptojacking"
+    CSAM = "csam"
+    DDNS = "ddns"
+    DGA = "dga"
+    DISGUISED_TRACKERS = "disguisedTrackers"
+    DNS_REBINDING = "dnsRebinding"
+    ECS = "ecs"
+    GOOGLE_SAFE_BROWSING = "googleSafeBrowsing"
+    IDN_HOMOGRAPHS = "idnHomographs"
+    NRD = "nrd"
+    PARKING = "parking"
+    SAFESEARCH = "safeSearch"
+    SERVICES = "services"
+    THREAT_INTELLIGENCE_FEEDS = "threatIntelligenceFeeds"
+    TYPOSQUATTING = "typosquatting"
+    YOUTUBE_RESTRICTED_MODE = "youtubeRestrictedMode"
+
+
+@dataclass
+class SettingDescription:
+    """SettingDescription class."""
+
+    url: str
+    name: str
