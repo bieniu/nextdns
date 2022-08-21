@@ -306,7 +306,7 @@ class NextDns:
                     resp = await self._http_request("post", url, data=data)
         else:
             url = MAP_SETTING[setting].url.format(profile_id=profile_id)
-            data = {MAP_SETTING[setting].name: state}
+            data = {str(MAP_SETTING[setting].name): state}
             resp = await self._http_request("patch", url, data=data)
 
         return resp.get("success", False) is True
