@@ -7,7 +7,6 @@ from collections.abc import Iterable
 from http import HTTPStatus
 from typing import Any, cast
 
-import orjson
 from aiohttp import ClientSession
 
 from .const import (
@@ -322,7 +321,7 @@ class NextDns:
                 method,
                 url,
                 headers=self._headers,
-                data=orjson.dumps(data),  # pylint: disable=no-member
+                json=data,
             )
         else:
             resp = await self._session.request(method, url, headers=self._headers)
@@ -338,10 +337,10 @@ class NextDns:
         ):
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
-            result = await resp.json(loads=orjson.loads)  # pylint: disable=no-member
+            result = await resp.json()
             raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
 
-        result = await resp.json(loads=orjson.loads)  # pylint: disable=no-member
+        result = await resp.json()
 
         return result["data"] if "data" in result else result
 
