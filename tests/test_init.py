@@ -9,6 +9,7 @@ from aioresponses import aioresponses
 from nextdns import (
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
+    ATTR_GET_LOGS,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PROFILE,
@@ -268,6 +269,34 @@ async def test_clear_logs():
     await session.close()
 
     assert result is True
+
+
+@pytest.mark.asyncio
+async def test_get_logs():
+    """Test get_logs() method."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    with open("tests/fixtures/logs.csv", encoding="utf-8") as file:
+        logs = file.read()
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+        session_mock.get(
+            ENDPOINTS[ATTR_GET_LOGS].format(profile_id=PROFILE_ID),
+            status=HTTPStatus.OK.value,
+            payload=logs,
+        )
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+        result = await nextdns.get_logs(PROFILE_ID)
+
+    await session.close()
+
+    assert result == logs
 
 
 @pytest.mark.asyncio
