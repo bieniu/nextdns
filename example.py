@@ -29,6 +29,11 @@ async def main():
             # clear logs
             # await nextdns.clear_logs(profile_id)
 
+            # get CSV logs and save to file
+            # logs = await nextdns.get_logs(profile_id)
+            # with open(f"nextdns_{profile_id}_logs.csv", "w", encoding="utf-8") as file:
+            #     file.write(logs)
+
             # enable block page
             # await nextdns.set_setting(profile_id, "block_page", True)
 

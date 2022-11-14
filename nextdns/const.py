@@ -13,6 +13,7 @@ API_ENDPOINT = "https://api.nextdns.io"
 ATTR_ANALYTICS = "analytics"
 ATTR_CLEAR_LOGS = "clear_logs"
 ATTR_ENABLED = "enabled"
+ATTR_GET_LOGS = "get_logs"
 ATTR_PARENTAL_CONTROL = "parental_control"
 ATTR_PARENTAL_CONTROL_CATEGORIES = "parental_control_categories"
 ATTR_PARENTAL_CONTROL_CATEGORY = "parental_control_category"
@@ -60,6 +61,7 @@ PARENTAL_CONTROL_SERVICES = tuple(item for item in ParentalControlServicesAttrs)
 ENDPOINTS = {
     ATTR_ANALYTICS: "https://api.nextdns.io/profiles/{profile_id}/analytics/{type}",
     ATTR_CLEAR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/logs",
+    ATTR_GET_LOGS: "https://api.nextdns.io/profiles/{profile_id}/logs/download",
     ATTR_PROFILE: "https://api.nextdns.io/profiles/{profile_id}",
     ATTR_PROFILES: "https://api.nextdns.io/profiles",
     ATTR_TEST: "https://{profile_id}.test.nextdns.io",

@@ -13,6 +13,7 @@ from .const import (
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
+    ATTR_GET_LOGS,
     ATTR_LOGS,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
@@ -249,11 +250,18 @@ class NextDns:
         return ConnectionStatus(status, used_profile_id)
 
     async def clear_logs(self, profile_id: str) -> bool:
-        """Get profile analytics dnssec."""
+        """Clear NextDNS logs."""
         url = ENDPOINTS[ATTR_CLEAR_LOGS].format(profile_id=profile_id)
         result = await self._http_request("delete", url)
 
         return result.get("success", False) is True
+
+    async def get_logs(self, profile_id: str) -> str:
+        """Get NextDNS logs."""
+        url = ENDPOINTS[ATTR_GET_LOGS].format(profile_id=profile_id)
+        result = await self._http_request("get", url)
+
+        return cast(str, result)
 
     async def get_all_analytics(self, profile_id: str) -> AllAnalytics:
         """Get profile analytics."""
@@ -340,9 +348,15 @@ class NextDns:
             result = await resp.json()
             raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
 
-        result = await resp.json()
+        if resp.content_type == "application/json":
+            result = await resp.json()
+        else:
+            result = await resp.text()
 
-        return result["data"] if "data" in result else result
+        if isinstance(result, dict) and "data" in result:
+            return result["data"]
+
+        return result
 
     def get_profile_name(self, profile_id: str) -> str:
         """Get profile name."""
