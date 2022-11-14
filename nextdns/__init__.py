@@ -321,7 +321,7 @@ class NextDns:
                 method,
                 url,
                 headers=self._headers,
-                data=data,
+                json=data,
             )
         else:
             resp = await self._session.request(method, url, headers=self._headers)

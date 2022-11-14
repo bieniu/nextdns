@@ -3,8 +3,6 @@ import asyncio
 import logging
 from dataclasses import astuple
 
-import aiohttp
-import orjson
 from aiohttp import ClientConnectorError, ClientSession
 
 from nextdns import ApiError, InvalidApiKeyError, NextDns
@@ -14,22 +12,9 @@ API_KEY = "xxx"
 logging.basicConfig(level=logging.DEBUG)
 
 
-class ExampleClientResponse(aiohttp.ClientResponse):
-    """aiohttp.ClientResponse with a json method that uses json_loads by default."""
-
-    async def json(
-        self, *args, loads=orjson.loads, **kwargs  # pylint: disable=no-member
-    ):
-        """Send a json request and parse the json response."""
-        return await super().json(*args, loads=loads, **kwargs)
-
-
 async def main():
     """Main function."""
-    async with ClientSession(
-        json_serialize=orjson.dumps,  # pylint: disable=no-member
-        response_class=ExampleClientResponse,
-    ) as websession:
+    async with ClientSession() as websession:
         try:
             nextdns = await NextDns.create(websession, API_KEY)
             profile_id, profile_fingerprint, profile_name = astuple(nextdns.profiles[0])
