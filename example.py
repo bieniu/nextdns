@@ -27,8 +27,8 @@ class ExampleClientResponse(aiohttp.ClientResponse):
 async def main():
     """Main function."""
     async with ClientSession(
-        json_serialize=orjson.dumps,
-        response_class=ExampleClientResponse,  # pylint: disable=no-member
+        json_serialize=orjson.dumps,  # pylint: disable=no-member
+        response_class=ExampleClientResponse,
     ) as websession:
         try:
             nextdns = await NextDns.create(websession, API_KEY)
