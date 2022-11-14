@@ -1,0 +1,6 @@
+-r requirements.txt
+-r requirements-test.txt
+orjson
+pre-commit==2.20.0
+
+-e .
