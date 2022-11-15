@@ -15,11 +15,13 @@ from .const import (
     ATTR_ENABLED,
     ATTR_GET_LOGS,
     ATTR_LOGS,
+    ATTR_LOGS_RETENTION,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PERFORMANCE,
     ATTR_PROFILE,
     ATTR_PROFILES,
+    ATTR_RETENTION,
     ATTR_TEST,
     ATTR_WEB3,
     ENDPOINTS,
@@ -119,6 +121,7 @@ class NextDns:
             ],
             anonymized_ecs=profile_data.settings[ATTR_PERFORMANCE][ApiNames.ECS],
             logs=profile_data.settings[ATTR_LOGS][ATTR_ENABLED],
+            logs_retention=profile_data.settings[ATTR_LOGS][ATTR_RETENTION],
             web3=profile_data.settings[ATTR_WEB3],
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
             block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
@@ -274,6 +277,14 @@ class NextDns:
         )
 
         return AllAnalytics(*resp)
+
+    async def set_logs_retention(self, profile_id: str, hours: int) -> bool:
+        """Set logs retention."""
+        url = MAP_SETTING[ATTR_LOGS_RETENTION].url.format(profile_id=profile_id)
+        name = MAP_SETTING[ATTR_LOGS_RETENTION].name
+        result = await self._http_request("patch", url, data={name: hours * 60 * 60})
+
+        return result.get("success", False) is True
 
     async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
         """Toggle settings."""

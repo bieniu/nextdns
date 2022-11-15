@@ -26,6 +26,8 @@ async def main():
             connection_status = await nextdns.connection_status(profile_id)
             settings = await nextdns.get_settings(profile_id)
 
+            await nextdns.set_logs_retention(profile_id, 960)
+
             # clear logs
             # await nextdns.clear_logs(profile_id)
 
