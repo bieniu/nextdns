@@ -71,7 +71,6 @@ ENDPOINTS = {
     ATTR_SETTINGS: "https://api.nextdns.io/profiles/{profile_id}/settings",
     ATTR_PERFORMANCE: "https://api.nextdns.io/profiles/{profile_id}/settings/performance",
     ATTR_PRIVACY: "https://api.nextdns.io/profiles/{profile_id}/privacy",
-    ATTR_SECURITY: "https://api.nextdns.io/profiles/{profile_id}/security",
     ATTR_PARENTAL_CONTROL: "https://api.nextdns.io/profiles/{profile_id}/parentalControl",
     ATTR_PARENTAL_CONTROL_CATEGORY: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories/{category}",
     ATTR_PARENTAL_CONTROL_CATEGORIES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories",
