@@ -496,3 +496,51 @@ async def test_set_logs_retention_with_invalid_value():
         "Invalid logs retention value. Allowed values are: (1, 6, 24, 168, 720, 960, 4320, 8760, 17520)"
         in str(exc.value)
     )
+
+
+@pytest.mark.asyncio
+async def test_set_logs_location():
+    """Test set_logs_location() method."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+        session_mock.patch(
+            ENDPOINTS[ATTR_LOGS].format(profile_id=PROFILE_ID),
+            status=HTTPStatus.NO_CONTENT.value,
+        )
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+        result = await nextdns.set_logs_location(PROFILE_ID, "us")
+
+    await session.close()
+
+    assert result is True
+
+
+@pytest.mark.asyncio
+async def test_set_logs_location_with_invalid_value():
+    """Test set_logs_location() method with invalid value."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+    await session.close()
+
+    with pytest.raises(ValueError) as exc:
+        await nextdns.set_logs_location(PROFILE_ID, "pl")
+
+    assert (
+        "Invalid logs location value. Allowed values are: ('ch', 'eu', 'gb', 'us')"
+        in str(exc.value)
+    )
