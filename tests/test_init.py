@@ -221,10 +221,8 @@ async def test_profile_id_not_found():
 
     await session.close()
 
-    try:
+    with pytest.raises(ProfileIdNotFoundError):
         nextdns.get_profile_name("xxyyxx")
-    except Exception as exc:  # pylint: disable=broad-except
-        assert isinstance(exc, ProfileIdNotFoundError) is True
 
 
 @pytest.mark.asyncio
@@ -242,10 +240,8 @@ async def test_profile_name_not_found():
 
     await session.close()
 
-    try:
+    with pytest.raises(ProfileNameNotFoundError):
         nextdns.get_profile_id("Profile Name")
-    except Exception as exc:  # pylint: disable=broad-except
-        assert isinstance(exc, ProfileNameNotFoundError) is True
 
 
 @pytest.mark.asyncio
@@ -414,10 +410,8 @@ async def test_set_not_supported_setting():
 
         nextdns = await NextDns.create(session, "fakeapikey")
 
-        try:
+        with pytest.raises(SettingNotSupportedError):
             await nextdns.set_setting(PROFILE_ID, "unsupported_setting", True)
-        except Exception as exc:  # pylint: disable=broad-except
-            assert isinstance(exc, SettingNotSupportedError) is True
 
     await session.close()
 
@@ -430,10 +424,8 @@ async def test_invalid_api_key():
     with aioresponses() as session_mock:
         session_mock.get(ENDPOINTS[ATTR_PROFILES], status=HTTPStatus.FORBIDDEN.value)
 
-        try:
+        with pytest.raises(InvalidApiKeyError):
             await NextDns.create(session, "fakeapikey")
-        except Exception as exc:  # pylint: disable=broad-except
-            assert isinstance(exc, InvalidApiKeyError) is True
 
     await session.close()
 
@@ -450,10 +442,10 @@ async def test_api_error():
             payload={"errors": [{"code": "badRequest"}]},
         )
 
-        try:
+        with pytest.raises(ApiError) as exc:
             await NextDns.create(session, "fakeapikey")
-        except ApiError as exc:
-            assert str(exc.status) == "400, badRequest, None"
+
+        assert "400, badRequest, None" in str(exc.value)
 
     await session.close()
 
