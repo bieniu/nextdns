@@ -10,8 +10,8 @@ from typing import Any, cast
 from aiohttp import ClientSession
 
 from .const import (
-    ALLOWED_LOG_LOCATION,
-    ALLOWED_LOG_RETENTION,
+    ALLOWED_LOGS_LOCATION,
+    ALLOWED_LOGS_RETENTION,
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
@@ -285,9 +285,9 @@ class NextDns:
 
     async def set_logs_location(self, profile_id: str, location: str) -> bool:
         """Set logs location."""
-        if location not in ALLOWED_LOG_LOCATION:
+        if location not in ALLOWED_LOGS_LOCATION:
             raise ValueError(
-                f"Invalid logs location value. Allowed values are: {ALLOWED_LOG_LOCATION}"
+                f"Invalid logs location value. Allowed values are: {ALLOWED_LOGS_LOCATION}"
             )
 
         url = MAP_SETTING[ATTR_LOGS_LOCATION].url.format(profile_id=profile_id)
@@ -298,9 +298,9 @@ class NextDns:
 
     async def set_logs_retention(self, profile_id: str, hours: int) -> bool:
         """Set logs retention."""
-        if hours not in ALLOWED_LOG_RETENTION:
+        if hours not in ALLOWED_LOGS_RETENTION:
             raise ValueError(
-                f"Invalid logs retention value. Allowed values are: {ALLOWED_LOG_RETENTION}"
+                f"Invalid logs retention value. Allowed values are: {ALLOWED_LOGS_RETENTION}"
             )
 
         url = MAP_SETTING[ATTR_LOGS_RETENTION].url.format(profile_id=profile_id)
