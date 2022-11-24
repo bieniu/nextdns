@@ -495,7 +495,7 @@ async def test_set_logs_retention_with_invalid_value():
         await nextdns.set_logs_retention(PROFILE_ID, 999)
 
     assert (
-        "Invalid logs retention value. Allowed values are: (1, 6, 24, 168, 720, 960, 4320, 8760, 17520)"
+        "Invalid logs retention value. Allowed values are: (1, 6, 24, 168, 720, 2160, 4320, 8760, 17520)"
         in str(exc.value)
     )
 
