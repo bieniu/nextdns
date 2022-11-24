@@ -357,7 +357,8 @@ class NextDns:
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
             result = await resp.json()
-            raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
+            error = result["errors"][0]
+            raise ApiError(f"{resp.status}, {error['code']}, {error.get('detail')}")
 
         if resp.content_type == "application/json":
             result = await resp.json()
