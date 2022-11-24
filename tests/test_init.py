@@ -452,6 +452,6 @@ async def test_api_error():
         try:
             await NextDns.create(session, "fakeapikey")
         except ApiError as exc:
-            assert str(exc.status) == "400, badRequest"
+            assert str(exc.status) == "400, badRequest, None"
 
     await session.close()
