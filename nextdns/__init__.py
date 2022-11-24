@@ -126,7 +126,7 @@ class NextDns:
             anonymized_ecs=profile_data.settings[ATTR_PERFORMANCE][ApiNames.ECS],
             logs=profile_data.settings[ATTR_LOGS][ATTR_ENABLED],
             logs_location=profile_data.settings[ATTR_LOGS][ATTR_LOCATION],
-            logs_retention=profile_data.settings[ATTR_LOGS][ATTR_RETENTION],
+            logs_retention=int(profile_data.settings[ATTR_LOGS][ATTR_RETENTION] / 3600),
             web3=profile_data.settings[ATTR_WEB3],
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
             block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
