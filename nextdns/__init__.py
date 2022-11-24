@@ -10,12 +10,15 @@ from typing import Any, cast
 from aiohttp import ClientSession
 
 from .const import (
+    ALLOWED_LOG_LOCATION,
     ALLOWED_LOG_RETENTION,
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
     ATTR_GET_LOGS,
+    ATTR_LOCATION,
     ATTR_LOGS,
+    ATTR_LOGS_LOCATION,
     ATTR_LOGS_RETENTION,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
@@ -122,6 +125,7 @@ class NextDns:
             ],
             anonymized_ecs=profile_data.settings[ATTR_PERFORMANCE][ApiNames.ECS],
             logs=profile_data.settings[ATTR_LOGS][ATTR_ENABLED],
+            logs_location=profile_data.settings[ATTR_LOGS][ATTR_LOCATION],
             logs_retention=profile_data.settings[ATTR_LOGS][ATTR_RETENTION],
             web3=profile_data.settings[ATTR_WEB3],
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
@@ -278,6 +282,19 @@ class NextDns:
         )
 
         return AllAnalytics(*resp)
+
+    async def set_logs_location(self, profile_id: str, location: str) -> bool:
+        """Set logs location."""
+        if location not in ALLOWED_LOG_LOCATION:
+            raise ValueError(
+                f"Invalid logs location value. Allowed values are: {ALLOWED_LOG_LOCATION}"
+            )
+
+        url = MAP_SETTING[ATTR_LOGS_LOCATION].url.format(profile_id=profile_id)
+        name = MAP_SETTING[ATTR_LOGS_LOCATION].name
+        result = await self._http_request("patch", url, data={name: location})
+
+        return result.get("success", False) is True
 
     async def set_logs_retention(self, profile_id: str, hours: int) -> bool:
         """Set logs retention."""
