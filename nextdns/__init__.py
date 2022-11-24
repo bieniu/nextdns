@@ -10,6 +10,7 @@ from typing import Any, cast
 from aiohttp import ClientSession
 
 from .const import (
+    ALLOWED_LOG_RETENTION,
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
@@ -280,6 +281,11 @@ class NextDns:
 
     async def set_logs_retention(self, profile_id: str, hours: int) -> bool:
         """Set logs retention."""
+        if hours not in ALLOWED_LOG_RETENTION:
+            raise ValueError(
+                f"Invalid logs retention value. Allowed values are: {ALLOWED_LOG_RETENTION}"
+            )
+
         url = MAP_SETTING[ATTR_LOGS_RETENTION].url.format(profile_id=profile_id)
         name = MAP_SETTING[ATTR_LOGS_RETENTION].name
         result = await self._http_request("patch", url, data={name: hours * 60 * 60})

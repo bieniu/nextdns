@@ -285,3 +285,5 @@ MAP_SETTING = {
         ParentalControlCategories.SOCIAL_NETWORKS,
     ),
 }
+
+ALLOWED_LOG_RETENTION = (1, 6, 24, 168, 720, 960, 4320, 8760, 17520)

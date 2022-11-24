@@ -26,7 +26,9 @@ async def main():
             connection_status = await nextdns.connection_status(profile_id)
             settings = await nextdns.get_settings(profile_id)
 
-            await nextdns.set_logs_retention(profile_id, 960)
+            # set logs retention to 1 month (30 days)
+            # allowed values are: 1, 6, 24, 168, 720, 960, 4320, 8760, 17520
+            # await nextdns.set_logs_retention(profile_id, 720)
 
             # clear logs
             # await nextdns.clear_logs(profile_id)
@@ -38,7 +40,8 @@ async def main():
 
             # enable block page
             # await nextdns.set_setting(profile_id, "block_page", True)
-
+        except ValueError as error:
+            print(error)
         except InvalidApiKeyError:
             print("Invalid API Key")
         except ApiError as error:
