@@ -10,6 +10,7 @@ from nextdns import (
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
     ATTR_GET_LOGS,
+    ATTR_LOGS,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PROFILE,
@@ -452,6 +453,54 @@ async def test_api_error():
         try:
             await NextDns.create(session, "fakeapikey")
         except ApiError as exc:
-            assert str(exc.status) == "400, badRequest"
+            assert str(exc.status) == "400, badRequest, None"
 
     await session.close()
+
+
+@pytest.mark.asyncio
+async def test_set_logs_retention():
+    """Test set_logs_retention() method."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+        session_mock.patch(
+            ENDPOINTS[ATTR_LOGS].format(profile_id=PROFILE_ID),
+            status=HTTPStatus.NO_CONTENT.value,
+        )
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+        result = await nextdns.set_logs_retention(PROFILE_ID, 1)
+
+    await session.close()
+
+    assert result is True
+
+
+@pytest.mark.asyncio
+async def test_set_logs_retention_with_invalid_value():
+    """Test set_logs_retention() method with invalid value."""
+    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+        profiles_data = json.load(file)
+
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+        nextdns = await NextDns.create(session, "fakeapikey")
+
+    await session.close()
+
+    with pytest.raises(ValueError) as exc:
+        await nextdns.set_logs_retention(PROFILE_ID, 999)
+
+    assert (
+        "Invalid logs retention value. Allowed values are: (1, 6, 24, 168, 720, 960, 4320, 8760, 17520)"
+        in str(exc.value)
+    )

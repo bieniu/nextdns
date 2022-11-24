@@ -28,11 +28,13 @@ ATTR_SECURITY = "security"
 ATTR_SETTINGS = "settings"
 ATTR_TEST = "test"
 
+ATTR_ANONYMIZED_ECS = "anonymized_ecs"
 ATTR_BLOCK_PAGE = "block_page"
 ATTR_CACHE_BOOST = "cache_boost"
 ATTR_CNAME_FLATTENING = "cname_flattening"
-ATTR_ANONYMIZED_ECS = "anonymized_ecs"
 ATTR_LOGS = "logs"
+ATTR_LOGS_RETENTION = "logs_retention"
+ATTR_RETENTION = "retention"
 ATTR_WEB3 = "web3"
 
 ATTR_ALLOW_AFFILIATE = "allow_affiliate"
@@ -69,13 +71,13 @@ ENDPOINTS = {
     ATTR_SETTINGS: "https://api.nextdns.io/profiles/{profile_id}/settings",
     ATTR_PERFORMANCE: "https://api.nextdns.io/profiles/{profile_id}/settings/performance",
     ATTR_PRIVACY: "https://api.nextdns.io/profiles/{profile_id}/privacy",
-    ATTR_SECURITY: "https://api.nextdns.io/profiles/{profile_id}/security",
     ATTR_PARENTAL_CONTROL: "https://api.nextdns.io/profiles/{profile_id}/parentalControl",
     ATTR_PARENTAL_CONTROL_CATEGORY: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories/{category}",
     ATTR_PARENTAL_CONTROL_CATEGORIES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories",
     ATTR_PARENTAL_CONTROL_SERVICE: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services/{service}",
     ATTR_PARENTAL_CONTROL_SERVICES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services",
     ATTR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/settings/logs",
+    ATTR_LOGS_RETENTION: "https://api.nextdns.io/profiles/{profile_id}/settings/logs/retention",
     ATTR_BLOCK_PAGE: "https://api.nextdns.io/profiles/{profile_id}/settings/blockPage",
 }
 
@@ -109,6 +111,7 @@ MAP_SETTING = {
     ATTR_ANONYMIZED_ECS: SettingDescription(ENDPOINTS[ATTR_PERFORMANCE], ApiNames.ECS),
     ATTR_WEB3: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_WEB3),
     ATTR_LOGS: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_ENABLED),
+    ATTR_LOGS_RETENTION: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_RETENTION),
     ATTR_ALLOW_AFFILIATE: SettingDescription(
         ENDPOINTS[ATTR_PRIVACY], ApiNames.ALLOW_AFFILIATE
     ),
@@ -282,3 +285,5 @@ MAP_SETTING = {
         ParentalControlCategories.SOCIAL_NETWORKS,
     ),
 }
+
+ALLOWED_LOG_RETENTION = (1, 6, 24, 168, 720, 960, 4320, 8760, 17520)

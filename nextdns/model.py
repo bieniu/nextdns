@@ -207,6 +207,7 @@ class Settings(NextDnsData):
     cname_flattening: bool
     anonymized_ecs: bool
     logs: bool
+    logs_retention: int
     web3: bool
 
     allow_affiliate: bool

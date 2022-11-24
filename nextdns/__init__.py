@@ -10,16 +10,19 @@ from typing import Any, cast
 from aiohttp import ClientSession
 
 from .const import (
+    ALLOWED_LOG_RETENTION,
     ATTR_ANALYTICS,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
     ATTR_GET_LOGS,
     ATTR_LOGS,
+    ATTR_LOGS_RETENTION,
     ATTR_PARENTAL_CONTROL_CATEGORIES,
     ATTR_PARENTAL_CONTROL_SERVICES,
     ATTR_PERFORMANCE,
     ATTR_PROFILE,
     ATTR_PROFILES,
+    ATTR_RETENTION,
     ATTR_TEST,
     ATTR_WEB3,
     ENDPOINTS,
@@ -119,6 +122,7 @@ class NextDns:
             ],
             anonymized_ecs=profile_data.settings[ATTR_PERFORMANCE][ApiNames.ECS],
             logs=profile_data.settings[ATTR_LOGS][ATTR_ENABLED],
+            logs_retention=profile_data.settings[ATTR_LOGS][ATTR_RETENTION],
             web3=profile_data.settings[ATTR_WEB3],
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
             block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
@@ -275,6 +279,19 @@ class NextDns:
 
         return AllAnalytics(*resp)
 
+    async def set_logs_retention(self, profile_id: str, hours: int) -> bool:
+        """Set logs retention."""
+        if hours not in ALLOWED_LOG_RETENTION:
+            raise ValueError(
+                f"Invalid logs retention value. Allowed values are: {ALLOWED_LOG_RETENTION}"
+            )
+
+        url = MAP_SETTING[ATTR_LOGS_RETENTION].url.format(profile_id=profile_id)
+        name = MAP_SETTING[ATTR_LOGS_RETENTION].name
+        result = await self._http_request("patch", url, data={name: hours * 60 * 60})
+
+        return result.get("success", False) is True
+
     async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
         """Toggle settings."""
         data: dict[str, Any]
@@ -291,7 +308,7 @@ class NextDns:
             try:
                 resp = await self._http_request("patch", url, data=data)
             except ApiError as exc:
-                if exc.status == "404, notFound" and state is True:
+                if "404, notFound" in exc.status and state is True:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(
                         profile_id=profile_id
                     )
@@ -305,7 +322,7 @@ class NextDns:
             try:
                 resp = await self._http_request("patch", url, data=data)
             except ApiError as exc:
-                if exc.status == "404, notFound" and state is True:
+                if "404, notFound" in exc.status and state is True:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
                         profile_id=profile_id
                     )
@@ -346,7 +363,8 @@ class NextDns:
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
             result = await resp.json()
-            raise ApiError(f"{resp.status}, {result['errors'][0]['code']}")
+            error = result["errors"][0]
+            raise ApiError(f"{resp.status}, {error['code']}, {error.get('detail')}")
 
         if resp.content_type == "application/json":
             result = await resp.json()
