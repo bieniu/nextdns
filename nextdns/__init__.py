@@ -308,7 +308,7 @@ class NextDns:
             try:
                 resp = await self._http_request("patch", url, data=data)
             except ApiError as exc:
-                if exc.status == "404, notFound" and state is True:
+                if "404, notFound" in exc.status and state is True:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(
                         profile_id=profile_id
                     )
@@ -322,7 +322,7 @@ class NextDns:
             try:
                 resp = await self._http_request("patch", url, data=data)
             except ApiError as exc:
-                if exc.status == "404, notFound" and state is True:
+                if "404, notFound" in exc.status and state is True:
                     url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
                         profile_id=profile_id
                     )
