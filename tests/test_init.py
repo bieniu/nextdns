@@ -139,6 +139,8 @@ async def test_valid_data():  # pylint: disable=too-many-locals,too-many-stateme
     assert settings.cname_flattening is True
     assert settings.anonymized_ecs is True
     assert settings.logs is True
+    assert settings.logs_location == "ch"
+    assert settings.logs_retention == 720
     assert settings.web3 is True
     assert settings.allow_affiliate is True
     assert settings.block_disguised_trackers is True
