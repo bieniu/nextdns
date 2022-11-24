@@ -30,6 +30,10 @@ async def main():
             # allowed values are: 1, 6, 24, 168, 720, 960, 4320, 8760, 17520
             # await nextdns.set_logs_retention(profile_id, 720)
 
+            # set logs location to Switzerland
+            # allowed values are: ch, eu, gb, us
+            # await nextdns.set_logs_location(profile_id, "ch")
+
             # clear logs
             # await nextdns.clear_logs(profile_id)
 
