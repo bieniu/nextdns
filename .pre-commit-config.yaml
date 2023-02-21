@@ -1,19 +1,10 @@
 repos:
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.247
     hooks:
-      - id: pyupgrade
-        args: [--py39-plus]
-  - repo: https://github.com/PyCQA/autoflake
-    rev: v2.0.1
-    hooks:
-      - id: autoflake
+      - id: ruff
         args:
-          - --in-place
-          - --remove-duplicate-keys
-          - --ignore-init-module-imports
-          - --remove-all-unused-imports
-          - --remove-unused-variables
+          - --fix
   - repo: https://github.com/psf/black
     rev: 23.1.0
     hooks:
@@ -21,7 +12,7 @@ repos:
         args:
           - --safe
           - --quiet
-        files: ^((nextdns|tests)/.+)?[^/]+\.py$
+        files: ^((gios|tests)/.+)?[^/]+\.py$
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.2
     hooks:
@@ -32,31 +23,6 @@ repos:
           - --quiet-level=2
         exclude_types: [csv, json]
         exclude: ^tests/fixtures/
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - pycodestyle
-          - pyflakes
-          - flake8-docstrings
-          - pydocstyle
-          - flake8-comprehensions
-          - flake8-noqa
-          - mccabe
-        files: ^(nextdns|tests)/.+\.py$
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.4
-    hooks:
-      - id: bandit
-        args:
-          - --quiet
-          - --configfile=bandit.yaml
-        files: ^(nextdns|tests)/.+\.py$
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -73,9 +39,7 @@ repos:
       - id: prettier
         stages: [manual]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.0.0"
+    rev: "v1.0.1"
     hooks:
       - id: mypy
-        additional_dependencies:
-          - types-orjson
-        files: ^(nextdns)/.+\.py$
+        files: ^(gios)/.+\.py$

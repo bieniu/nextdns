@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 async def main():
-    """Main function."""
+    """Run main function."""
     async with ClientSession() as websession:
         try:
             nextdns = await NextDns.create(websession, API_KEY)
@@ -39,7 +39,9 @@ async def main():
 
             # get CSV logs and save to file
             # logs = await nextdns.get_logs(profile_id)
-            # with open(f"nextdns_{profile_id}_logs.csv", "w", encoding="utf-8") as file:
+            # with open(
+            #     f"nextdns_{profile_id}_logs.csv", "w", encoding="utf-8"
+            # ) as file:
             #     file.write(logs)
 
             # enable block page
@@ -54,10 +56,12 @@ async def main():
             print(f"ClientConnectorError: {error}")
         else:
             print(
-                f"Profile: {profile_name} (id: {profile_id}, fingerprint: {profile_fingerprint})"
+                f"Profile: {profile_name} "
+                f"(id: {profile_id}, fingerprint: {profile_fingerprint})"
             )
             print(
-                f"Does this device use NextDNS?: {connection_status.connected}, using profile: {connection_status.profile_id}"
+                f"Does this device use NextDNS?: {connection_status.connected}, "
+                f"using profile: {connection_status.profile_id}"
             )
             print(status)
             print(dnssec)

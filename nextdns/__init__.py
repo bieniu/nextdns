@@ -287,7 +287,8 @@ class NextDns:
         """Set logs location."""
         if location not in ALLOWED_LOGS_LOCATION:
             raise ValueError(
-                f"Invalid logs location value. Allowed values are: {ALLOWED_LOGS_LOCATION}"
+                "Invalid logs location value. "
+                f"Allowed values are: {ALLOWED_LOGS_LOCATION}"
             )
 
         url = MAP_SETTING[ATTR_LOGS_LOCATION].url.format(profile_id=profile_id)
@@ -300,7 +301,8 @@ class NextDns:
         """Set logs retention."""
         if hours not in ALLOWED_LOGS_RETENTION:
             raise ValueError(
-                f"Invalid logs retention value. Allowed values are: {ALLOWED_LOGS_RETENTION}"
+                "Invalid logs retention value. "
+                f"Allowed values are: {ALLOWED_LOGS_RETENTION}"
             )
 
         url = MAP_SETTING[ATTR_LOGS_RETENTION].url.format(profile_id=profile_id)
