@@ -1,5 +1,6 @@
 """Tests for nextdns package."""
 import json
+import re
 from http import HTTPStatus
 
 import aiohttp
@@ -300,7 +301,7 @@ async def test_get_logs():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "setting,url",
+    ("setting", "url"),
     [
         ("block_page", ENDPOINTS[ATTR_BLOCK_PAGE].format(profile_id=PROFILE_ID)),
         (
@@ -491,13 +492,14 @@ async def test_set_logs_retention_with_invalid_value():
 
     await session.close()
 
-    with pytest.raises(ValueError) as exc:
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Invalid logs retention value. "
+            "Allowed values are: (1, 6, 24, 168, 720, 2160, 4320, 8760, 17520)"
+        ),
+    ):
         await nextdns.set_logs_retention(PROFILE_ID, 999)
-
-    assert (
-        "Invalid logs retention value. Allowed values are: (1, 6, 24, 168, 720, 2160, 4320, 8760, 17520)"
-        in str(exc.value)
-    )
 
 
 @pytest.mark.asyncio
@@ -539,10 +541,10 @@ async def test_set_logs_location_with_invalid_value():
 
     await session.close()
 
-    with pytest.raises(ValueError) as exc:
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Invalid logs location value. Allowed values are: ('ch', 'eu', 'gb', 'us')"
+        ),
+    ):
         await nextdns.set_logs_location(PROFILE_ID, "pl")
-
-    assert (
-        "Invalid logs location value. Allowed values are: ('ch', 'eu', 'gb', 'us')"
-        in str(exc.value)
-    )
