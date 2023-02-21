@@ -6,4 +6,7 @@
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
+    "files.associations": {
+        "*.yaml": "home-assistant"
+    },
 }
