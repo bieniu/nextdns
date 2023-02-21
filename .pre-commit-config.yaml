@@ -12,7 +12,6 @@ repos:
         args:
           - --safe
           - --quiet
-        files: ^((gios|tests)/.+)?[^/]+\.py$
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.2
     hooks:
@@ -42,4 +41,4 @@ repos:
     rev: "v1.0.1"
     hooks:
       - id: mypy
-        files: ^(gios)/.+\.py$
+        files: ^(nextdns)/.+\.py$
