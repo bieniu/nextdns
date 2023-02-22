@@ -110,4 +110,4 @@ keep-runtime-typing = true
 max-complexity = 25
 
 [tool.coverage.run]
-source = ["gios"]
+source = ["nextdns"]
