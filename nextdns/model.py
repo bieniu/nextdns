@@ -233,21 +233,27 @@ class Settings(NextDnsData):
 
     block_9gag: bool
     block_amazon: bool
+    block_bereal: bool
     block_blizzard: bool
+    block_chatgpt: bool
     block_dailymotion: bool
     block_discord: bool
     block_disneyplus: bool
     block_ebay: bool
     block_facebook: bool
     block_fortnite: bool
+    block_google_chat: bool
+    block_hbomax: bool
     block_hulu: bool
     block_imgur: bool
     block_instagram: bool
     block_leagueoflegends: bool
+    block_mastodon: bool
     block_messenger: bool
     block_minecraft: bool
     block_netflix: bool
     block_pinterest: bool
+    block_playstation_network: bool
     block_primevideo: bool
     block_reddit: bool
     block_roblox: bool
@@ -297,22 +303,28 @@ class ParentalControlServices(StrEnum):
     """Service type for parental control."""
 
     AMAZON = "amazon"
+    BEREAL = "bereal"
     BLIZZARD = "blizzard"
+    CHATGPT = "chatgpt"
     DAILYMOTION = "dailymotion"
     DISCORD = "discord"
     DISNEYPLUS = "disneyplus"
     EBAY = "ebay"
     FACEBOOK = "facebook"
     FORTNITE = "fortnite"
+    GOOGLE_CHAT = "google-chat"
+    HBOMAX = "hbomax"
     HULU = "hulu"
     IMGUR = "imgur"
     INSTAGRAM = "instagram"
     LEAGUEOFLEGENDS = "leagueoflegends"
+    MASTODON = "mastodon"
     MESSENGER = "messenger"
     MINECRAFT = "minecraft"
     NETFLIX = "netflix"
     NINEGAG = "9gag"
     PINTEREST = "pinterest"
+    PLAYSTATION_NETWORK = "playstation-network"
     PRIMEVIDEO = "primevideo"
     REDDIT = "reddit"
     ROBLOX = "roblox"
@@ -340,21 +352,27 @@ class ParentalControlServicesAttrs(StrEnum):
 
     BLOCK_9GAG = "block_9gag"
     BLOCK_AMAZON = "block_amazon"
+    BLOCK_BEREAL = "block_bereal"
     BLOCK_BLIZZARD = "block_blizzard"
+    BLOCK_CHATGPT = "block_chatgpt"
     BLOCK_DAILYMOTION = "block_dailymotion"
     BLOCK_DISCORD = "block_discord"
     BLOCK_DISNEYPLUS = "block_disneyplus"
     BLOCK_EBAY = "block_ebay"
     BLOCK_FACEBOOK = "block_facebook"
     BLOCK_FORTNITE = "block_fortnite"
+    BLOCK_GOOGLE_CHAT = "block_google_chat"
+    BLOCK_HBOMAX = "block_hbomax"
     BLOCK_HULU = "block_hulu"
     BLOCK_IMGUR = "block_imgur"
     BLOCK_INSTAGRAM = "block_instagram"
     BLOCK_LEAGUEOFLEGENDS = "block_leagueoflegends"
+    BLOCK_MASTODON = "block_mastodon"
     BLOCK_MESSENGER = "block_messenger"
     BLOCK_MINECRAFT = "block_minecraft"
     BLOCK_NETFLIX = "block_netflix"
     BLOCK_PINTEREST = "block_pinterest"
+    BLOCK_PLAYSTATION_NETWORK = "block_playstation_network"
     BLOCK_PRIMEVIDEO = "block_primevideo"
     BLOCK_REDDIT = "block_reddit"
     BLOCK_ROBLOX = "block_roblox"

@@ -153,19 +153,24 @@ class NextDns:
             ],
             block_9gag=services.get(ParentalControlServices.NINEGAG, False),
             block_amazon=services.get(ParentalControlServices.AMAZON, False),
+            block_bereal=services.get(ParentalControlServices.BEREAL, False),
             block_blizzard=services.get(ParentalControlServices.BLIZZARD, False),
+            block_chatgpt=services.get(ParentalControlServices.CHATGPT, False),
             block_dailymotion=services.get(ParentalControlServices.DAILYMOTION, False),
             block_discord=services.get(ParentalControlServices.DISCORD, False),
             block_disneyplus=services.get(ParentalControlServices.DISNEYPLUS, False),
             block_ebay=services.get(ParentalControlServices.EBAY, False),
             block_facebook=services.get(ParentalControlServices.FACEBOOK, False),
             block_fortnite=services.get(ParentalControlServices.FORTNITE, False),
+            block_google_chat=services.get(ParentalControlServices.GOOGLE_CHAT, False),
+            block_hbomax=services.get(ParentalControlServices.HBOMAX, False),
             block_hulu=services.get(ParentalControlServices.HULU, False),
             block_imgur=services.get(ParentalControlServices.IMGUR, False),
             block_instagram=services.get(ParentalControlServices.INSTAGRAM, False),
             block_leagueoflegends=services.get(
                 ParentalControlServices.LEAGUEOFLEGENDS, False
             ),
+            block_mastodon=services.get(ParentalControlServices.MASTODON, False),
             block_messenger=services.get(ParentalControlServices.MESSENGER, False),
             block_minecraft=services.get(ParentalControlServices.MINECRAFT, False),
             block_netflix=services.get(ParentalControlServices.NETFLIX, False),
@@ -193,6 +198,9 @@ class NextDns:
             block_dating=categories.get(ParentalControlCategories.DATING, False),
             block_gambling=categories.get(ParentalControlCategories.GAMBLING, False),
             block_piracy=categories.get(ParentalControlCategories.PIRACY, False),
+            block_playstation_network=services.get(
+                ParentalControlServices.PLAYSTATION_NETWORK, False
+            ),
             block_porn=categories.get(ParentalControlCategories.PORN, False),
             block_social_networks=categories.get(
                 ParentalControlCategories.SOCIAL_NETWORKS, False

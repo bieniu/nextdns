@@ -163,21 +163,27 @@ async def test_valid_data():  # pylint: disable=too-many-locals,too-many-stateme
 
     assert settings.block_9gag is False
     assert settings.block_amazon is False
+    assert settings.block_bereal is False
     assert settings.block_blizzard is False
+    assert settings.block_chatgpt is False
     assert settings.block_dailymotion is False
     assert settings.block_discord is False
     assert settings.block_disneyplus is False
     assert settings.block_ebay is False
     assert settings.block_facebook is False
     assert settings.block_fortnite is False
+    assert settings.block_google_chat is False
+    assert settings.block_hbomax is False
     assert settings.block_hulu is False
     assert settings.block_imgur is False
     assert settings.block_instagram is False
     assert settings.block_leagueoflegends is False
+    assert settings.block_mastodon is False
     assert settings.block_messenger is False
     assert settings.block_minecraft is False
     assert settings.block_netflix is False
     assert settings.block_pinterest is False
+    assert settings.block_playstation_network is False
     assert settings.block_primevideo is False
     assert settings.block_reddit is False
     assert settings.block_roblox is False
