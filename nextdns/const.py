@@ -288,6 +288,14 @@ MAP_SETTING = {
         ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
         ParentalControlCategories.SOCIAL_NETWORKS,
     ),
+    ParentalControlCategoriesAttrs.BLOCK_VIDEO_STREAMING: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ParentalControlCategories.VIDEO_STREAMING,
+    ),
+    ParentalControlCategoriesAttrs.BLOCK_ONLINE_GAMING: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+        ParentalControlCategories.ONLINE_GAMING,
+    ),
 }
 
 ALLOWED_LOGS_LOCATION = ("ch", "eu", "gb", "us")

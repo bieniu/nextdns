@@ -205,6 +205,12 @@ class NextDns:
             block_social_networks=categories.get(
                 ParentalControlCategories.SOCIAL_NETWORKS, False
             ),
+            block_online_gaming=categories.get(
+                ParentalControlCategories.ONLINE_GAMING, False
+            ),
+            block_video_streaming=categories.get(
+                ParentalControlCategories.VIDEO_STREAMING, False
+            ),
         )
 
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
