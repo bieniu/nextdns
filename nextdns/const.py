@@ -272,6 +272,25 @@ MAP_SETTING = {
     ParentalControlServicesAttrs.BLOCK_SIGNAL: SettingDescription(
         ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.SIGNAL
     ),
+    ParentalControlServicesAttrs.BLOCK_BEREAL: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.BEREAL
+    ),
+    ParentalControlServicesAttrs.BLOCK_GOOGLE_CHAT: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.GOOGLE_CHAT
+    ),
+    ParentalControlServicesAttrs.BLOCK_CHATGPT: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.CHATGPT
+    ),
+    ParentalControlServicesAttrs.BLOCK_HBOMAX: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.HBOMAX
+    ),
+    ParentalControlServicesAttrs.BLOCK_MASTODON: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.MASTODON
+    ),
+    ParentalControlServicesAttrs.BLOCK_PLAYSTATION_NETWORK: SettingDescription(
+        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
+        ParentalControlServices.PLAYSTATION_NETWORK,
+    ),
     ParentalControlCategoriesAttrs.BLOCK_DATING: SettingDescription(
         ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.DATING
     ),
