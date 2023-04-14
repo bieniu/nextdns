@@ -210,6 +210,8 @@ async def test_valid_data():  # pylint: disable=too-many-locals,too-many-stateme
     assert settings.block_piracy is True
     assert settings.block_porn is True
     assert settings.block_social_networks is False
+    assert settings.block_online_gaming is False
+    assert settings.block_video_streaming is False
 
     assert nextdns.get_profile_name(PROFILE_ID) == "Fake Profile"
     assert nextdns.get_profile_id("Fake Profile") == PROFILE_ID
