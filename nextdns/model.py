@@ -280,6 +280,8 @@ class Settings(NextDnsData):
     block_piracy: bool
     block_porn: bool
     block_social_networks: bool
+    block_online_gaming: bool
+    block_video_streaming: bool
 
 
 @dataclass
@@ -400,19 +402,23 @@ class ParentalControlCategories(StrEnum):
 
     DATING = "dating"
     GAMBLING = "gambling"
+    ONLINE_GAMING = "gaming"
     PIRACY = "piracy"
     PORN = "porn"
     SOCIAL_NETWORKS = "social-networks"
+    VIDEO_STREAMING = "video-streaming"
 
 
 class ParentalControlCategoriesAttrs(StrEnum):
     """Categories type attributes for parental control."""
 
-    BLOCK_DATING = "block_dating"
-    BLOCK_GAMBLING = "block_gambling"
-    BLOCK_PIRACY = "block_piracy"
-    BLOCK_PORN = "block_porn"
+    BLOCK_VIDEO_STREAMING = "block_video_streaming"
     BLOCK_SOCIAL_NETWORKS = "block_social_networks"
+    BLOCK_PORN = "block_porn"
+    BLOCK_PIRACY = "block_piracy"
+    BLOCK_ONLINE_GAMING = "block_online_gaming"
+    BLOCK_GAMBLING = "block_gambling"
+    BLOCK_DATING = "block_dating"
 
 
 class ApiNames(StrEnum):
