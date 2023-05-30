@@ -103,9 +103,6 @@ ignore = [
     "T201",      # `print` found
 ]
 
-[tool.ruff.pyupgrade]
-keep-runtime-typing = true
-
 [tool.ruff.mccabe]
 max-complexity = 25
 
