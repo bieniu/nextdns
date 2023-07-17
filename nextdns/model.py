@@ -11,6 +11,8 @@ _StrEnumSelfT = TypeVar("_StrEnumSelfT", bound="StrEnum")
 class StrEnum(str, Enum):
     """Partial backport of Python 3.11's StrEnum for our basic use cases."""
 
+    value: str
+
     def __new__(
         cls: type[_StrEnumSelfT], value: str, *args: Any, **kwargs: Any
     ) -> _StrEnumSelfT:
@@ -21,7 +23,7 @@ class StrEnum(str, Enum):
 
     def __str__(self) -> str:
         """Return self.value."""
-        return str(self.value)
+        return self.value
 
     @staticmethod
     def _generate_next_value_(
