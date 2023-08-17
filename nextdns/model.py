@@ -15,7 +15,7 @@ class StrEnum(str, Enum):
 
     def __new__(
         cls: type[_StrEnumSelfT], value: str, *args: Any, **kwargs: Any
-    ) -> _StrEnumSelfT:
+    ) -> _StrEnumSelfT:  # noqa: PYI019
         """Create a new StrEnum instance."""
         if not isinstance(value, str):
             raise TypeError(f"{value!r} is not a string")
