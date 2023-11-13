@@ -78,6 +78,7 @@ ignore = [
     "D411",     # Missing blank line before section
     "E731",     # Do not assign a lambda expression, use a def
     "FBT001",   # Boolean positional arg in function definition
+    "ISC001",   # Single line implicit string concatenation
     "PLR0912",  # Too many branches
     "PLR0915",  # Too many statements
     "PT023",    # Use `@pytest.mark.asyncio()` over `@pytest.mark.asyncio`
