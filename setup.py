@@ -19,7 +19,7 @@ setup(
     license="Apache-2.0 License",
     packages=["nextdns"],
     package_data={"nextdns": ["py.typed"]},
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     install_requires=["aiohttp>=3.7.0"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
