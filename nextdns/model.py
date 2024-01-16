@@ -190,7 +190,7 @@ class Profile(NextDnsData):
     allowlist: list[dict[str, Any]]
     denylist: list[dict[str, Any]]
     fingerprint: str
-    id: str  # noqa: A003
+    id: str
     name: str
     parental_control: dict[str, Any]
     privacy: dict[str, Any]
@@ -290,7 +290,7 @@ class Settings(NextDnsData):
 class ProfileInfo(NextDnsData):
     """ProfileInfo class."""
 
-    id: str  # noqa: A003
+    id: str
     fingerprint: str
     name: str
 
