@@ -31,8 +31,8 @@ from nextdns.const import ATTR_BLOCK_PAGE
 PROFILE_ID = "fakepr"
 
 
-@pytest.mark.asyncio
-async def test_valid_data():  # pylint: disable=too-many-locals,too-many-statements
+@pytest.mark.asyncio()
+async def test_valid_data() -> None:
     """Test with valid data."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -217,8 +217,8 @@ async def test_valid_data():  # pylint: disable=too-many-locals,too-many-stateme
     assert nextdns.get_profile_id("Fake Profile") == PROFILE_ID
 
 
-@pytest.mark.asyncio
-async def test_profile_id_not_found():
+@pytest.mark.asyncio()
+async def test_profile_id_not_found() -> None:
     """Test with wrong profile id."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -236,8 +236,8 @@ async def test_profile_id_not_found():
         nextdns.get_profile_name("xxyyxx")
 
 
-@pytest.mark.asyncio
-async def test_profile_name_not_found():
+@pytest.mark.asyncio()
+async def test_profile_name_not_found() -> None:
     """Test with wrong name id."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -255,8 +255,8 @@ async def test_profile_name_not_found():
         nextdns.get_profile_id("Profile Name")
 
 
-@pytest.mark.asyncio
-async def test_clear_logs():
+@pytest.mark.asyncio()
+async def test_clear_logs() -> None:
     """Test clear_logs() method."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -279,8 +279,8 @@ async def test_clear_logs():
     assert result is True
 
 
-@pytest.mark.asyncio
-async def test_get_logs():
+@pytest.mark.asyncio()
+async def test_get_logs() -> None:
     """Test get_logs() method."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -307,7 +307,7 @@ async def test_get_logs():
     assert result == logs
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     ("setting", "url"),
     [
@@ -326,7 +326,7 @@ async def test_get_logs():
         ),
     ],
 )
-async def test_set_setting(setting, url):
+async def test_set_setting(setting: str, url: str) -> None:
     """Test set_setting() method."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -346,8 +346,8 @@ async def test_set_setting(setting, url):
     assert result is True
 
 
-@pytest.mark.asyncio
-async def test_set_parental_contrl_service():
+@pytest.mark.asyncio()
+async def test_set_parental_contrl_service() -> None:
     """Test set_setting() method for parental control service."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
@@ -377,7 +377,7 @@ async def test_set_parental_contrl_service():
     assert result is True
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_set_parental_contrl_category():
     """Test set_setting() method for parental control category."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
@@ -408,7 +408,7 @@ async def test_set_parental_contrl_category():
     assert result is True
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_set_not_supported_setting():
     """Test set_setting() method with not supported setting."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
@@ -427,7 +427,7 @@ async def test_set_not_supported_setting():
     await session.close()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_invalid_api_key():
     """Test error when provided API key is invalid."""
     session = aiohttp.ClientSession()
@@ -441,7 +441,7 @@ async def test_invalid_api_key():
     await session.close()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_api_error():
     """Test API error."""
     session = aiohttp.ClientSession()
@@ -461,7 +461,7 @@ async def test_api_error():
     await session.close()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_set_logs_retention():
     """Test set_logs_retention() method."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
@@ -485,7 +485,7 @@ async def test_set_logs_retention():
     assert result is True
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_set_logs_retention_with_invalid_value():
     """Test set_logs_retention() method with invalid value."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
@@ -510,7 +510,7 @@ async def test_set_logs_retention_with_invalid_value():
         await nextdns.set_logs_retention(PROFILE_ID, 999)
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_set_logs_location():
     """Test set_logs_location() method."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
@@ -534,7 +534,7 @@ async def test_set_logs_location():
     assert result is True
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_set_logs_location_with_invalid_value():
     """Test set_logs_location() method with invalid value."""
     with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
