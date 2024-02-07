@@ -2,7 +2,7 @@
 asyncio_mode = "strict"
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 show_error_codes = true
 follow_imports = "silent"
 ignore_missing_imports = true
@@ -22,7 +22,7 @@ warn_unused_ignores = true
 warn_unreachable = true
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 
 lint.select = ["ALL"]
 
@@ -46,7 +46,7 @@ lint.ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "model.py" = [
-    "ARG004",    # Unused static method argument    
+    "ARG004",    # Unused static method argument
 ]
 "tests/*" = [
     "ASYNC101",  # Async functions should not call `open`, `time.sleep`, or `subprocess` methods
