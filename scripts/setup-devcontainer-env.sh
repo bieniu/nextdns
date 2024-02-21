@@ -1,6 +1,5 @@
 #!/bin/bash
 
-pip install uv
-uv pip install --upgrade setuptools wheel
-uv pip --no-cache-dir install -r requirements-dev.txt
+pip3 install --upgrade pip setuptools wheel
+pip3 --disable-pip-version-check --no-cache-dir install -r requirements-dev.txt
 pre-commit install
