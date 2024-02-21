@@ -1,7 +1,8 @@
 #!/bin/bash
 
-python3.10 -m venv venv
+python3.11 -m pip install uv
+python3.11 -m uv venv venv --seed
 source venv/bin/activate
-pip3 install --upgrade pip setuptools wheel
-pip3 install -r requirements-dev.txt
+pip install uv
+uv pip install -r requirements-dev.txt
 pre-commit install
