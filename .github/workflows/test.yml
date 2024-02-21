@@ -28,8 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install uv
-          uv pip install tox tox-gh-actions
+          pip install uv tox tox-gh-actions tox-uv
 
       - name: Test with tox
         run: tox
