@@ -1,7 +1,9 @@
 #!/bin/bash
 
-python3.11 -m pip install uv
-python3.11 -m uv venv venv --seed
+PYTHON_VERSION=3.11
+
+python$PYTHON_VERSION -m pip install uv
+python$PYTHON_VERSION -m uv venv venv --seed --python=$PYTHON_VERSION
 source venv/bin/activate
 pip install uv
 uv pip install -r requirements-dev.txt
