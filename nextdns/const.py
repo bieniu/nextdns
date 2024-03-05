@@ -1,4 +1,5 @@
 """NextDNS constants."""
+
 from .model import (
     ApiNames,
     ParentalControlCategories,

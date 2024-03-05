@@ -1,4 +1,5 @@
 """Python wrapper for NextDNS API."""
+
 from __future__ import annotations
 
 import asyncio
