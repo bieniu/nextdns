@@ -1,4 +1,5 @@
 """Tests for nextdns package."""
+
 import json
 import re
 from http import HTTPStatus

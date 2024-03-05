@@ -1,4 +1,5 @@
 """Setup module for nextdns."""
+
 from pathlib import Path
 
 from setuptools import setup

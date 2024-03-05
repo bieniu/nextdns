@@ -1,4 +1,5 @@
 """Example of usage."""
+
 import asyncio
 import logging
 from dataclasses import astuple
