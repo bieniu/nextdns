@@ -3,6 +3,7 @@
 import json
 import re
 from http import HTTPStatus
+from pathlib import Path
 
 import aiohttp
 import pytest
@@ -35,21 +36,21 @@ PROFILE_ID = "fakepr"
 @pytest.mark.asyncio()
 async def test_valid_data() -> None:
     """Test with valid data."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
-    with open("tests/fixtures/dnssec.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/dnssec.json", encoding="utf-8") as file:
         dnssec_data = json.load(file)
-    with open("tests/fixtures/encryption.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/encryption.json", encoding="utf-8") as file:
         encryption_data = json.load(file)
-    with open("tests/fixtures/ip_versions.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/ip_versions.json", encoding="utf-8") as file:
         ip_versions_data = json.load(file)
-    with open("tests/fixtures/protocols.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/protocols.json", encoding="utf-8") as file:
         protocols_data = json.load(file)
-    with open("tests/fixtures/status.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/status.json", encoding="utf-8") as file:
         status_data = json.load(file)
-    with open("tests/fixtures/test.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/test.json", encoding="utf-8") as file:
         test_data = json.load(file)
-    with open("tests/fixtures/profile.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profile.json", encoding="utf-8") as file:
         profile_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -221,7 +222,7 @@ async def test_valid_data() -> None:
 @pytest.mark.asyncio()
 async def test_profile_id_not_found() -> None:
     """Test with wrong profile id."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -240,7 +241,7 @@ async def test_profile_id_not_found() -> None:
 @pytest.mark.asyncio()
 async def test_profile_name_not_found() -> None:
     """Test with wrong name id."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -259,7 +260,7 @@ async def test_profile_name_not_found() -> None:
 @pytest.mark.asyncio()
 async def test_clear_logs() -> None:
     """Test clear_logs() method."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -283,10 +284,10 @@ async def test_clear_logs() -> None:
 @pytest.mark.asyncio()
 async def test_get_logs() -> None:
     """Test get_logs() method."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
-    with open("tests/fixtures/logs.csv", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/logs.csv", encoding="utf-8") as file:
         logs = file.read()
 
     session = aiohttp.ClientSession()
@@ -329,7 +330,7 @@ async def test_get_logs() -> None:
 )
 async def test_set_setting(setting: str, url: str) -> None:
     """Test set_setting() method."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -350,7 +351,7 @@ async def test_set_setting(setting: str, url: str) -> None:
 @pytest.mark.asyncio()
 async def test_set_parental_contrl_service() -> None:
     """Test set_setting() method for parental control service."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -381,7 +382,7 @@ async def test_set_parental_contrl_service() -> None:
 @pytest.mark.asyncio()
 async def test_set_parental_contrl_category():
     """Test set_setting() method for parental control category."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -412,7 +413,7 @@ async def test_set_parental_contrl_category():
 @pytest.mark.asyncio()
 async def test_set_not_supported_setting():
     """Test set_setting() method with not supported setting."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -465,7 +466,7 @@ async def test_api_error():
 @pytest.mark.asyncio()
 async def test_set_logs_retention():
     """Test set_logs_retention() method."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -489,7 +490,7 @@ async def test_set_logs_retention():
 @pytest.mark.asyncio()
 async def test_set_logs_retention_with_invalid_value():
     """Test set_logs_retention() method with invalid value."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -514,7 +515,7 @@ async def test_set_logs_retention_with_invalid_value():
 @pytest.mark.asyncio()
 async def test_set_logs_location():
     """Test set_logs_location() method."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -538,7 +539,7 @@ async def test_set_logs_location():
 @pytest.mark.asyncio()
 async def test_set_logs_location_with_invalid_value():
     """Test set_logs_location() method with invalid value."""
-    with open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         profiles_data = json.load(file)
 
     session = aiohttp.ClientSession()
