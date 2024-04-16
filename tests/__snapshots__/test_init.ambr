@@ -1,0 +1,23 @@
+# serializer version: 1
+# name: test_valid_data
+  NextDns(
+    profiles=list([
+      ProfileInfo(id='fakepr', fingerprint='fakeprofile12', name='Fake Profile'),
+    ]),
+  )
+# ---
+# name: test_valid_data.1
+  AllAnalytics(dnssec=AnalyticsDnssec(not_validated_queries=793765, validated_queries=49451, validated_queries_ratio=5.9), encryption=AnalyticsEncryption(encrypted_queries=1380260, unencrypted_queries=40, encrypted_queries_ratio=100.0), ip_versions=AnalyticsIpVersions(ipv6_queries=42117, ipv4_queries=1338183, ipv6_queries_ratio=3.1), protocols=AnalyticsProtocols(doh_queries=99999, doh3_queries=88888, doq_queries=55555, dot_queries=101010, tcp_queries=33333, udp_queries=44444, doh_queries_ratio=23.6, doh3_queries_ratio=21.0, doq_queries_ratio=13.1, dot_queries_ratio=23.9, tcp_queries_ratio=7.9, udp_queries_ratio=10.5), status=AnalyticsStatus(all_queries=1380300, allowed_queries=5452, blocked_queries=530805, default_queries=837764, relayed_queries=6279, blocked_queries_ratio=38.5))
+# ---
+# name: test_valid_data.2
+  ConnectionStatus(connected=True, profile_id='fakepr')
+# ---
+# name: test_valid_data.3
+  Settings(block_page=False, cache_boost=True, cname_flattening=True, anonymized_ecs=True, logs=True, logs_location='ch', logs_retention=720, web3=True, allow_affiliate=True, block_disguised_trackers=True, ai_threat_detection=True, block_csam=True, block_ddns=True, block_nrd=True, block_parked_domains=True, cryptojacking_protection=True, dga_protection=True, dns_rebinding_protection=True, google_safe_browsing=True, idn_homograph_attacks_protection=True, threat_intelligence_feeds=True, typosquatting_protection=True, block_bypass_methods=True, safesearch=False, youtube_restricted_mode=False, block_9gag=False, block_amazon=False, block_bereal=False, block_blizzard=False, block_chatgpt=False, block_dailymotion=False, block_discord=False, block_disneyplus=False, block_ebay=False, block_facebook=False, block_fortnite=False, block_google_chat=False, block_hbomax=False, block_hulu=False, block_imgur=False, block_instagram=False, block_leagueoflegends=False, block_mastodon=False, block_messenger=False, block_minecraft=False, block_netflix=False, block_pinterest=False, block_playstation_network=False, block_primevideo=False, block_reddit=False, block_roblox=False, block_signal=False, block_skype=False, block_snapchat=False, block_spotify=False, block_steam=False, block_telegram=False, block_tiktok=False, block_tinder=False, block_tumblr=False, block_twitch=False, block_twitter=False, block_vimeo=False, block_vk=False, block_whatsapp=False, block_xboxlive=False, block_youtube=False, block_zoom=False, block_dating=True, block_gambling=True, block_piracy=True, block_porn=True, block_social_networks=False, block_online_gaming=False, block_video_streaming=False)
+# ---
+# name: test_valid_data.4
+  'Fake Profile'
+# ---
+# name: test_valid_data.5
+  'fakepr'
+# ---
