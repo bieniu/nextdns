@@ -4,6 +4,7 @@ import json
 import re
 from http import HTTPStatus
 from pathlib import Path
+from typing import Any
 
 import aiohttp
 import pytest
@@ -35,10 +36,10 @@ PROFILE_ID = "fakepr"
 
 
 @pytest.mark.asyncio()
-async def test_valid_data(snapshot: SnapshotAssertion) -> None:
+async def test_valid_data(
+    snapshot: SnapshotAssertion, profiles_data: dict[str, Any]
+) -> None:
     """Test with valid data."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
     with Path.open("tests/fixtures/dnssec.json", encoding="utf-8") as file:
         dnssec_data = json.load(file)
     with Path.open("tests/fixtures/encryption.json", encoding="utf-8") as file:
@@ -103,11 +104,8 @@ async def test_valid_data(snapshot: SnapshotAssertion) -> None:
 
 
 @pytest.mark.asyncio()
-async def test_profile_id_not_found() -> None:
+async def test_profile_id_not_found(profiles_data: dict[str, Any]) -> None:
     """Test with wrong profile id."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -122,11 +120,8 @@ async def test_profile_id_not_found() -> None:
 
 
 @pytest.mark.asyncio()
-async def test_profile_name_not_found() -> None:
+async def test_profile_name_not_found(profiles_data: dict[str, Any]) -> None:
     """Test with wrong name id."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -141,11 +136,8 @@ async def test_profile_name_not_found() -> None:
 
 
 @pytest.mark.asyncio()
-async def test_clear_logs() -> None:
+async def test_clear_logs(profiles_data: dict[str, Any]) -> None:
     """Test clear_logs() method."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -165,11 +157,8 @@ async def test_clear_logs() -> None:
 
 
 @pytest.mark.asyncio()
-async def test_get_logs() -> None:
+async def test_get_logs(profiles_data: dict[str, Any]) -> None:
     """Test get_logs() method."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     with Path.open("tests/fixtures/logs.csv", encoding="utf-8") as file:
         logs = file.read()
 
@@ -211,11 +200,10 @@ async def test_get_logs() -> None:
         ),
     ],
 )
-async def test_set_setting(setting: str, url: str) -> None:
+async def test_set_setting(
+    setting: str, url: str, profiles_data: dict[str, Any]
+) -> None:
     """Test set_setting() method."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -232,11 +220,8 @@ async def test_set_setting(setting: str, url: str) -> None:
 
 
 @pytest.mark.asyncio()
-async def test_set_parental_contrl_service() -> None:
+async def test_set_parental_contrl_service(profiles_data: dict[str, Any]) -> None:
     """Test set_setting() method for parental control service."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -263,11 +248,8 @@ async def test_set_parental_contrl_service() -> None:
 
 
 @pytest.mark.asyncio()
-async def test_set_parental_contrl_category():
+async def test_set_parental_contrl_category(profiles_data: dict[str, Any]):
     """Test set_setting() method for parental control category."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -294,11 +276,8 @@ async def test_set_parental_contrl_category():
 
 
 @pytest.mark.asyncio()
-async def test_set_not_supported_setting():
+async def test_set_not_supported_setting(profiles_data: dict[str, Any]):
     """Test set_setting() method with not supported setting."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -347,11 +326,8 @@ async def test_api_error():
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_retention():
+async def test_set_logs_retention(profiles_data: dict[str, Any]):
     """Test set_logs_retention() method."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -371,11 +347,8 @@ async def test_set_logs_retention():
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_retention_with_invalid_value():
+async def test_set_logs_retention_with_invalid_value(profiles_data: dict[str, Any]):
     """Test set_logs_retention() method with invalid value."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -396,11 +369,8 @@ async def test_set_logs_retention_with_invalid_value():
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_location():
+async def test_set_logs_location(profiles_data: dict[str, Any]):
     """Test set_logs_location() method."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
@@ -420,11 +390,8 @@ async def test_set_logs_location():
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_location_with_invalid_value():
+async def test_set_logs_location_with_invalid_value(profiles_data: dict[str, Any]):
     """Test set_logs_location() method with invalid value."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
-        profiles_data = json.load(file)
-
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock:
