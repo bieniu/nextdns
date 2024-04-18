@@ -34,7 +34,7 @@ include-labels:
   - "new-feature"
   - "bugfix"
   - "dependencies"
-  - "test"
+  - "tests"
   - "ci"
 
 template: |
