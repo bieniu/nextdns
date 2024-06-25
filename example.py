@@ -55,6 +55,8 @@ async def main() -> None:
             print(f"API Error: {error.status}")
         except ClientConnectorError as error:
             print(f"ClientConnectorError: {error}")
+        except TimeoutError as error:
+            print(f"TimeoutError: {error}")
         else:
             print(
                 f"Profile: {profile_name} "
