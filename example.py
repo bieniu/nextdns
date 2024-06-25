@@ -5,6 +5,7 @@ import logging
 from dataclasses import astuple
 
 from aiohttp import ClientConnectorError, ClientSession
+from tenacity import RetryError
 
 from nextdns import ApiError, InvalidApiKeyError, NextDns
 
@@ -57,6 +58,8 @@ async def main() -> None:
             print(f"ClientConnectorError: {error}")
         except TimeoutError as error:
             print(f"TimeoutError: {error}")
+        except RetryError as error:
+            print(f"RetryError: {error}")
         else:
             print(
                 f"Profile: {profile_name} "

@@ -46,7 +46,10 @@ from .const import (
     MAP_STATUS,
     PARENTAL_CONTROL_CATEGORIES,
     PARENTAL_CONTROL_SERVICES,
+    STOP_AFTER_ATTEMPT,
     TIMEOUT,
+    WAIT_INCREMENT,
+    WAIT_START,
 )
 from .exceptions import (
     ApiError,
@@ -97,12 +100,24 @@ class NextDns:
         _LOGGER.debug("Initializing with API Key: %s...", self._api_key[:10])
         self._profiles = list(self._parse_profiles(await self.get_profiles()))
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_profiles(self) -> list[dict[str, str]]:
         """Get all profiles."""
         url = ENDPOINTS[ATTR_PROFILES]
 
         return cast(list[dict[str, str]], await self._http_request("get", url))
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_profile(self, profile_id: str) -> Profile:
         """Get profile."""
         url = ENDPOINTS[ATTR_PROFILE].format(profile_id=profile_id)
@@ -222,6 +237,12 @@ class NextDns:
             ),
         )
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
         """Get profile analytics status."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="status")
@@ -231,6 +252,12 @@ class NextDns:
             **{MAP_STATUS[item["status"]]: item["queries"] for item in resp}
         )
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_analytics_dnssec(self, profile_id: str) -> AnalyticsDnssec:
         """Get profile analytics dnssec."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="dnssec")
@@ -240,6 +267,12 @@ class NextDns:
             **{MAP_DNSSEC[item["validated"]]: item["queries"] for item in resp}
         )
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_analytics_encryption(self, profile_id: str) -> AnalyticsEncryption:
         """Get profile analytics encryption."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="encryption")
@@ -249,6 +282,12 @@ class NextDns:
             **{MAP_ENCRYPTED[item["encrypted"]]: item["queries"] for item in resp}
         )
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_analytics_ip_versions(self, profile_id: str) -> AnalyticsIpVersions:
         """Get profile analytics IP versions."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="ipVersions")
@@ -258,6 +297,12 @@ class NextDns:
             **{MAP_IP_VERSIONS[item["version"]]: item["queries"] for item in resp}
         )
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_analytics_protocols(self, profile_id: str) -> AnalyticsProtocols:
         """Get profile analytics protocols."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="protocols")
@@ -267,6 +312,12 @@ class NextDns:
             **{MAP_PROTOCOLS[item["protocol"]]: item["queries"] for item in resp}
         )
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def connection_status(self, profile_id: str) -> ConnectionStatus:
         """Return True if the device is using NextDNS."""
         url = ENDPOINTS[ATTR_TEST].format(profile_id=profile_id)
@@ -287,6 +338,12 @@ class NextDns:
 
         return result.get("success", False) is True
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def get_logs(self, profile_id: str) -> str:
         """Get NextDNS logs."""
         url = ENDPOINTS[ATTR_GET_LOGS].format(profile_id=profile_id)
@@ -377,12 +434,6 @@ class NextDns:
 
         return resp.get("success", False) is True
 
-    @retry(
-        retry=retry_if_exception_type(ApiError),
-        stop=stop_after_attempt(4),
-        wait=wait_incrementing(start=2, increment=2),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
     async def _http_request(
         self, method: str, url: str, data: dict[str, Any] | None = None
     ) -> Any:
