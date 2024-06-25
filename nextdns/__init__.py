@@ -9,6 +9,13 @@ from http import HTTPStatus
 from typing import Any, cast
 
 from aiohttp import ClientSession
+from tenacity import (
+    after_log,
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_incrementing,
+)
 
 from .const import (
     ALLOWED_LOGS_LOCATION,
@@ -370,6 +377,12 @@ class NextDns:
 
         return resp.get("success", False) is True
 
+    @retry(
+        retry=retry_if_exception_type(ApiError),
+        stop=stop_after_attempt(4),
+        wait=wait_incrementing(start=2, increment=2),
+        after=after_log(_LOGGER, logging.DEBUG),
+    )
     async def _http_request(
         self, method: str, url: str, data: dict[str, Any] | None = None
     ) -> Any:
@@ -400,7 +413,9 @@ class NextDns:
         if resp.status != HTTPStatus.OK.value:
             result = await resp.json()
             error = result["errors"][0]
-            raise ApiError(f"{resp.status}, {error['code']}, {error.get('detail')}")
+            raise ApiError(
+                f"{resp.status}, {error['code']}, {error.get('detail', 'no detail')}"
+            )
 
         if resp.content_type == "application/json":
             result = await resp.json()

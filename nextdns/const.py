@@ -323,4 +323,4 @@ MAP_SETTING = {
 ALLOWED_LOGS_LOCATION = ("ch", "eu", "gb", "us")
 ALLOWED_LOGS_RETENTION = (1, 6, 24, 168, 720, 2160, 4320, 8760, 17520)
 
-TIMEOUT = ClientTimeout(total=20)
+TIMEOUT = ClientTimeout(total=5)
