@@ -39,6 +39,7 @@ from .const import (
     MAP_STATUS,
     PARENTAL_CONTROL_CATEGORIES,
     PARENTAL_CONTROL_SERVICES,
+    TIMEOUT,
 )
 from .exceptions import (
     ApiError,
@@ -381,6 +382,7 @@ class NextDns:
                 url,
                 headers=self._headers,
                 json=data,
+                timeout=TIMEOUT,
             )
         else:
             resp = await self._session.request(method, url, headers=self._headers)
