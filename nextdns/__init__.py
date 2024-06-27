@@ -451,7 +451,7 @@ class NextDns:
         else:
             resp = await self._session.request(method, url, headers=self._headers)
 
-        _LOGGER.debug("Response status: %s", resp.status)
+        _LOGGER.debug("Response status %s for %s", resp.status, url)
 
         if resp.status == HTTPStatus.FORBIDDEN.value:
             raise InvalidApiKeyError
