@@ -334,8 +334,8 @@ async def test_retry_error():
         assert "RetryError" in str(exc.value)
 
     assert sleep_mock.call_count == 2
-    assert sleep_mock.call_args_list[0][0][0] == 1
-    assert sleep_mock.call_args_list[1][0][0] == 2
+    assert sleep_mock.call_args_list[0][0][0] == 2
+    assert sleep_mock.call_args_list[1][0][0] == 4
 
     await session.close()
 
@@ -361,8 +361,8 @@ async def test_retry_success(profiles_data: dict[str, Any]):
         await NextDns.create(session, "fakeapikey")
 
     assert sleep_mock.call_count == 2
-    assert sleep_mock.call_args_list[0][0][0] == 1
-    assert sleep_mock.call_args_list[1][0][0] == 2
+    assert sleep_mock.call_args_list[0][0][0] == 2
+    assert sleep_mock.call_args_list[1][0][0] == 4
 
     await session.close()
 
