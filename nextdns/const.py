@@ -1,5 +1,7 @@
 """NextDNS constants."""
 
+from aiohttp import ClientTimeout
+
 from .model import (
     ApiNames,
     ParentalControlCategories,
@@ -320,3 +322,8 @@ MAP_SETTING = {
 
 ALLOWED_LOGS_LOCATION = ("ch", "eu", "gb", "us")
 ALLOWED_LOGS_RETENTION = (1, 6, 24, 168, 720, 2160, 4320, 8760, 17520)
+
+TIMEOUT = ClientTimeout(total=5)
+STOP_AFTER_ATTEMPT = 3
+WAIT_INCREMENT = 2
+WAIT_START = 2
