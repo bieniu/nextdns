@@ -5,11 +5,13 @@ import re
 from http import HTTPStatus
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 import aiohttp
 import pytest
 from aioresponses import aioresponses
 from syrupy import SnapshotAssertion
+from tenacity import RetryError
 
 from nextdns import (
     ATTR_ANALYTICS,
@@ -23,7 +25,6 @@ from nextdns import (
     ATTR_TEST,
     ENDPOINTS,
     MAP_SETTING,
-    ApiError,
     InvalidApiKeyError,
     NextDns,
     ProfileIdNotFoundError,
@@ -88,14 +89,14 @@ async def test_valid_data(
 
         nextdns = await NextDns.create(session, "fakeapikey")
 
-        analitycs = await nextdns.get_all_analytics(PROFILE_ID)
+        analytics = await nextdns.get_all_analytics(PROFILE_ID)
         connection_status = await nextdns.connection_status(PROFILE_ID)
         settings = await nextdns.get_settings(PROFILE_ID)
 
     await session.close()
 
     assert nextdns == snapshot
-    assert analitycs == snapshot
+    assert analytics == snapshot
     assert connection_status == snapshot
     assert settings == snapshot
 
@@ -306,21 +307,62 @@ async def test_invalid_api_key():
 
 
 @pytest.mark.asyncio()
-async def test_api_error():
-    """Test API error."""
+async def test_retry_error():
+    """Test retry error."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock:
+    with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=HTTPStatus.BAD_REQUEST.value,
+            payload={"errors": [{"code": "badRequest"}]},
+        )
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=HTTPStatus.BAD_REQUEST.value,
+            payload={"errors": [{"code": "badRequest"}]},
+        )
         session_mock.get(
             ENDPOINTS[ATTR_PROFILES],
             status=HTTPStatus.BAD_REQUEST.value,
             payload={"errors": [{"code": "badRequest"}]},
         )
 
-        with pytest.raises(ApiError) as exc:
+        with pytest.raises(RetryError) as exc:
             await NextDns.create(session, "fakeapikey")
 
-        assert "400, badRequest, None" in str(exc.value)
+        assert "RetryError" in str(exc.value)
+
+    assert sleep_mock.call_count == 2
+    assert sleep_mock.call_args_list[0][0][0] == 1
+    assert sleep_mock.call_args_list[1][0][0] == 2
+
+    await session.close()
+
+
+@pytest.mark.asyncio()
+async def test_retry_success(profiles_data: dict[str, Any]):
+    """Test retry which succeeded."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=HTTPStatus.BAD_REQUEST.value,
+            payload={"errors": [{"code": "badRequest"}]},
+        )
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=HTTPStatus.BAD_REQUEST.value,
+            payload={"errors": [{"code": "badRequest"}]},
+        )
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+        await NextDns.create(session, "fakeapikey")
+
+    assert sleep_mock.call_count == 2
+    assert sleep_mock.call_args_list[0][0][0] == 1
+    assert sleep_mock.call_args_list[1][0][0] == 2
 
     await session.close()
 
