@@ -28,3 +28,7 @@ class ProfileNameNotFoundError(NextDnsError):
 
 class SettingNotSupportedError(NextDnsError):
     """Raised to indicate setting not supported error."""
+
+
+class TooManyRequestsError(NextDnsError):
+    """Raised to indicate setting not supported error."""

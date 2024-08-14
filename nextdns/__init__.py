@@ -57,6 +57,7 @@ from .exceptions import (
     ProfileIdNotFoundError,
     ProfileNameNotFoundError,
     SettingNotSupportedError,
+    TooManyRequestsError,
 )
 from .model import (
     AllAnalytics,
@@ -461,6 +462,8 @@ class NextDns:
             "post",
         ):
             return {"success": True}
+        if resp.status == HTTPStatus.TOO_MANY_REQUESTS.value:
+            raise TooManyRequestsError
         if resp.status != HTTPStatus.OK.value:
             if resp.content_type == "application/json":
                 result = await resp.json()

@@ -7,7 +7,7 @@ from dataclasses import astuple
 from aiohttp import ClientConnectorError, ClientSession
 from tenacity import RetryError
 
-from nextdns import ApiError, InvalidApiKeyError, NextDns
+from nextdns import ApiError, InvalidApiKeyError, NextDns, TooManyRequestsError
 
 API_KEY = "xxx"
 
@@ -52,6 +52,8 @@ async def main() -> None:
             print(error)
         except InvalidApiKeyError:
             print("Invalid API Key")
+        except TooManyRequestsError:
+            print("Too many requests")
         except ApiError as error:
             print(f"API Error: {error.status}")
         except ClientConnectorError as error:
