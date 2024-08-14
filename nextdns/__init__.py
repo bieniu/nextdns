@@ -462,11 +462,14 @@ class NextDns:
         ):
             return {"success": True}
         if resp.status != HTTPStatus.OK.value:
-            result = await resp.json()
-            error = result["errors"][0]
-            raise ApiError(
-                f"{resp.status}, {error['code']}, {error.get('detail', 'no detail')}"
-            )
+            if resp.content_type == "application/json":
+                result = await resp.json()
+                error = result["errors"][0]
+                raise ApiError(
+                    f"{resp.status}, {error['code']}, "
+                    f"{error.get('detail', 'no detail')}"
+                )
+            raise ApiError(f"{resp.status}, {resp.text()}")
 
         if resp.content_type == "application/json":
             result = await resp.json()
