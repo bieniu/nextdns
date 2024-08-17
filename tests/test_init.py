@@ -5,7 +5,7 @@ import re
 from http import HTTPStatus
 from pathlib import Path
 from typing import Any
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import aiohttp
 import pytest
@@ -249,7 +249,7 @@ async def test_set_parental_contrl_service(profiles_data: dict[str, Any]) -> Non
 
 
 @pytest.mark.asyncio()
-async def test_set_parental_contrl_category(profiles_data: dict[str, Any]):
+async def test_set_parental_contrl_category(profiles_data: dict[str, Any]) -> None:
     """Test set_setting() method for parental control category."""
     session = aiohttp.ClientSession()
 
@@ -277,7 +277,7 @@ async def test_set_parental_contrl_category(profiles_data: dict[str, Any]):
 
 
 @pytest.mark.asyncio()
-async def test_set_not_supported_setting(profiles_data: dict[str, Any]):
+async def test_set_not_supported_setting(profiles_data: dict[str, Any]) -> None:
     """Test set_setting() method with not supported setting."""
     session = aiohttp.ClientSession()
 
@@ -293,7 +293,7 @@ async def test_set_not_supported_setting(profiles_data: dict[str, Any]):
 
 
 @pytest.mark.asyncio()
-async def test_invalid_api_key():
+async def test_invalid_api_key() -> None:
     """Test error when provided API key is invalid."""
     session = aiohttp.ClientSession()
 
@@ -306,26 +306,26 @@ async def test_invalid_api_key():
     await session.close()
 
 
+@pytest.mark.parametrize(
+    "exception", [TimeoutError, aiohttp.ClientConnectorError(Mock(), Mock())]
+)
 @pytest.mark.asyncio()
-async def test_retry_error():
+async def test_retry_error(exception: Exception) -> None:
     """Test retry error."""
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
         session_mock.get(
             ENDPOINTS[ATTR_PROFILES],
-            status=HTTPStatus.BAD_REQUEST.value,
-            payload={"errors": [{"code": "badRequest"}]},
+            exception=exception,
         )
         session_mock.get(
             ENDPOINTS[ATTR_PROFILES],
-            status=HTTPStatus.BAD_REQUEST.value,
-            payload={"errors": [{"code": "badRequest"}]},
+            exception=exception,
         )
         session_mock.get(
             ENDPOINTS[ATTR_PROFILES],
-            status=HTTPStatus.BAD_REQUEST.value,
-            payload={"errors": [{"code": "badRequest"}]},
+            exception=exception,
         )
 
         with pytest.raises(RetryError) as exc:
@@ -340,21 +340,24 @@ async def test_retry_error():
     await session.close()
 
 
+@pytest.mark.parametrize(
+    "exception", [TimeoutError, aiohttp.ClientConnectorError(Mock(), Mock())]
+)
 @pytest.mark.asyncio()
-async def test_retry_success(profiles_data: dict[str, Any]):
+async def test_retry_success(
+    profiles_data: dict[str, Any], exception: Exception
+) -> None:
     """Test retry which succeeded."""
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
         session_mock.get(
             ENDPOINTS[ATTR_PROFILES],
-            status=HTTPStatus.BAD_REQUEST.value,
-            payload={"errors": [{"code": "badRequest"}]},
+            exception=exception,
         )
         session_mock.get(
             ENDPOINTS[ATTR_PROFILES],
-            status=HTTPStatus.BAD_REQUEST.value,
-            payload={"errors": [{"code": "badRequest"}]},
+            exception=exception,
         )
         session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
 
@@ -368,7 +371,7 @@ async def test_retry_success(profiles_data: dict[str, Any]):
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_retention(profiles_data: dict[str, Any]):
+async def test_set_logs_retention(profiles_data: dict[str, Any]) -> None:
     """Test set_logs_retention() method."""
     session = aiohttp.ClientSession()
 
@@ -389,7 +392,9 @@ async def test_set_logs_retention(profiles_data: dict[str, Any]):
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_retention_with_invalid_value(profiles_data: dict[str, Any]):
+async def test_set_logs_retention_with_invalid_value(
+    profiles_data: dict[str, Any],
+) -> None:
     """Test set_logs_retention() method with invalid value."""
     session = aiohttp.ClientSession()
 
@@ -411,7 +416,7 @@ async def test_set_logs_retention_with_invalid_value(profiles_data: dict[str, An
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_location(profiles_data: dict[str, Any]):
+async def test_set_logs_location(profiles_data: dict[str, Any]) -> None:
     """Test set_logs_location() method."""
     session = aiohttp.ClientSession()
 
@@ -432,7 +437,9 @@ async def test_set_logs_location(profiles_data: dict[str, Any]):
 
 
 @pytest.mark.asyncio()
-async def test_set_logs_location_with_invalid_value(profiles_data: dict[str, Any]):
+async def test_set_logs_location_with_invalid_value(
+    profiles_data: dict[str, Any],
+) -> None:
     """Test set_logs_location() method with invalid value."""
     session = aiohttp.ClientSession()
 
