@@ -8,7 +8,7 @@ from collections.abc import Iterable
 from http import HTTPStatus
 from typing import Any, cast
 
-from aiohttp import ClientSession
+from aiohttp import ClientConnectorError, ClientSession
 from tenacity import (
     after_log,
     retry,
@@ -101,7 +101,7 @@ class NextDns:
         self._profiles = list(self._parse_profiles(await self.get_profiles()))
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -113,7 +113,7 @@ class NextDns:
         return cast(list[dict[str, str]], await self._http_request("get", url))
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -238,7 +238,7 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -253,7 +253,7 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -268,7 +268,7 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -283,7 +283,7 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -298,7 +298,7 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -313,7 +313,7 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -339,7 +339,7 @@ class NextDns:
         return result.get("success", False) is True
 
     @retry(
-        retry=retry_if_exception_type(ApiError),
+        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -461,12 +461,17 @@ class NextDns:
             "post",
         ):
             return {"success": True}
+        if resp.status == HTTPStatus.TOO_MANY_REQUESTS.value:
+            raise ApiError("Too many requests")
         if resp.status != HTTPStatus.OK.value:
-            result = await resp.json()
-            error = result["errors"][0]
-            raise ApiError(
-                f"{resp.status}, {error['code']}, {error.get('detail', 'no detail')}"
-            )
+            if resp.content_type == "application/json":
+                result = await resp.json()
+                error = result["errors"][0]
+                raise ApiError(
+                    f"{resp.status}, {error['code']}, "
+                    f"{error.get('detail', 'no detail')}"
+                )
+            raise ApiError(f"{resp.status}, {await resp.text()}")
 
         if resp.content_type == "application/json":
             result = await resp.json()
