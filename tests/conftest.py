@@ -10,14 +10,14 @@ from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.location import PyTestLocation
 
 
-@pytest.fixture()
+@pytest.fixture
 def profiles_data() -> dict[str, Any]:
     """Return the profiles data from the fixture file."""
     with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
         return json.load(file)
 
 
-@pytest.fixture()
+@pytest.fixture
 def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     """Return snapshot assertion fixture."""
     return snapshot.use_extension(SnapshotExtension)
