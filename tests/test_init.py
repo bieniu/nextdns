@@ -36,7 +36,7 @@ from nextdns.const import ATTR_BLOCK_PAGE
 PROFILE_ID = "fakepr"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_valid_data(
     snapshot: SnapshotAssertion, profiles_data: dict[str, Any]
 ) -> None:
@@ -104,7 +104,7 @@ async def test_valid_data(
     assert nextdns.get_profile_id("Fake Profile") == snapshot
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_profile_id_not_found(profiles_data: dict[str, Any]) -> None:
     """Test with wrong profile id."""
     session = aiohttp.ClientSession()
@@ -120,7 +120,7 @@ async def test_profile_id_not_found(profiles_data: dict[str, Any]) -> None:
         nextdns.get_profile_name("xxyyxx")
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_profile_name_not_found(profiles_data: dict[str, Any]) -> None:
     """Test with wrong name id."""
     session = aiohttp.ClientSession()
@@ -136,7 +136,7 @@ async def test_profile_name_not_found(profiles_data: dict[str, Any]) -> None:
         nextdns.get_profile_id("Profile Name")
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_clear_logs(profiles_data: dict[str, Any]) -> None:
     """Test clear_logs() method."""
     session = aiohttp.ClientSession()
@@ -157,7 +157,7 @@ async def test_clear_logs(profiles_data: dict[str, Any]) -> None:
     assert result is True
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_get_logs(profiles_data: dict[str, Any]) -> None:
     """Test get_logs() method."""
     with Path.open("tests/fixtures/logs.csv", encoding="utf-8") as file:
@@ -182,7 +182,7 @@ async def test_get_logs(profiles_data: dict[str, Any]) -> None:
     assert result == logs
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     ("setting", "url"),
     [
@@ -220,7 +220,7 @@ async def test_set_setting(
     assert result is True
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_set_parental_contrl_service(profiles_data: dict[str, Any]) -> None:
     """Test set_setting() method for parental control service."""
     session = aiohttp.ClientSession()
@@ -248,7 +248,7 @@ async def test_set_parental_contrl_service(profiles_data: dict[str, Any]) -> Non
     assert result is True
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_set_parental_contrl_category(profiles_data: dict[str, Any]) -> None:
     """Test set_setting() method for parental control category."""
     session = aiohttp.ClientSession()
@@ -276,7 +276,7 @@ async def test_set_parental_contrl_category(profiles_data: dict[str, Any]) -> No
     assert result is True
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_set_not_supported_setting(profiles_data: dict[str, Any]) -> None:
     """Test set_setting() method with not supported setting."""
     session = aiohttp.ClientSession()
@@ -292,7 +292,7 @@ async def test_set_not_supported_setting(profiles_data: dict[str, Any]) -> None:
     await session.close()
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_invalid_api_key() -> None:
     """Test error when provided API key is invalid."""
     session = aiohttp.ClientSession()
@@ -309,7 +309,7 @@ async def test_invalid_api_key() -> None:
 @pytest.mark.parametrize(
     "exception", [TimeoutError, aiohttp.ClientConnectorError(Mock(), Mock())]
 )
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_retry_error(exception: Exception) -> None:
     """Test retry error."""
     session = aiohttp.ClientSession()
@@ -343,7 +343,7 @@ async def test_retry_error(exception: Exception) -> None:
 @pytest.mark.parametrize(
     "exception", [TimeoutError, aiohttp.ClientConnectorError(Mock(), Mock())]
 )
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_retry_success(
     profiles_data: dict[str, Any], exception: Exception
 ) -> None:
@@ -370,7 +370,7 @@ async def test_retry_success(
     await session.close()
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_set_logs_retention(profiles_data: dict[str, Any]) -> None:
     """Test set_logs_retention() method."""
     session = aiohttp.ClientSession()
@@ -391,7 +391,7 @@ async def test_set_logs_retention(profiles_data: dict[str, Any]) -> None:
     assert result is True
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_set_logs_retention_with_invalid_value(
     profiles_data: dict[str, Any],
 ) -> None:
@@ -415,7 +415,7 @@ async def test_set_logs_retention_with_invalid_value(
         await nextdns.set_logs_retention(PROFILE_ID, 999)
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_set_logs_location(profiles_data: dict[str, Any]) -> None:
     """Test set_logs_location() method."""
     session = aiohttp.ClientSession()
@@ -436,7 +436,7 @@ async def test_set_logs_location(profiles_data: dict[str, Any]) -> None:
     assert result is True
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_set_logs_location_with_invalid_value(
     profiles_data: dict[str, Any],
 ) -> None:
