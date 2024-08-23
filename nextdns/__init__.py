@@ -471,7 +471,7 @@ class NextDns:
                     f"{resp.status}, {error['code']}, "
                     f"{error.get('detail', 'no detail')}"
                 )
-            raise ApiError(f"{resp.status}, {await resp.text()}")
+            raise ApiError(f"Error code: {resp.status}")
 
         if resp.content_type == "application/json":
             result = await resp.json()
