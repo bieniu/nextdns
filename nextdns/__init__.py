@@ -12,6 +12,7 @@ from aiohttp import ClientConnectorError, ClientSession
 from tenacity import (
     after_log,
     retry,
+    retry_if_exception_message,
     retry_if_exception_type,
     stop_after_attempt,
     wait_incrementing,
@@ -101,7 +102,10 @@ class NextDns:
         self._profiles = list(self._parse_profiles(await self.get_profiles()))
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -113,7 +117,10 @@ class NextDns:
         return cast(list[dict[str, str]], await self._http_request("get", url))
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -238,7 +245,10 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -253,7 +263,10 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -268,7 +281,10 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -283,7 +299,10 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -298,7 +317,10 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -313,7 +335,10 @@ class NextDns:
         )
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
@@ -339,7 +364,10 @@ class NextDns:
         return result.get("success", False) is True
 
     @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+        retry=(
+            retry_if_exception_type((TimeoutError, ClientConnectorError))
+            | retry_if_exception_message("Error code: 524")
+        ),
         stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
         wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
         after=after_log(_LOGGER, logging.DEBUG),
