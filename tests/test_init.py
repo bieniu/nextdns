@@ -316,18 +316,7 @@ async def test_retry_error(exception: Exception) -> None:
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
-        session_mock.get(
-            ENDPOINTS[ATTR_PROFILES],
-            exception=exception,
-        )
-        session_mock.get(
-            ENDPOINTS[ATTR_PROFILES],
-            exception=exception,
-        )
-        session_mock.get(
-            ENDPOINTS[ATTR_PROFILES],
-            exception=exception,
-        )
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], exception=exception, repeat=True)
 
         with pytest.raises(RetryError) as exc:
             await NextDns.create(session, "fakeapikey")
