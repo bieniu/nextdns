@@ -371,6 +371,27 @@ async def test_retry_success(
 
 
 @pytest.mark.asyncio
+async def test_retry_after_524(profiles_data: dict[str, Any]) -> None:
+    """Test retry after HTTP status code 524."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=524,
+            payload="Timeout Error",
+        )
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+        await NextDns.create(session, "fakeapikey")
+
+    assert sleep_mock.call_count == 1
+    assert sleep_mock.call_args_list[0][0][0] == 2
+
+    await session.close()
+
+
+@pytest.mark.asyncio
 async def test_set_logs_retention(profiles_data: dict[str, Any]) -> None:
     """Test set_logs_retention() method."""
     session = aiohttp.ClientSession()
