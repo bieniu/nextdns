@@ -37,6 +37,7 @@ from .const import (
     ATTR_TEST,
     ATTR_WEB3,
     ENDPOINTS,
+    HTTP_STATUS_TIMEOUT,
     MAP_DNSSEC,
     MAP_ENCRYPTED,
     MAP_IP_VERSIONS,
@@ -463,6 +464,8 @@ class NextDns:
             return {"success": True}
         if resp.status == HTTPStatus.TOO_MANY_REQUESTS.value:
             raise ApiError("Too many requests")
+        if resp.status == HTTP_STATUS_TIMEOUT:
+            raise TimeoutError("Timeout occurred: HTTP 524")
         if resp.status != HTTPStatus.OK.value:
             if resp.content_type == "application/json":
                 result = await resp.json()

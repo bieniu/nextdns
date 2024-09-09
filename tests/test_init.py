@@ -25,6 +25,7 @@ from nextdns import (
     ATTR_TEST,
     ENDPOINTS,
     MAP_SETTING,
+    ApiError,
     InvalidApiKeyError,
     NextDns,
     ProfileIdNotFoundError,
@@ -315,18 +316,7 @@ async def test_retry_error(exception: Exception) -> None:
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
-        session_mock.get(
-            ENDPOINTS[ATTR_PROFILES],
-            exception=exception,
-        )
-        session_mock.get(
-            ENDPOINTS[ATTR_PROFILES],
-            exception=exception,
-        )
-        session_mock.get(
-            ENDPOINTS[ATTR_PROFILES],
-            exception=exception,
-        )
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], exception=exception, repeat=True)
 
         with pytest.raises(RetryError) as exc:
             await NextDns.create(session, "fakeapikey")
@@ -366,6 +356,63 @@ async def test_retry_success(
     assert sleep_mock.call_count == 2
     assert sleep_mock.call_args_list[0][0][0] == 2
     assert sleep_mock.call_args_list[1][0][0] == 4
+
+    await session.close()
+
+
+@pytest.mark.asyncio
+async def test_retry_after_524(profiles_data: dict[str, Any]) -> None:
+    """Test retry after HTTP status code 524."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, patch("asyncio.sleep") as sleep_mock:
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=524,
+            payload="Timeout Error",
+        )
+        session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+        await NextDns.create(session, "fakeapikey")
+
+    assert sleep_mock.call_count == 1
+    assert sleep_mock.call_args_list[0][0][0] == 2
+
+    await session.close()
+
+
+@pytest.mark.asyncio
+async def test_too_many_requests() -> None:
+    """Test too many requests."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=429,
+        )
+
+        with pytest.raises(ApiError, match=re.escape("Too many requests")):
+            await NextDns.create(session, "fakeapikey")
+
+    await session.close()
+
+
+@pytest.mark.asyncio
+async def test_error_with_html() -> None:
+    """Test error status code with text/html error response."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock:
+        session_mock.get(
+            ENDPOINTS[ATTR_PROFILES],
+            status=523,
+            content_type="text/html",
+            payload="origin is unreachable",
+        )
+
+        with pytest.raises(ApiError, match=re.escape("Error code: 523")):
+            await NextDns.create(session, "fakeapikey")
 
     await session.close()
 
