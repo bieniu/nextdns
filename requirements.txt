@@ -1,2 +1,2 @@
-aiohttp>=3.10.6
+aiohttp>=3.9.4
 tenacity

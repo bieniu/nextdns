@@ -21,7 +21,7 @@ setup(
     packages=["nextdns"],
     package_data={"nextdns": ["py.typed"]},
     python_requires=">=3.12",
-    install_requires=["aiohttp>=3.10.6", "tenacity"],
+    install_requires=["aiohttp>=3.9.4", "tenacity"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: Apache Software License",
