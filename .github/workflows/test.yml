@@ -40,4 +40,4 @@ jobs:
             tox-${{ runner.os }}-
 
       - name: Test with tox
-        run: tox - auto
+        run: tox -p auto
