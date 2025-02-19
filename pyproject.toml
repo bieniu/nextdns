@@ -61,15 +61,15 @@ max-complexity = 25
 [tool.coverage.run]
 source = ["nextdns"]
 
-[tox]
+[tool.tox]
 envlist = ["py312", "py313", "lint", "typing", "coverage"]
 skip_missing_interpreters = true
 
-[gh-actions.python]
+[tool.tox.gh-actions.python]
 "3.12" = ["py312", "lint", "typing", "coverage"]
 "3.13" = ["py313"]
 
-[testenv]
+[tool.tox.testenv]
 commands = [
   "pytest --timeout=30 --cov=nextdns --cov-report=xml {posargs} --error-for-skips"
 ]
@@ -78,7 +78,7 @@ deps = [
   "-rrequirements-test.txt"
 ]
 
-[testenv.lint]
+[tool.tox.testenv.lint]
 basepython = "python3"
 depends = ["py312"]
 ignore_errors = true
@@ -89,7 +89,7 @@ commands = [
   "ruff format --check ."
 ]
 
-[testenv.typing]
+[tool.tox.testenv.typing]
 basepython = "python3"
 depends = ["py312"]
 ignore_errors = true
@@ -99,7 +99,7 @@ commands = [
   "mypy nextdns"
 ]
 
-[testenv.coverage]
+[tool.tox.testenv.coverage]
 basepython = "python3"
 depends = ["py312"]
 skip_install = true
