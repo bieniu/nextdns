@@ -60,3 +60,50 @@ max-complexity = 25
 
 [tool.coverage.run]
 source = ["nextdns"]
+
+[tox]
+envlist = ["py312", "py313", "lint", "typing", "coverage"]
+skip_missing_interpreters = true
+
+[gh-actions.python]
+"3.12" = ["py312", "lint", "typing", "coverage"]
+"3.13" = ["py313"]
+
+[testenv]
+commands = [
+  "pytest --timeout=30 --cov=nextdns --cov-report=xml {posargs} --error-for-skips"
+]
+deps = [
+  "-rrequirements.txt",
+  "-rrequirements-test.txt"
+]
+
+[testenv.lint]
+basepython = "python3"
+depends = ["py312"]
+ignore_errors = true
+skip_install = true
+usedevelop = false
+commands = [
+  "ruff check .",
+  "ruff format --check ."
+]
+
+[testenv.typing]
+basepython = "python3"
+depends = ["py312"]
+ignore_errors = true
+skip_install = true
+usedevelop = false
+commands = [
+  "mypy nextdns"
+]
+
+[testenv.coverage]
+basepython = "python3"
+depends = ["py312"]
+skip_install = true
+usedevelop = false
+commands = [
+  "coverage report --fail-under=79"
+]
