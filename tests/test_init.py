@@ -355,7 +355,7 @@ async def test_retry_success(
 
     assert sleep_mock.call_count == 2
     assert sleep_mock.call_args_list[0][0][0] == 2
-    assert sleep_mock.call_args_list[1][0][0] == 4456
+    assert sleep_mock.call_args_list[1][0][0] == 4
 
     await session.close()
 

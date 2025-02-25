@@ -27,8 +27,6 @@ target-version = "py313"
 lint.select = ["ALL"]
 
 lint.ignore = [
-    "ANN101",   # Missing type annotation for `self` in method
-    "ANN102",   # Missing type annotation for `cls` in classmethod
     "ANN201",   # Missing return type annotation for public function
     "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed
     "COM812",   # Trailing comma missing
@@ -39,8 +37,8 @@ lint.ignore = [
     "FBT001",   # Boolean positional arg in function definition
     "ISC001",   # Single line implicit string concatenation
     "PLR0915",  # Too many statements
-    "TCH002",   # Move third-party import into a type-checking block
-    "TCH003",   # Move standard library import into a type-checking block
+    "TC002",   # Move third-party import into a type-checking block
+    "TC003",   # Move standard library import into a type-checking block
     "TRY003",   # Avoid specifying long messages outside the exception class
 ]
 
