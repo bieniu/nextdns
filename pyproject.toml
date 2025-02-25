@@ -27,8 +27,6 @@ target-version = "py313"
 lint.select = ["ALL"]
 
 lint.ignore = [
-    "ANN101",   # Missing type annotation for `self` in method
-    "ANN102",   # Missing type annotation for `cls` in classmethod
     "ANN201",   # Missing return type annotation for public function
     "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed
     "COM812",   # Trailing comma missing
@@ -39,8 +37,8 @@ lint.ignore = [
     "FBT001",   # Boolean positional arg in function definition
     "ISC001",   # Single line implicit string concatenation
     "PLR0915",  # Too many statements
-    "TCH002",   # Move third-party import into a type-checking block
-    "TCH003",   # Move standard library import into a type-checking block
+    "TC002",   # Move third-party import into a type-checking block
+    "TC003",   # Move standard library import into a type-checking block
     "TRY003",   # Avoid specifying long messages outside the exception class
 ]
 
@@ -62,48 +60,48 @@ max-complexity = 25
 source = ["nextdns"]
 
 [tool.tox]
-envlist = ["py312", "py313", "lint", "typing", "coverage"]
-skip_missing_interpreters = true
+legacy_tox_ini = """
 
-[tool.tox.gh-actions.python]
-"3.12" = ["py312", "lint", "typing", "coverage"]
-"3.13" = ["py313"]
+[tox]
+envlist = py312, py313, lint, typing, coverage
+skip_missing_interpreters = True
 
-[tool.tox.testenv]
-commands = [
-  "pytest --timeout=30 --cov=nextdns --cov-report=xml {posargs} --error-for-skips"
-]
-deps = [
-  "-rrequirements.txt",
-  "-rrequirements-test.txt"
-]
+[gh-actions]
+python =
+  3.12: py312, lint, typing, coverage
+  3.13: py313
 
-[tool.tox.testenv.lint]
-basepython = "python3"
-depends = ["py312"]
-ignore_errors = true
-skip_install = true
-usedevelop = false
-commands = [
-  "ruff check .",
-  "ruff format --check ."
-]
+[testenv]
+commands =
+  pytest --timeout=30 --cov=nextdns --cov-report=xml {posargs} --error-for-skips
+deps =
+  -rrequirements.txt
+  -rrequirements-test.txt
 
-[tool.tox.testenv.typing]
-basepython = "python3"
-depends = ["py312"]
-ignore_errors = true
-skip_install = true
-usedevelop = false
-commands = [
-  "mypy nextdns"
-]
+[testenv:lint]
+basepython = python3
+depends = py312
+ignore_errors = True
+skip_install = True
+usedevelop = False
+commands =
+  ruff check .
+  ruff format --check .
 
-[tool.tox.testenv.coverage]
-basepython = "python3"
-depends = ["py312"]
-skip_install = true
-usedevelop = false
-commands = [
-  "coverage report --fail-under=79"
-]
+[testenv:typing]
+basepython = python3
+depends = py312
+ignore_errors = True
+skip_install = True
+usedevelop = False
+commands =
+  mypy nextdns
+
+[testenv:coverage]
+basepython = python3
+depends = py312
+skip_install = True
+usedevelop = False
+commands =
+  coverage report --fail-under=79
+"""
