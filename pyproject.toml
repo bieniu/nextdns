@@ -3,15 +3,14 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name        = "nextdns"
-version     = "4.0.0"
-license     = {text = "Apache-2.0"}
+name = "nextdns"
+version = "0.0.0"
+license = "Apache-2.0"
 description = "Python wrapper for NextDNS API."
-readme      = "README.md"
-authors     = [{name = "Maciej Bieniek"}]
+readme = "README.md"
+authors = [{name = "Maciej Bieniek"}]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
