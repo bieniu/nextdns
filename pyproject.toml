@@ -20,7 +20,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.12"
-dependencies    = [
+dependencies = [
     "aiohttp>=3.9.4",
     "tenacity"
 ]
