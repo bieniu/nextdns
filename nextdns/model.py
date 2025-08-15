@@ -178,6 +178,7 @@ class Profile(NextDnsData):
 class Settings(NextDnsData):
     """Settings class."""
 
+    bav: bool
     block_page: bool
     cache_boost: bool
     cname_flattening: bool
