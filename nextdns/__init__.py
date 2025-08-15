@@ -21,6 +21,7 @@ from .const import (
     ALLOWED_LOGS_LOCATION,
     ALLOWED_LOGS_RETENTION,
     ATTR_ANALYTICS,
+    ATTR_BAV,
     ATTR_CLEAR_LOGS,
     ATTR_ENABLED,
     ATTR_GET_LOGS,
@@ -143,6 +144,7 @@ class NextDns:
         }
 
         return Settings(
+            bav=profile_data.settings[ATTR_BAV],
             block_page=profile_data.settings["blockPage"][ATTR_ENABLED],
             cache_boost=profile_data.settings[ATTR_PERFORMANCE][ApiNames.CACHE_BOOST],
             cname_flattening=profile_data.settings[ATTR_PERFORMANCE][

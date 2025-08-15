@@ -110,6 +110,7 @@
                 "cacheBoost": true,
                 "cnameFlattening": true
             },
+            "bav": false,
             "web3": true
         },
         "denylist": [],

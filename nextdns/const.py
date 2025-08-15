@@ -32,6 +32,7 @@ ATTR_SETTINGS = "settings"
 ATTR_TEST = "test"
 
 ATTR_ANONYMIZED_ECS = "anonymized_ecs"
+ATTR_BAV = "bav"
 ATTR_BLOCK_PAGE = "block_page"
 ATTR_CACHE_BOOST = "cache_boost"
 ATTR_CNAME_FLATTENING = "cname_flattening"
@@ -115,6 +116,7 @@ MAP_SETTING = {
         ENDPOINTS[ATTR_PERFORMANCE], ApiNames.CNAME_FLATTENING
     ),
     ATTR_ANONYMIZED_ECS: SettingDescription(ENDPOINTS[ATTR_PERFORMANCE], ApiNames.ECS),
+    ATTR_BAV: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_BAV),
     ATTR_WEB3: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_WEB3),
     ATTR_LOGS: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_ENABLED),
     ATTR_LOGS_LOCATION: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_LOCATION),
