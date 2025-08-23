@@ -465,7 +465,9 @@ class NextDns:
         ):
             return {"success": True}
         if resp.status == HTTPStatus.TOO_MANY_REQUESTS.value:
-            raise ApiError("Too many requests")
+            raise ApiError(
+                f"Too many requests: {await resp.text()}, URL: {url}, method: {method}"
+            )
         if resp.status == HTTP_STATUS_TIMEOUT:
             raise TimeoutError("Timeout occurred: HTTP 524")
         if resp.status != HTTPStatus.OK.value:
