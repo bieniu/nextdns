@@ -39,7 +39,7 @@ Any code contribution (bug fix or new feature) **must** include working tests.
 ## 🤝 Submitting Your Pull Request (PR)
 
 1.  Keep your PR focused on a single change.
-2.  Write a clear, brief PR title (e.g., `feat: Add support for [New API Feature]`).
+2.  Write a clear, brief PR title in the imperative mood (e.g., `Add support for [New API Feature]`).
 3.  In the PR description, explain **what** was changed and **why** it benefits the project.
 4.  If you are contributing for Hacktoberfest, feel free to mention it!
 
