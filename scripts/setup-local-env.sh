@@ -1,6 +1,13 @@
 #!/bin/bash
 
-PYTHON_VERSION=3.14
+if command -v python3.14 >/dev/null 2>&1; then
+	PYTHON_VERSION=3.14
+elif command -v python3.13 >/dev/null 2>&1; then
+	PYTHON_VERSION=3.13
+else
+	echo "Error: neither python3.14 nor python3.13 is available in PATH" >&2
+	exit 1
+fi
 
 python$PYTHON_VERSION -m pip install uv --upgrade
 python$PYTHON_VERSION -m uv venv venv --clear --seed --python=$PYTHON_VERSION
