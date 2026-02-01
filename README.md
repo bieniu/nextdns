@@ -11,6 +11,7 @@
 
 Python wrapper for [NextDNS](https://nextdns.io/?from=u4xqh6ud) API.
 
+To generate an API key you need a NextDNS account, which you can create using this [referral](https://nextdns.io/?from=u4xqh6ud).
 
 ## How to use package
 
