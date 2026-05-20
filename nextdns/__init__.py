@@ -99,7 +99,7 @@ class NextDns:
 
     async def initialize(self) -> None:
         """Initialize."""
-        _LOGGER.debug("Initializing with API Key: %s...", self._api_key[:10])
+        _LOGGER.debug("Initializing...")
         self._profiles = list(self._parse_profiles(await self.get_profiles()))
 
     @retry(
