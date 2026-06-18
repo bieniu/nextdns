@@ -42,19 +42,19 @@ async def test_valid_data(
     snapshot: SnapshotAssertion, profiles_data: dict[str, Any]
 ) -> None:
     """Test with valid data."""
-    with Path.open("tests/fixtures/dnssec.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/dnssec.json"), encoding="utf-8") as file:
         dnssec_data = json.load(file)
-    with Path.open("tests/fixtures/encryption.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/encryption.json"), encoding="utf-8") as file:
         encryption_data = json.load(file)
-    with Path.open("tests/fixtures/ip_versions.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/ip_versions.json"), encoding="utf-8") as file:
         ip_versions_data = json.load(file)
-    with Path.open("tests/fixtures/protocols.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/protocols.json"), encoding="utf-8") as file:
         protocols_data = json.load(file)
-    with Path.open("tests/fixtures/status.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/status.json"), encoding="utf-8") as file:
         status_data = json.load(file)
-    with Path.open("tests/fixtures/test.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/test.json"), encoding="utf-8") as file:
         test_data = json.load(file)
-    with Path.open("tests/fixtures/profile.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/profile.json"), encoding="utf-8") as file:
         profile_data = json.load(file)
 
     session = aiohttp.ClientSession()
@@ -161,7 +161,7 @@ async def test_clear_logs(profiles_data: dict[str, Any]) -> None:
 @pytest.mark.asyncio
 async def test_get_logs(profiles_data: dict[str, Any]) -> None:
     """Test get_logs() method."""
-    with Path.open("tests/fixtures/logs.csv", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/logs.csv"), encoding="utf-8") as file:
         logs = file.read()
 
     session = aiohttp.ClientSession()
