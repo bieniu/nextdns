@@ -13,7 +13,7 @@ from syrupy.location import PyTestLocation
 @pytest.fixture
 def profiles_data() -> dict[str, Any]:
     """Return the profiles data from the fixture file."""
-    with Path.open("tests/fixtures/profiles.json", encoding="utf-8") as file:
+    with Path.open(Path("tests/fixtures/profiles.json"), encoding="utf-8") as file:
         return json.load(file)
 
 
