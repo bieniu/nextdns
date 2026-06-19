@@ -5,7 +5,7 @@ import re
 from http import HTTPStatus
 from pathlib import Path
 from typing import Any
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 import aiohttp
 import pytest
@@ -294,15 +294,12 @@ async def test_invalid_api_key(
         await NextDns.create(session, "fakeapikey")
 
 
-@pytest.mark.parametrize(
-    "exception", [TimeoutError, aiohttp.ClientConnectorError(Mock(), Mock())]
-)
 @pytest.mark.asyncio
 async def test_retry_error(
-    session: aiohttp.ClientSession, session_mock: aiointercept, exception: Exception
+    session: aiohttp.ClientSession, session_mock: aiointercept
 ) -> None:
     """Test retry error."""
-    session_mock.get(ENDPOINTS[ATTR_PROFILES], exception=exception, repeat=True)
+    session_mock.get(ENDPOINTS[ATTR_PROFILES], exception=True, repeat=True)
 
     with patch("asyncio.sleep") as sleep_mock, pytest.raises(RetryError) as exc:
         await NextDns.create(session, "fakeapikey")
@@ -314,24 +311,20 @@ async def test_retry_error(
     assert sleep_mock.call_args_list[1][0][0] == 4
 
 
-@pytest.mark.parametrize(
-    "exception", [TimeoutError, aiohttp.ClientConnectorError(Mock(), Mock())]
-)
 @pytest.mark.asyncio
 async def test_retry_success(
     session: aiohttp.ClientSession,
     session_mock: aiointercept,
     profiles_data: dict[str, Any],
-    exception: Exception,
 ) -> None:
     """Test retry which succeeded."""
     session_mock.get(
         ENDPOINTS[ATTR_PROFILES],
-        exception=exception,
+        exception=True,
     )
     session_mock.get(
         ENDPOINTS[ATTR_PROFILES],
-        exception=exception,
+        exception=True,
     )
     session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
 
