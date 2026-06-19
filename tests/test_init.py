@@ -299,7 +299,9 @@ async def test_retry_error(
     session: aiohttp.ClientSession, session_mock: aiointercept
 ) -> None:
     """Test retry error."""
-    session_mock.get(ENDPOINTS[ATTR_PROFILES], exception=True, repeat=True)
+    session_mock.get(
+        ENDPOINTS[ATTR_PROFILES], status=524, payload="Timeout Error", repeat=True
+    )
 
     with patch("asyncio.sleep") as sleep_mock, pytest.raises(RetryError) as exc:
         await NextDns.create(session, "fakeapikey")
@@ -318,14 +320,8 @@ async def test_retry_success(
     profiles_data: dict[str, Any],
 ) -> None:
     """Test retry which succeeded."""
-    session_mock.get(
-        ENDPOINTS[ATTR_PROFILES],
-        exception=True,
-    )
-    session_mock.get(
-        ENDPOINTS[ATTR_PROFILES],
-        exception=True,
-    )
+    session_mock.get(ENDPOINTS[ATTR_PROFILES], status=524, payload="Timeout Error")
+    session_mock.get(ENDPOINTS[ATTR_PROFILES], status=524, payload="Timeout Error")
     session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
 
     with patch("asyncio.sleep") as sleep_mock:
@@ -343,11 +339,7 @@ async def test_retry_after_524(
     profiles_data: dict[str, Any],
 ) -> None:
     """Test retry after HTTP status code 524."""
-    session_mock.get(
-        ENDPOINTS[ATTR_PROFILES],
-        status=524,
-        payload="Timeout Error",
-    )
+    session_mock.get(ENDPOINTS[ATTR_PROFILES], status=524, payload="Timeout Error")
     session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
 
     with patch("asyncio.sleep") as sleep_mock:
