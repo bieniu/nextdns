@@ -28,7 +28,7 @@ dependencies = [
 dev = [
   "prek==0.4.5",
   "ruff==0.15.18",
-  "ty==0.0.50",
+  "ty==0.0.51",
 ]
 test = [
   "aiointercept==0.1.7",
