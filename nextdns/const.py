@@ -27,7 +27,6 @@ ATTR_PRIVACY = "privacy"
 ATTR_PROFILE = "profile"
 ATTR_PROFILES = "profiles"
 ATTR_SECURITY = "security"
-ATTR_SECURITY = "security"
 ATTR_SETTINGS = "settings"
 ATTR_TEST = "test"
 
@@ -63,29 +62,32 @@ ATTR_BLOCK_BYPASS_METHODS = "block_bypass_methods"
 ATTR_SAFESEARCH = "safesearch"
 ATTR_YOUTUBE_RESTRICTED_MODE = "youtube_restricted_mode"
 
-PARENTAL_CONTROL_CATEGORIES = tuple(item for item in ParentalControlCategoriesAttrs)
-PARENTAL_CONTROL_SERVICES = tuple(item for item in ParentalControlServicesAttrs)
+PARENTAL_CONTROL_CATEGORIES = frozenset(ParentalControlCategoriesAttrs)
+PARENTAL_CONTROL_SERVICES = frozenset(ParentalControlServicesAttrs)
+
+_PROFILES = API_ENDPOINT + "/profiles/{profile_id}"
 
 ENDPOINTS = {
-    ATTR_ANALYTICS: "https://api.nextdns.io/profiles/{profile_id}/analytics/{type}",
-    ATTR_CLEAR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/logs",
-    ATTR_GET_LOGS: "https://api.nextdns.io/profiles/{profile_id}/logs/download",
-    ATTR_PROFILE: "https://api.nextdns.io/profiles/{profile_id}",
-    ATTR_PROFILES: "https://api.nextdns.io/profiles",
+    ATTR_ANALYTICS: _PROFILES + "/analytics/{type}",
+    ATTR_CLEAR_LOGS: _PROFILES + "/logs",
+    ATTR_GET_LOGS: _PROFILES + "/logs/download",
+    ATTR_PROFILE: _PROFILES,
+    ATTR_PROFILES: API_ENDPOINT + "/profiles",
     ATTR_TEST: "https://{profile_id}.test.nextdns.io",
-    ATTR_SECURITY: "https://api.nextdns.io/profiles/{profile_id}/security",
-    ATTR_SETTINGS: "https://api.nextdns.io/profiles/{profile_id}/settings",
-    ATTR_PERFORMANCE: "https://api.nextdns.io/profiles/{profile_id}/settings/performance",
-    ATTR_PRIVACY: "https://api.nextdns.io/profiles/{profile_id}/privacy",
-    ATTR_PARENTAL_CONTROL: "https://api.nextdns.io/profiles/{profile_id}/parentalControl",
-    ATTR_PARENTAL_CONTROL_CATEGORY: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories/{category}",
-    ATTR_PARENTAL_CONTROL_CATEGORIES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/categories",
-    ATTR_PARENTAL_CONTROL_SERVICE: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services/{service}",
-    ATTR_PARENTAL_CONTROL_SERVICES: "https://api.nextdns.io/profiles/{profile_id}/parentalControl/services",
-    ATTR_LOGS: "https://api.nextdns.io/profiles/{profile_id}/settings/logs",
-    ATTR_LOGS_LOCATION: "https://api.nextdns.io/profiles/{profile_id}/settings/logs/location",
-    ATTR_LOGS_RETENTION: "https://api.nextdns.io/profiles/{profile_id}/settings/logs/retention",
-    ATTR_BLOCK_PAGE: "https://api.nextdns.io/profiles/{profile_id}/settings/blockPage",
+    ATTR_SECURITY: _PROFILES + "/security",
+    ATTR_SETTINGS: _PROFILES + "/settings",
+    ATTR_PERFORMANCE: _PROFILES + "/settings/performance",
+    ATTR_PRIVACY: _PROFILES + "/privacy",
+    ATTR_PARENTAL_CONTROL: _PROFILES + "/parentalControl",
+    ATTR_PARENTAL_CONTROL_CATEGORY: _PROFILES
+    + "/parentalControl/categories/{category}",
+    ATTR_PARENTAL_CONTROL_CATEGORIES: _PROFILES + "/parentalControl/categories",
+    ATTR_PARENTAL_CONTROL_SERVICE: _PROFILES + "/parentalControl/services/{service}",
+    ATTR_PARENTAL_CONTROL_SERVICES: _PROFILES + "/parentalControl/services",
+    ATTR_LOGS: _PROFILES + "/settings/logs",
+    ATTR_LOGS_LOCATION: _PROFILES + "/settings/logs/location",
+    ATTR_LOGS_RETENTION: _PROFILES + "/settings/logs/retention",
+    ATTR_BLOCK_PAGE: _PROFILES + "/settings/blockPage",
 }
 
 MAP_DNSSEC = {False: "not_validated_queries", True: "validated_queries"}
@@ -128,7 +130,7 @@ MAP_SETTING = {
         ENDPOINTS[ATTR_PRIVACY], ApiNames.DISGUISED_TRACKERS
     ),
     ATTR_AI_THREAT_DETECTION: SettingDescription(
-        ENDPOINTS[ATTR_SECURITY], ApiNames.AI_THREAT_TETECTION
+        ENDPOINTS[ATTR_SECURITY], ApiNames.AI_THREAT_DETECTION
     ),
     ATTR_BLOCK_CSAM: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.CSAM),
     ATTR_BLOCK_DDNS: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.DDNS),
