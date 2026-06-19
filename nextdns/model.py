@@ -7,6 +7,11 @@ from enum import StrEnum
 from typing import Any
 
 
+def _ratio(queries: int, total: int) -> float:
+    """Compute percentage ratio, returning 0 when total is zero."""
+    return 0.0 if not total else round(queries / total * 100, 1)
+
+
 @dataclass
 class NextDnsData:
     """NextDNS data class."""
@@ -25,20 +30,13 @@ class AnalyticsStatus(NextDnsData):
 
     def __post_init__(self) -> None:
         """Call after initialization."""
-        self.all_queries = sum(
-            [
-                self.default_queries,
-                self.blocked_queries,
-                self.allowed_queries,
-                self.relayed_queries,
-            ]
+        self.all_queries = (
+            self.default_queries
+            + self.blocked_queries
+            + self.allowed_queries
+            + self.relayed_queries
         )
-
-        self.blocked_queries_ratio = (
-            0
-            if not self.all_queries
-            else round(self.blocked_queries / self.all_queries * 100, 1)
-        )
+        self.blocked_queries_ratio = _ratio(self.blocked_queries, self.all_queries)
 
 
 @dataclass
@@ -51,13 +49,8 @@ class AnalyticsDnssec(NextDnsData):
 
     def __post_init__(self) -> None:
         """Call after initialization."""
-        all_queries = sum([self.validated_queries, self.not_validated_queries])
-
-        self.validated_queries_ratio = (
-            0
-            if not all_queries
-            else round(self.validated_queries / all_queries * 100, 1)
-        )
+        all_queries = self.validated_queries + self.not_validated_queries
+        self.validated_queries_ratio = _ratio(self.validated_queries, all_queries)
 
 
 @dataclass
@@ -70,13 +63,8 @@ class AnalyticsEncryption(NextDnsData):
 
     def __post_init__(self) -> None:
         """Call after initialization."""
-        all_queries = sum([self.encrypted_queries, self.unencrypted_queries])
-
-        self.encrypted_queries_ratio = (
-            0
-            if not all_queries
-            else round(self.encrypted_queries / all_queries * 100, 1)
-        )
+        all_queries = self.encrypted_queries + self.unencrypted_queries
+        self.encrypted_queries_ratio = _ratio(self.encrypted_queries, all_queries)
 
 
 @dataclass
@@ -89,11 +77,8 @@ class AnalyticsIpVersions(NextDnsData):
 
     def __post_init__(self) -> None:
         """Call after initialization."""
-        all_queries = sum([self.ipv6_queries, self.ipv4_queries])
-
-        self.ipv6_queries_ratio = (
-            0 if not all_queries else round(self.ipv6_queries / all_queries * 100, 1)
-        )
+        all_queries = self.ipv6_queries + self.ipv4_queries
+        self.ipv6_queries_ratio = _ratio(self.ipv6_queries, all_queries)
 
 
 @dataclass
@@ -115,35 +100,20 @@ class AnalyticsProtocols(NextDnsData):
 
     def __post_init__(self) -> None:
         """Call after initialization."""
-        all_queries = sum(
-            [
-                self.doh_queries,
-                self.doh3_queries,
-                self.doq_queries,
-                self.dot_queries,
-                self.tcp_queries,
-                self.udp_queries,
-            ]
+        all_queries = (
+            self.doh_queries
+            + self.doh3_queries
+            + self.doq_queries
+            + self.dot_queries
+            + self.tcp_queries
+            + self.udp_queries
         )
-
-        self.doh_queries_ratio = (
-            0 if not all_queries else round(self.doh_queries / all_queries * 100, 1)
-        )
-        self.doh3_queries_ratio = (
-            0 if not all_queries else round(self.doh3_queries / all_queries * 100, 1)
-        )
-        self.doq_queries_ratio = (
-            0 if not all_queries else round(self.doq_queries / all_queries * 100, 1)
-        )
-        self.dot_queries_ratio = (
-            0 if not all_queries else round(self.dot_queries / all_queries * 100, 1)
-        )
-        self.tcp_queries_ratio = (
-            0 if not all_queries else round(self.tcp_queries / all_queries * 100, 1)
-        )
-        self.udp_queries_ratio = (
-            0 if not all_queries else round(self.udp_queries / all_queries * 100, 1)
-        )
+        self.doh_queries_ratio = _ratio(self.doh_queries, all_queries)
+        self.doh3_queries_ratio = _ratio(self.doh3_queries, all_queries)
+        self.doq_queries_ratio = _ratio(self.doq_queries, all_queries)
+        self.dot_queries_ratio = _ratio(self.dot_queries, all_queries)
+        self.tcp_queries_ratio = _ratio(self.tcp_queries, all_queries)
+        self.udp_queries_ratio = _ratio(self.udp_queries, all_queries)
 
 
 @dataclass
@@ -401,7 +371,7 @@ class ParentalControlCategoriesAttrs(StrEnum):
 class ApiNames(StrEnum):
     """Names type for API."""
 
-    AI_THREAT_TETECTION = "aiThreatDetection"
+    AI_THREAT_DETECTION = "aiThreatDetection"
     ALLOW_AFFILIATE = "allowAffiliate"
     BLOCK_BYPASS = "blockBypass"
     CACHE_BOOST = "cacheBoost"

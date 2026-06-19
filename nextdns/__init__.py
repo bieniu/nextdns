@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from collections.abc import Iterable
 from http import HTTPStatus
 from typing import Any, cast
 
@@ -78,6 +77,13 @@ from .model import (
 
 _LOGGER = logging.getLogger(__name__)
 
+_retry = retry(
+    retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
+    stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
+    wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
+    after=after_log(_LOGGER, logging.DEBUG),
+)
+
 
 class NextDns:
     """Main class of NextDNS API wrapper."""
@@ -86,7 +92,6 @@ class NextDns:
         """Initialize NextDNS API wrapper."""
         self._session = session
         self._headers = {"X-Api-Key": api_key, "Content-Type": "application/json"}
-        self._api_key = api_key
         self._profiles: list[ProfileInfo]
 
     @classmethod
@@ -100,26 +105,16 @@ class NextDns:
     async def initialize(self) -> None:
         """Initialize."""
         _LOGGER.debug("Initializing...")
-        self._profiles = list(self._parse_profiles(await self.get_profiles()))
+        self._profiles = self._parse_profiles(await self.get_profiles())
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_profiles(self) -> list[dict[str, str]]:
         """Get all profiles."""
         url = ENDPOINTS[ATTR_PROFILES]
 
         return cast(list[dict[str, str]], await self._http_request("get", url))
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_profile(self, profile_id: str) -> Profile:
         """Get profile."""
         url = ENDPOINTS[ATTR_PROFILE].format(profile_id=profile_id)
@@ -157,7 +152,7 @@ class NextDns:
             web3=profile_data.settings[ATTR_WEB3],
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
             block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
-            ai_threat_detection=profile_data.security[ApiNames.AI_THREAT_TETECTION],
+            ai_threat_detection=profile_data.security[ApiNames.AI_THREAT_DETECTION],
             block_csam=profile_data.security[ApiNames.CSAM],
             block_ddns=profile_data.security[ApiNames.DDNS],
             block_nrd=profile_data.security[ApiNames.NRD],
@@ -240,12 +235,7 @@ class NextDns:
             ),
         )
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_analytics_status(self, profile_id: str) -> AnalyticsStatus:
         """Get profile analytics status."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="status")
@@ -255,12 +245,7 @@ class NextDns:
             **{MAP_STATUS[item["status"]]: item["queries"] for item in resp}
         )
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_analytics_dnssec(self, profile_id: str) -> AnalyticsDnssec:
         """Get profile analytics dnssec."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="dnssec")
@@ -270,12 +255,7 @@ class NextDns:
             **{MAP_DNSSEC[item["validated"]]: item["queries"] for item in resp}
         )
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_analytics_encryption(self, profile_id: str) -> AnalyticsEncryption:
         """Get profile analytics encryption."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="encryption")
@@ -285,12 +265,7 @@ class NextDns:
             **{MAP_ENCRYPTED[item["encrypted"]]: item["queries"] for item in resp}
         )
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_analytics_ip_versions(self, profile_id: str) -> AnalyticsIpVersions:
         """Get profile analytics IP versions."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="ipVersions")
@@ -300,12 +275,7 @@ class NextDns:
             **{MAP_IP_VERSIONS[item["version"]]: item["queries"] for item in resp}
         )
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_analytics_protocols(self, profile_id: str) -> AnalyticsProtocols:
         """Get profile analytics protocols."""
         url = ENDPOINTS[ATTR_ANALYTICS].format(profile_id=profile_id, type="protocols")
@@ -315,19 +285,15 @@ class NextDns:
             **{MAP_PROTOCOLS[item["protocol"]]: item["queries"] for item in resp}
         )
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def connection_status(self, profile_id: str) -> ConnectionStatus:
         """Return True if the device is using NextDNS."""
         url = ENDPOINTS[ATTR_TEST].format(profile_id=profile_id)
         resp = await self._http_request("get", url)
 
+        status = resp["status"] == "ok"
         used_profile_id = None
-        if status := resp["status"] == "ok":
+        if status:
             for item in self.profiles:
                 if item.fingerprint == resp.get("profile"):
                     used_profile_id = item.id
@@ -341,12 +307,7 @@ class NextDns:
 
         return result.get("success", False) is True
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutError, ClientConnectorError)),
-        stop=stop_after_attempt(STOP_AFTER_ATTEMPT),
-        wait=wait_incrementing(start=WAIT_START, increment=WAIT_INCREMENT),
-        after=after_log(_LOGGER, logging.DEBUG),
-    )
+    @_retry
     async def get_logs(self, profile_id: str) -> str:
         """Get NextDNS logs."""
         url = ENDPOINTS[ATTR_GET_LOGS].format(profile_id=profile_id)
@@ -442,17 +403,10 @@ class NextDns:
     ) -> Any:
         """Make an HTTP request."""
         _LOGGER.debug("Requesting %s, method: %s, data: %s", url, method, data)
-
-        if data:
-            resp = await self._session.request(
-                method,
-                url,
-                headers=self._headers,
-                json=data,
-                timeout=TIMEOUT,
-            )
-        else:
-            resp = await self._session.request(method, url, headers=self._headers)
+        kwargs: dict[str, Any] = {"headers": self._headers, "timeout": TIMEOUT}
+        if data is not None:
+            kwargs["json"] = data
+        resp = await self._session.request(method, url, **kwargs)
 
         _LOGGER.debug("Response status %s for %s", resp.status, url)
 
@@ -505,10 +459,9 @@ class NextDns:
         raise ProfileNameNotFoundError
 
     @staticmethod
-    def _parse_profiles(profiles: list[dict[str, str]]) -> Iterable[ProfileInfo]:
+    def _parse_profiles(profiles: list[dict[str, str]]) -> list[ProfileInfo]:
         """Parse profiles."""
-        for profile in profiles:
-            yield ProfileInfo(profile["id"], profile["fingerprint"], profile["name"])
+        return [ProfileInfo(p["id"], p["fingerprint"], p["name"]) for p in profiles]
 
     @property
     def profiles(self) -> list[ProfileInfo]:
