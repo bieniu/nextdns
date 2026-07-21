@@ -1,8 +1,5 @@
 name: PR Labels
 
-permissions:
-  contents: read
-
 on:
   pull_request_target:
     types:
@@ -14,6 +11,8 @@ on:
 
 jobs:
   pr_labels:
+    permissions:
+      contents: read
     name: Verify label
     runs-on: ubuntu-latest
     steps:

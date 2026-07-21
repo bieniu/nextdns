@@ -1,8 +1,5 @@
 name: CI
 
-permissions:
-  contents: read
-
 on:
   push:
     branches: [master]
@@ -11,6 +8,8 @@ on:
 
 jobs:
   lint:
+    permissions:
+      contents: read
     name: Lint
     runs-on: ubuntu-latest
     strategy:
@@ -56,6 +55,8 @@ jobs:
             --all-files
 
   test:
+    permissions:
+      contents: read
     name: Test
     runs-on: ubuntu-latest
     strategy:
