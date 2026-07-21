@@ -1,8 +1,5 @@
 name: CI
 
-permissions:
-  contents: read
-
 on:
   push:
     branches: [master]
@@ -11,6 +8,8 @@ on:
 
 jobs:
   lint:
+    permissions:
+      contents: read
     name: Lint
     runs-on: ubuntu-latest
     strategy:
@@ -21,7 +20,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Set up uv
         uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990  # v8.3.2
@@ -56,6 +55,8 @@ jobs:
             --all-files
 
   test:
+    permissions:
+      contents: read
     name: Test
     runs-on: ubuntu-latest
     strategy:
@@ -66,7 +67,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 2
 
@@ -85,6 +86,6 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         if: ${{ matrix.python-version == '3.14' }}
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f  # v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
