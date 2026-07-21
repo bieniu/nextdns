@@ -303,7 +303,7 @@ class NextDns:
         url = ENDPOINTS[ATTR_CLEAR_LOGS].format(profile_id=profile_id)
         result = await self._http_request("delete", url)
 
-        return result.get("success", False) is True
+        return result.get("success", False)
 
     @_retry
     async def get_logs(self, profile_id: str) -> str:
@@ -337,7 +337,7 @@ class NextDns:
         name = MAP_SETTING[ATTR_LOGS_LOCATION].name
         result = await self._http_request("patch", url, data={name: location})
 
-        return result.get("success", False) is True
+        return result.get("success", False)
 
     async def set_logs_retention(self, profile_id: str, hours: int) -> bool:
         """Set logs retention."""
@@ -351,50 +351,39 @@ class NextDns:
         name = MAP_SETTING[ATTR_LOGS_RETENTION].name
         result = await self._http_request("patch", url, data={name: hours * 60 * 60})
 
-        return result.get("success", False) is True
+        return result.get("success", False)
 
     async def set_setting(self, profile_id: str, setting: str, state: bool) -> bool:
         """Toggle settings."""
-        data: dict[str, Any]
-        resp = {}
-
         if setting not in MAP_SETTING:
             raise SettingNotSupportedError
 
-        if setting in PARENTAL_CONTROL_CATEGORIES:
-            url = MAP_SETTING[setting].url.format(
-                profile_id=profile_id, category=MAP_SETTING[setting].name
-            )
-            data = {"active": state}
-            try:
-                resp = await self._http_request("patch", url, data=data)
-            except ApiError as exc:
-                if "404, notFound" in exc.status and state is True:
-                    url = ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORIES].format(
-                        profile_id=profile_id
-                    )
-                    data = {"id": MAP_SETTING[setting].name}
-                    resp = await self._http_request("post", url, data=data)
-        elif setting in PARENTAL_CONTROL_SERVICES:
-            url = MAP_SETTING[setting].url.format(
-                profile_id=profile_id, service=MAP_SETTING[setting].name
-            )
-            data = {"active": state}
-            try:
-                resp = await self._http_request("patch", url, data=data)
-            except ApiError as exc:
-                if "404, notFound" in exc.status and state is True:
-                    url = ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICES].format(
-                        profile_id=profile_id
-                    )
-                    data = {"id": MAP_SETTING[setting].name}
-                    resp = await self._http_request("post", url, data=data)
-        else:
-            url = MAP_SETTING[setting].url.format(profile_id=profile_id)
-            data = {str(MAP_SETTING[setting].name): state}
-            resp = await self._http_request("patch", url, data=data)
+        desc = MAP_SETTING[setting]
+        resp: dict[str, Any] = {}
 
-        return resp.get("success", False) is True
+        if (
+            setting in PARENTAL_CONTROL_CATEGORIES
+            or setting in PARENTAL_CONTROL_SERVICES
+        ):
+            is_category = setting in PARENTAL_CONTROL_CATEGORIES
+            fmt = {"category": desc.name} if is_category else {"service": desc.name}
+            url = desc.url.format(profile_id=profile_id, **fmt)
+            try:
+                resp = await self._http_request("patch", url, data={"active": state})
+            except ApiError as exc:
+                if "404, notFound" in exc.status and state is True:
+                    ep = (
+                        ATTR_PARENTAL_CONTROL_CATEGORIES
+                        if is_category
+                        else ATTR_PARENTAL_CONTROL_SERVICES
+                    )
+                    url = ENDPOINTS[ep].format(profile_id=profile_id)
+                    resp = await self._http_request("post", url, data={"id": desc.name})
+        else:
+            url = desc.url.format(profile_id=profile_id)
+            resp = await self._http_request("patch", url, data={str(desc.name): state})
+
+        return resp.get("success", False)
 
     async def _http_request(
         self, method: str, url: str, data: dict[str, Any] | None = None
@@ -408,19 +397,19 @@ class NextDns:
 
         _LOGGER.debug("Response status %s for %s", resp.status, url)
 
-        if resp.status == HTTPStatus.FORBIDDEN.value:
+        if resp.status == HTTPStatus.FORBIDDEN:
             raise InvalidApiKeyError
-        if resp.status == HTTPStatus.NO_CONTENT.value and method in (
+        if resp.status == HTTPStatus.NO_CONTENT and method in (
             "delete",
             "patch",
             "post",
         ):
             return {"success": True}
-        if resp.status == HTTPStatus.TOO_MANY_REQUESTS.value:
+        if resp.status == HTTPStatus.TOO_MANY_REQUESTS:
             raise ApiError("Too many requests")
         if resp.status == HTTP_STATUS_TIMEOUT:
             raise TimeoutError("Timeout occurred: HTTP 524")
-        if resp.status != HTTPStatus.OK.value:
+        if resp.status != HTTPStatus.OK:
             if resp.content_type == "application/json":
                 result = await resp.json()
                 error = result["errors"][0]
