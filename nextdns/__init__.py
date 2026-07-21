@@ -1,11 +1,9 @@
 """Python wrapper for NextDNS API."""
 
-from __future__ import annotations
-
 import asyncio
 import logging
 from http import HTTPStatus
-from typing import Any, cast
+from typing import Any, Self, cast
 
 from aiohttp import ClientConnectorError, ClientSession
 from tenacity import (
@@ -95,7 +93,7 @@ class NextDns:
         self._profiles: list[ProfileInfo]
 
     @classmethod
-    async def create(cls, session: ClientSession, api_key: str) -> NextDns:
+    async def create(cls, session: ClientSession, api_key: str) -> Self:
         """Create a new instance."""
         instance = cls(session, api_key)
         await instance.initialize()
