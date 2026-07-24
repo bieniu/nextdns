@@ -17,6 +17,7 @@ To generate an API key you need a NextDNS account, which you can create using th
 
 ```python
 """Example of usage."""
+
 import asyncio
 import logging
 
