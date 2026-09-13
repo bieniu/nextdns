@@ -160,7 +160,6 @@ class Settings(NextDnsData):
     block_disguised_trackers: bool
 
     ai_threat_detection: bool
-    bypass_age_verification: bool
     block_csam: bool
     block_data_drop_services: bool
     block_decentralized_web_gateways: bool

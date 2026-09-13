@@ -55,7 +55,6 @@ ATTR_BLOCK_NRD = "block_nrd"
 ATTR_BLOCK_PARKED_DOMAINS = "block_parked_domains"
 ATTR_BLOCK_RESIDENTIAL_HOSTING = "block_residential_hosting"
 ATTR_BLOCK_TUNNELING_ENDPOINTS = "block_tunneling_endpoints"
-ATTR_BYPASS_AGE_VERIFICATION = "bypass_age_verification"
 ATTR_CRYPTOJACKING_PROTECTION = "cryptojacking_protection"
 ATTR_DGA_PROTECTION = "dga_protection"
 ATTR_DNS_REBINDING_PROTECTION = "dns_rebinding_protection"
@@ -125,9 +124,6 @@ MAP_SETTING = {
     ),
     ATTR_ANONYMIZED_ECS: SettingDescription(ENDPOINTS[ATTR_PERFORMANCE], ApiNames.ECS),
     ATTR_BAV: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_BAV),
-    ATTR_BYPASS_AGE_VERIFICATION: SettingDescription(
-        ENDPOINTS[ATTR_SETTINGS], ApiNames.BAV
-    ),
     ATTR_WEB3: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_WEB3),
     ATTR_LOGS: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_ENABLED),
     ATTR_LOGS_LOCATION: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_LOCATION),

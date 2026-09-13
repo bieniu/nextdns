@@ -151,7 +151,6 @@ class NextDns:
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
             block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
             ai_threat_detection=profile_data.security[ApiNames.AI_THREAT_DETECTION],
-            bypass_age_verification=profile_data.settings[ApiNames.BAV],
             block_csam=profile_data.security[ApiNames.CSAM],
             block_data_drop_services=profile_data.security[ApiNames.DATA_DROP_SERVICES],
             block_decentralized_web_gateways=profile_data.security[
