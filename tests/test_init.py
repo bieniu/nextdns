@@ -194,6 +194,28 @@ async def test_get_logs(
                 profile_id=PROFILE_ID, category=MAP_SETTING["block_piracy"].name
             ),
         ),
+        (
+            "block_data_drop_services",
+            MAP_SETTING["block_data_drop_services"].url.format(profile_id=PROFILE_ID),
+        ),
+        (
+            "block_decentralized_web_gateways",
+            MAP_SETTING["block_decentralized_web_gateways"].url.format(
+                profile_id=PROFILE_ID
+            ),
+        ),
+        (
+            "block_free_hosting_domains",
+            MAP_SETTING["block_free_hosting_domains"].url.format(profile_id=PROFILE_ID),
+        ),
+        (
+            "block_residential_hosting",
+            MAP_SETTING["block_residential_hosting"].url.format(profile_id=PROFILE_ID),
+        ),
+        (
+            "block_tunneling_endpoints",
+            MAP_SETTING["block_tunneling_endpoints"].url.format(profile_id=PROFILE_ID),
+        ),
     ],
 )
 async def test_set_setting(
