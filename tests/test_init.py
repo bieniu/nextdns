@@ -195,10 +195,6 @@ async def test_get_logs(
             ),
         ),
         (
-            "bypass_age_verification",
-            MAP_SETTING["bypass_age_verification"].url.format(profile_id=PROFILE_ID),
-        ),
-        (
             "block_data_drop_services",
             MAP_SETTING["block_data_drop_services"].url.format(profile_id=PROFILE_ID),
         ),

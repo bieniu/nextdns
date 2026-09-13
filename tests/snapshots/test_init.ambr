@@ -125,7 +125,6 @@
     block_xboxlive=False,
     block_youtube=False,
     block_zoom=False,
-    bypass_age_verification=False,
     cache_boost=True,
     cname_flattening=True,
     cryptojacking_protection=True,
