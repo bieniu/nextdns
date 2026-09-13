@@ -30,6 +30,11 @@
             "ddns": true,
             "parking": true,
             "csam": true,
+            "dataDropServices": true,
+            "decentralizedWebGateways": true,
+            "freeHostingDomains": true,
+            "residentialHosting": true,
+            "tunnelingEndpoints": true,
             "tlds": []
         },
         "privacy": {

@@ -151,10 +151,24 @@ class NextDns:
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
             block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
             ai_threat_detection=profile_data.security[ApiNames.AI_THREAT_DETECTION],
+            bypass_age_verification=profile_data.settings[ApiNames.BAV],
             block_csam=profile_data.security[ApiNames.CSAM],
+            block_data_drop_services=profile_data.security[ApiNames.DATA_DROP_SERVICES],
+            block_decentralized_web_gateways=profile_data.security[
+                ApiNames.DECENTRALIZED_WEB_GATEWAYS
+            ],
             block_ddns=profile_data.security[ApiNames.DDNS],
+            block_free_hosting_domains=profile_data.security[
+                ApiNames.FREE_HOSTING_DOMAINS
+            ],
             block_nrd=profile_data.security[ApiNames.NRD],
             block_parked_domains=profile_data.security[ApiNames.PARKING],
+            block_residential_hosting=profile_data.security[
+                ApiNames.RESIDENTIAL_HOSTING
+            ],
+            block_tunneling_endpoints=profile_data.security[
+                ApiNames.TUNNELING_ENDPOINTS
+            ],
             cryptojacking_protection=profile_data.security[ApiNames.CRYPTOJACKING],
             dga_protection=profile_data.security[ApiNames.DGA],
             dns_rebinding_protection=profile_data.security[ApiNames.DNS_REBINDING],

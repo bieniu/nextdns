@@ -160,10 +160,16 @@ class Settings(NextDnsData):
     block_disguised_trackers: bool
 
     ai_threat_detection: bool
+    bypass_age_verification: bool
     block_csam: bool
+    block_data_drop_services: bool
+    block_decentralized_web_gateways: bool
     block_ddns: bool
+    block_free_hosting_domains: bool
     block_nrd: bool
     block_parked_domains: bool
+    block_residential_hosting: bool
+    block_tunneling_endpoints: bool
     cryptojacking_protection: bool
     dga_protection: bool
     dns_rebinding_protection: bool
@@ -371,24 +377,30 @@ class ApiNames(StrEnum):
 
     AI_THREAT_DETECTION = "aiThreatDetection"
     ALLOW_AFFILIATE = "allowAffiliate"
+    BAV = "bav"
     BLOCK_BYPASS = "blockBypass"
     CACHE_BOOST = "cacheBoost"
     CATEGORIES = "categories"
     CNAME_FLATTENING = "cnameFlattening"
     CRYPTOJACKING = "cryptojacking"
     CSAM = "csam"
+    DATA_DROP_SERVICES = "dataDropServices"
     DDNS = "ddns"
+    DECENTRALIZED_WEB_GATEWAYS = "decentralizedWebGateways"
     DGA = "dga"
     DISGUISED_TRACKERS = "disguisedTrackers"
     DNS_REBINDING = "dnsRebinding"
     ECS = "ecs"
+    FREE_HOSTING_DOMAINS = "freeHostingDomains"
     GOOGLE_SAFE_BROWSING = "googleSafeBrowsing"
     IDN_HOMOGRAPHS = "idnHomographs"
     NRD = "nrd"
     PARKING = "parking"
+    RESIDENTIAL_HOSTING = "residentialHosting"
     SAFESEARCH = "safeSearch"
     SERVICES = "services"
     THREAT_INTELLIGENCE_FEEDS = "threatIntelligenceFeeds"
+    TUNNELING_ENDPOINTS = "tunnelingEndpoints"
     TYPOSQUATTING = "typosquatting"
     YOUTUBE_RESTRICTED_MODE = "youtubeRestrictedMode"
 

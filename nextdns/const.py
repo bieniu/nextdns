@@ -47,9 +47,15 @@ ATTR_BLOCK_DISGUISED_TRACKERS = "block_disguised_trackers"
 
 ATTR_AI_THREAT_DETECTION = "ai_threat_detection"
 ATTR_BLOCK_CSAM = "block_csam"
+ATTR_BLOCK_DATA_DROP_SERVICES = "block_data_drop_services"
+ATTR_BLOCK_DECENTRALIZED_WEB_GATEWAYS = "block_decentralized_web_gateways"
 ATTR_BLOCK_DDNS = "block_ddns"
+ATTR_BLOCK_FREE_HOSTING_DOMAINS = "block_free_hosting_domains"
 ATTR_BLOCK_NRD = "block_nrd"
 ATTR_BLOCK_PARKED_DOMAINS = "block_parked_domains"
+ATTR_BLOCK_RESIDENTIAL_HOSTING = "block_residential_hosting"
+ATTR_BLOCK_TUNNELING_ENDPOINTS = "block_tunneling_endpoints"
+ATTR_BYPASS_AGE_VERIFICATION = "bypass_age_verification"
 ATTR_CRYPTOJACKING_PROTECTION = "cryptojacking_protection"
 ATTR_DGA_PROTECTION = "dga_protection"
 ATTR_DNS_REBINDING_PROTECTION = "dns_rebinding_protection"
@@ -119,6 +125,9 @@ MAP_SETTING = {
     ),
     ATTR_ANONYMIZED_ECS: SettingDescription(ENDPOINTS[ATTR_PERFORMANCE], ApiNames.ECS),
     ATTR_BAV: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_BAV),
+    ATTR_BYPASS_AGE_VERIFICATION: SettingDescription(
+        ENDPOINTS[ATTR_SETTINGS], ApiNames.BAV
+    ),
     ATTR_WEB3: SettingDescription(ENDPOINTS[ATTR_SETTINGS], ATTR_WEB3),
     ATTR_LOGS: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_ENABLED),
     ATTR_LOGS_LOCATION: SettingDescription(ENDPOINTS[ATTR_LOGS], ATTR_LOCATION),
@@ -133,10 +142,25 @@ MAP_SETTING = {
         ENDPOINTS[ATTR_SECURITY], ApiNames.AI_THREAT_DETECTION
     ),
     ATTR_BLOCK_CSAM: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.CSAM),
+    ATTR_BLOCK_DATA_DROP_SERVICES: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.DATA_DROP_SERVICES
+    ),
+    ATTR_BLOCK_DECENTRALIZED_WEB_GATEWAYS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.DECENTRALIZED_WEB_GATEWAYS
+    ),
     ATTR_BLOCK_DDNS: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.DDNS),
+    ATTR_BLOCK_FREE_HOSTING_DOMAINS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.FREE_HOSTING_DOMAINS
+    ),
     ATTR_BLOCK_NRD: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.NRD),
     ATTR_BLOCK_PARKED_DOMAINS: SettingDescription(
         ENDPOINTS[ATTR_SECURITY], ApiNames.PARKING
+    ),
+    ATTR_BLOCK_RESIDENTIAL_HOSTING: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.RESIDENTIAL_HOSTING
+    ),
+    ATTR_BLOCK_TUNNELING_ENDPOINTS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.TUNNELING_ENDPOINTS
     ),
     ATTR_CRYPTOJACKING_PROTECTION: SettingDescription(
         ENDPOINTS[ATTR_SECURITY], ApiNames.CRYPTOJACKING
