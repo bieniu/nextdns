@@ -184,7 +184,8 @@ async def test_get_logs(
     session_mock.get(
         ENDPOINTS[ATTR_GET_LOGS].format(profile_id=PROFILE_ID),
         status=HTTPStatus.OK.value,
-        payload=logs,
+        body=logs,
+        content_type="text/csv",
     )
 
     nextdns = await NextDns.create(session, "fakeapikey")
