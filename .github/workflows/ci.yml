@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.13"
           - "3.14"
           - "3.15"
 
@@ -43,7 +42,7 @@ jobs:
         run: uv run ty check nextdns
 
       - name: Run prek
-        if: ${{ matrix.python-version == '3.13' }}
+        if: ${{ matrix.python-version == '3.14' }}
         run: |
           uv run prek run \
             end-of-file-fixer \
@@ -63,7 +62,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.13"
           - "3.14"
           - "3.15"
 
@@ -87,7 +85,7 @@ jobs:
         run: uv run pytest --timeout=30 --cov=nextdns --cov-report=xml --error-for-skips
 
       - name: Upload coverage reports to Codecov
-        if: ${{ matrix.python-version == '3.14' }}
+        if: ${{ matrix.python-version == '3.15' }}
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5  # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
