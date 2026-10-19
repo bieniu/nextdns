@@ -371,41 +371,40 @@ class NextDns:
         kwargs: dict[str, Any] = {"headers": self._headers, "timeout": TIMEOUT}
         if data is not None:
             kwargs["json"] = data
-        resp = await self._session.request(method, url, **kwargs)
+        async with self._session.request(method, url, **kwargs) as resp:
+            _LOGGER.debug("Response status %s for %s", resp.status, url)
 
-        _LOGGER.debug("Response status %s for %s", resp.status, url)
+            if resp.status == HTTPStatus.FORBIDDEN:
+                raise InvalidApiKeyError
+            if resp.status == HTTPStatus.NO_CONTENT and method in (
+                "delete",
+                "patch",
+                "post",
+            ):
+                return {"success": True}
+            if resp.status == HTTPStatus.TOO_MANY_REQUESTS:
+                raise ApiError("Too many requests")
+            if resp.status == HTTP_STATUS_TIMEOUT:
+                raise TimeoutError("Timeout occurred: HTTP 524")
+            if resp.status != HTTPStatus.OK:
+                if resp.content_type == "application/json":
+                    result = await resp.json()
+                    error = result["errors"][0]
+                    raise ApiError(
+                        f"{resp.status}, {error['code']}, "
+                        f"{error.get('detail', 'no detail')}"
+                    )
+                raise ApiError(f"Error code: {resp.status}")
 
-        if resp.status == HTTPStatus.FORBIDDEN:
-            raise InvalidApiKeyError
-        if resp.status == HTTPStatus.NO_CONTENT and method in (
-            "delete",
-            "patch",
-            "post",
-        ):
-            return {"success": True}
-        if resp.status == HTTPStatus.TOO_MANY_REQUESTS:
-            raise ApiError("Too many requests")
-        if resp.status == HTTP_STATUS_TIMEOUT:
-            raise TimeoutError("Timeout occurred: HTTP 524")
-        if resp.status != HTTPStatus.OK:
             if resp.content_type == "application/json":
                 result = await resp.json()
-                error = result["errors"][0]
-                raise ApiError(
-                    f"{resp.status}, {error['code']}, "
-                    f"{error.get('detail', 'no detail')}"
-                )
-            raise ApiError(f"Error code: {resp.status}")
+            else:
+                result = await resp.text()
 
-        if resp.content_type == "application/json":
-            result = await resp.json()
-        else:
-            result = await resp.text()
+            if isinstance(result, dict) and "data" in result:
+                return result["data"]
 
-        if isinstance(result, dict) and "data" in result:
-            return result["data"]
-
-        return result
+            return result
 
     def get_profile_name(self, profile_id: str) -> str:
         """Get profile name."""
