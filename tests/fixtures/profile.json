@@ -75,7 +75,18 @@
             "safeSearch": false,
             "youtubeRestrictedMode": false,
             "blockBypass": true,
-            "services": [],
+            "services": [
+                {
+                    "id": "tiktok",
+                    "recreation": false,
+                    "active": true
+                },
+                {
+                    "id": "youtube",
+                    "recreation": false,
+                    "active": false
+                }
+            ],
             "categories": [
                 {
                     "id": "porn",

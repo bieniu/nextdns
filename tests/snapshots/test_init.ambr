@@ -115,7 +115,7 @@
     block_spotify=False,
     block_steam=False,
     block_telegram=False,
-    block_tiktok=False,
+    block_tiktok=True,
     block_tinder=False,
     block_tumblr=False,
     block_tunneling_endpoints=True,
