@@ -104,6 +104,23 @@ async def test_valid_data(
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("profile_id", ["evil.example/", "abc@evil.example", ""])
+async def test_connection_status_with_invalid_profile_id(
+    session: aiohttp.ClientSession,
+    session_mock: aiointercept,
+    profiles_data: dict[str, Any],
+    profile_id: str,
+) -> None:
+    """Test connection_status() method with a profile ID that is not a host label."""
+    session_mock.get(ENDPOINTS[ATTR_PROFILES], payload=profiles_data)
+
+    nextdns = await NextDns.create(session, "fakeapikey")
+
+    with pytest.raises(ValueError, match=re.escape("Invalid profile ID")):
+        await nextdns.connection_status(profile_id)
+
+
+@pytest.mark.asyncio
 async def test_profile_id_not_found(
     session: aiohttp.ClientSession,
     session_mock: aiointercept,

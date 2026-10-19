@@ -313,6 +313,9 @@ class NextDns:
     @_retry
     async def connection_status(self, profile_id: str) -> ConnectionStatus:
         """Return True if the device is using NextDNS."""
+        if not profile_id.isalnum():
+            raise ValueError("Invalid profile ID")
+
         url = ENDPOINTS[ATTR_TEST].format(profile_id=profile_id)
         resp = await self._http_request("get", url)
 
