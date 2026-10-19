@@ -164,13 +164,19 @@ class Settings(NextDnsData):
     block_data_drop_services: bool
     block_decentralized_web_gateways: bool
     block_ddns: bool
+    block_fast_flux_networks: bool
     block_free_hosting_domains: bool
+    block_high_risk_tlds: bool
+    block_newly_active_domains: bool
     block_nrd: bool
     block_parked_domains: bool
     block_residential_hosting: bool
     block_tunneling_endpoints: bool
+    block_untrusted_certificates: bool
     cryptojacking_protection: bool
     dga_protection: bool
+    dns_data_exfiltration_protection: bool
+    dns_payload_delivery_protection: bool
     dns_rebinding_protection: bool
     google_safe_browsing: bool
     idn_homograph_attacks_protection: bool
@@ -388,11 +394,16 @@ class ApiNames(StrEnum):
     DECENTRALIZED_WEB_GATEWAYS = "decentralizedWebGateways"
     DGA = "dga"
     DISGUISED_TRACKERS = "disguisedTrackers"
+    DNS_DATA_EXFILTRATION = "dnsDataExfiltration"
+    DNS_PAYLOAD_DELIVERY = "dnsPayloadDelivery"
     DNS_REBINDING = "dnsRebinding"
     ECS = "ecs"
+    FAST_FLUX_NETWORKS = "fastFluxNetworks"
     FREE_HOSTING_DOMAINS = "freeHostingDomains"
     GOOGLE_SAFE_BROWSING = "googleSafeBrowsing"
+    HIGH_RISK_TLDS = "highRiskTlds"
     IDN_HOMOGRAPHS = "idnHomographs"
+    NEWLY_ACTIVE_DOMAINS = "newlyActiveDomains"
     NRD = "nrd"
     PARKING = "parking"
     RESIDENTIAL_HOSTING = "residentialHosting"
@@ -401,6 +412,7 @@ class ApiNames(StrEnum):
     THREAT_INTELLIGENCE_FEEDS = "threatIntelligenceFeeds"
     TUNNELING_ENDPOINTS = "tunnelingEndpoints"
     TYPOSQUATTING = "typosquatting"
+    UNTRUSTED_CERTIFICATES = "untrustedCertificates"
     YOUTUBE_RESTRICTED_MODE = "youtubeRestrictedMode"
 
 

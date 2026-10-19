@@ -35,6 +35,12 @@
             "freeHostingDomains": true,
             "residentialHosting": true,
             "tunnelingEndpoints": true,
+            "dnsDataExfiltration": false,
+            "dnsPayloadDelivery": true,
+            "fastFluxNetworks": false,
+            "highRiskTlds": true,
+            "newlyActiveDomains": false,
+            "untrustedCertificates": true,
             "tlds": []
         },
         "privacy": {
