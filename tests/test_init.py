@@ -216,6 +216,36 @@ async def test_get_logs(
             "block_tunneling_endpoints",
             MAP_SETTING["block_tunneling_endpoints"].url.format(profile_id=PROFILE_ID),
         ),
+        (
+            "block_fast_flux_networks",
+            MAP_SETTING["block_fast_flux_networks"].url.format(profile_id=PROFILE_ID),
+        ),
+        (
+            "block_high_risk_tlds",
+            MAP_SETTING["block_high_risk_tlds"].url.format(profile_id=PROFILE_ID),
+        ),
+        (
+            "block_newly_active_domains",
+            MAP_SETTING["block_newly_active_domains"].url.format(profile_id=PROFILE_ID),
+        ),
+        (
+            "block_untrusted_certificates",
+            MAP_SETTING["block_untrusted_certificates"].url.format(
+                profile_id=PROFILE_ID
+            ),
+        ),
+        (
+            "dns_data_exfiltration_protection",
+            MAP_SETTING["dns_data_exfiltration_protection"].url.format(
+                profile_id=PROFILE_ID
+            ),
+        ),
+        (
+            "dns_payload_delivery_protection",
+            MAP_SETTING["dns_payload_delivery_protection"].url.format(
+                profile_id=PROFILE_ID
+            ),
+        ),
     ],
 )
 async def test_set_setting(

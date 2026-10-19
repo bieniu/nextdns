@@ -157,8 +157,13 @@ class NextDns:
                 ApiNames.DECENTRALIZED_WEB_GATEWAYS
             ],
             block_ddns=profile_data.security[ApiNames.DDNS],
+            block_fast_flux_networks=profile_data.security[ApiNames.FAST_FLUX_NETWORKS],
             block_free_hosting_domains=profile_data.security[
                 ApiNames.FREE_HOSTING_DOMAINS
+            ],
+            block_high_risk_tlds=profile_data.security[ApiNames.HIGH_RISK_TLDS],
+            block_newly_active_domains=profile_data.security[
+                ApiNames.NEWLY_ACTIVE_DOMAINS
             ],
             block_nrd=profile_data.security[ApiNames.NRD],
             block_parked_domains=profile_data.security[ApiNames.PARKING],
@@ -168,8 +173,17 @@ class NextDns:
             block_tunneling_endpoints=profile_data.security[
                 ApiNames.TUNNELING_ENDPOINTS
             ],
+            block_untrusted_certificates=profile_data.security[
+                ApiNames.UNTRUSTED_CERTIFICATES
+            ],
             cryptojacking_protection=profile_data.security[ApiNames.CRYPTOJACKING],
             dga_protection=profile_data.security[ApiNames.DGA],
+            dns_data_exfiltration_protection=profile_data.security[
+                ApiNames.DNS_DATA_EXFILTRATION
+            ],
+            dns_payload_delivery_protection=profile_data.security[
+                ApiNames.DNS_PAYLOAD_DELIVERY
+            ],
             dns_rebinding_protection=profile_data.security[ApiNames.DNS_REBINDING],
             google_safe_browsing=profile_data.security[ApiNames.GOOGLE_SAFE_BROWSING],
             idn_homograph_attacks_protection=profile_data.security[

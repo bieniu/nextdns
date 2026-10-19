@@ -50,13 +50,19 @@ ATTR_BLOCK_CSAM = "block_csam"
 ATTR_BLOCK_DATA_DROP_SERVICES = "block_data_drop_services"
 ATTR_BLOCK_DECENTRALIZED_WEB_GATEWAYS = "block_decentralized_web_gateways"
 ATTR_BLOCK_DDNS = "block_ddns"
+ATTR_BLOCK_FAST_FLUX_NETWORKS = "block_fast_flux_networks"
 ATTR_BLOCK_FREE_HOSTING_DOMAINS = "block_free_hosting_domains"
+ATTR_BLOCK_HIGH_RISK_TLDS = "block_high_risk_tlds"
+ATTR_BLOCK_NEWLY_ACTIVE_DOMAINS = "block_newly_active_domains"
 ATTR_BLOCK_NRD = "block_nrd"
 ATTR_BLOCK_PARKED_DOMAINS = "block_parked_domains"
 ATTR_BLOCK_RESIDENTIAL_HOSTING = "block_residential_hosting"
 ATTR_BLOCK_TUNNELING_ENDPOINTS = "block_tunneling_endpoints"
+ATTR_BLOCK_UNTRUSTED_CERTIFICATES = "block_untrusted_certificates"
 ATTR_CRYPTOJACKING_PROTECTION = "cryptojacking_protection"
 ATTR_DGA_PROTECTION = "dga_protection"
+ATTR_DNS_DATA_EXFILTRATION_PROTECTION = "dns_data_exfiltration_protection"
+ATTR_DNS_PAYLOAD_DELIVERY_PROTECTION = "dns_payload_delivery_protection"
 ATTR_DNS_REBINDING_PROTECTION = "dns_rebinding_protection"
 ATTR_GOOGLE_SAFE_BROWSING = "google_safe_browsing"
 ATTR_IDN_HOMOGRAPH_ATTACKS_PROTECTION = "idn_homograph_attacks_protection"
@@ -145,8 +151,17 @@ MAP_SETTING = {
         ENDPOINTS[ATTR_SECURITY], ApiNames.DECENTRALIZED_WEB_GATEWAYS
     ),
     ATTR_BLOCK_DDNS: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.DDNS),
+    ATTR_BLOCK_FAST_FLUX_NETWORKS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.FAST_FLUX_NETWORKS
+    ),
     ATTR_BLOCK_FREE_HOSTING_DOMAINS: SettingDescription(
         ENDPOINTS[ATTR_SECURITY], ApiNames.FREE_HOSTING_DOMAINS
+    ),
+    ATTR_BLOCK_HIGH_RISK_TLDS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.HIGH_RISK_TLDS
+    ),
+    ATTR_BLOCK_NEWLY_ACTIVE_DOMAINS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.NEWLY_ACTIVE_DOMAINS
     ),
     ATTR_BLOCK_NRD: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.NRD),
     ATTR_BLOCK_PARKED_DOMAINS: SettingDescription(
@@ -158,10 +173,19 @@ MAP_SETTING = {
     ATTR_BLOCK_TUNNELING_ENDPOINTS: SettingDescription(
         ENDPOINTS[ATTR_SECURITY], ApiNames.TUNNELING_ENDPOINTS
     ),
+    ATTR_BLOCK_UNTRUSTED_CERTIFICATES: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.UNTRUSTED_CERTIFICATES
+    ),
     ATTR_CRYPTOJACKING_PROTECTION: SettingDescription(
         ENDPOINTS[ATTR_SECURITY], ApiNames.CRYPTOJACKING
     ),
     ATTR_DGA_PROTECTION: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.DGA),
+    ATTR_DNS_DATA_EXFILTRATION_PROTECTION: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.DNS_DATA_EXFILTRATION
+    ),
+    ATTR_DNS_PAYLOAD_DELIVERY_PROTECTION: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.DNS_PAYLOAD_DELIVERY
+    ),
     ATTR_DNS_REBINDING_PROTECTION: SettingDescription(
         ENDPOINTS[ATTR_SECURITY], ApiNames.DNS_REBINDING
     ),
