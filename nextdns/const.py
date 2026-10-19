@@ -210,162 +210,22 @@ MAP_SETTING = {
     ATTR_YOUTUBE_RESTRICTED_MODE: SettingDescription(
         ENDPOINTS[ATTR_PARENTAL_CONTROL], ApiNames.YOUTUBE_RESTRICTED_MODE
     ),
-    ParentalControlServicesAttrs.BLOCK_TIKTOK: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TIKTOK
-    ),
-    ParentalControlServicesAttrs.BLOCK_TINDER: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TINDER
-    ),
-    ParentalControlServicesAttrs.BLOCK_FACEBOOK: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.FACEBOOK
-    ),
-    ParentalControlServicesAttrs.BLOCK_SNAPCHAT: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.SNAPCHAT
-    ),
-    ParentalControlServicesAttrs.BLOCK_INSTAGRAM: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.INSTAGRAM
-    ),
-    ParentalControlServicesAttrs.BLOCK_FORTNITE: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.FORTNITE
-    ),
-    ParentalControlServicesAttrs.BLOCK_MESSENGER: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.MESSENGER
-    ),
-    ParentalControlServicesAttrs.BLOCK_LEAGUEOFLEGENDS: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ParentalControlServices.LEAGUEOFLEGENDS,
-    ),
-    ParentalControlServicesAttrs.BLOCK_VK: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.VK
-    ),
-    ParentalControlServicesAttrs.BLOCK_9GAG: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.NINEGAG
-    ),
-    ParentalControlServicesAttrs.BLOCK_TUMBLR: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TUMBLR
-    ),
-    ParentalControlServicesAttrs.BLOCK_ROBLOX: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.ROBLOX
-    ),
-    ParentalControlServicesAttrs.BLOCK_TWITCH: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TWITCH
-    ),
-    ParentalControlServicesAttrs.BLOCK_MINECRAFT: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.MINECRAFT
-    ),
-    ParentalControlServicesAttrs.BLOCK_TWITTER: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TWITTER
-    ),
-    ParentalControlServicesAttrs.BLOCK_DISCORD: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.DISCORD
-    ),
-    ParentalControlServicesAttrs.BLOCK_DAILYMOTION: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.DAILYMOTION
-    ),
-    ParentalControlServicesAttrs.BLOCK_PINTEREST: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.PINTEREST
-    ),
-    ParentalControlServicesAttrs.BLOCK_YOUTUBE: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.YOUTUBE
-    ),
-    ParentalControlServicesAttrs.BLOCK_STEAM: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.STEAM
-    ),
-    ParentalControlServicesAttrs.BLOCK_HULU: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.HULU
-    ),
-    ParentalControlServicesAttrs.BLOCK_WHATSAPP: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.WHATSAPP
-    ),
-    ParentalControlServicesAttrs.BLOCK_REDDIT: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.REDDIT
-    ),
-    ParentalControlServicesAttrs.BLOCK_BLIZZARD: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.BLIZZARD
-    ),
-    ParentalControlServicesAttrs.BLOCK_NETFLIX: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.NETFLIX
-    ),
-    ParentalControlServicesAttrs.BLOCK_IMGUR: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.IMGUR
-    ),
-    ParentalControlServicesAttrs.BLOCK_TELEGRAM: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.TELEGRAM
-    ),
-    ParentalControlServicesAttrs.BLOCK_DISNEYPLUS: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.DISNEYPLUS
-    ),
-    ParentalControlServicesAttrs.BLOCK_VIMEO: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.VIMEO
-    ),
-    ParentalControlServicesAttrs.BLOCK_SKYPE: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ParentalControlServices.SKYPE,
-    ),
-    ParentalControlServicesAttrs.BLOCK_EBAY: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.EBAY
-    ),
-    ParentalControlServicesAttrs.BLOCK_SPOTIFY: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.SPOTIFY
-    ),
-    ParentalControlServicesAttrs.BLOCK_PRIMEVIDEO: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.PRIMEVIDEO
-    ),
-    ParentalControlServicesAttrs.BLOCK_ZOOM: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.ZOOM
-    ),
-    ParentalControlServicesAttrs.BLOCK_AMAZON: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.AMAZON
-    ),
-    ParentalControlServicesAttrs.BLOCK_XBOXLIVE: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.XBOXLIVE
-    ),
-    ParentalControlServicesAttrs.BLOCK_SIGNAL: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.SIGNAL
-    ),
-    ParentalControlServicesAttrs.BLOCK_BEREAL: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.BEREAL
-    ),
-    ParentalControlServicesAttrs.BLOCK_GOOGLE_CHAT: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.GOOGLE_CHAT
-    ),
-    ParentalControlServicesAttrs.BLOCK_CHATGPT: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.CHATGPT
-    ),
-    ParentalControlServicesAttrs.BLOCK_HBOMAX: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.HBOMAX
-    ),
-    ParentalControlServicesAttrs.BLOCK_MASTODON: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE], ParentalControlServices.MASTODON
-    ),
-    ParentalControlServicesAttrs.BLOCK_PLAYSTATION_NETWORK: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
-        ParentalControlServices.PLAYSTATION_NETWORK,
-    ),
-    ParentalControlCategoriesAttrs.BLOCK_DATING: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.DATING
-    ),
-    ParentalControlCategoriesAttrs.BLOCK_GAMBLING: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.GAMBLING
-    ),
-    ParentalControlCategoriesAttrs.BLOCK_PIRACY: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.PIRACY
-    ),
-    ParentalControlCategoriesAttrs.BLOCK_PORN: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY], ParentalControlCategories.PORN
-    ),
-    ParentalControlCategoriesAttrs.BLOCK_SOCIAL_NETWORKS: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ParentalControlCategories.SOCIAL_NETWORKS,
-    ),
-    ParentalControlCategoriesAttrs.BLOCK_VIDEO_STREAMING: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ParentalControlCategories.VIDEO_STREAMING,
-    ),
-    ParentalControlCategoriesAttrs.BLOCK_ONLINE_GAMING: SettingDescription(
-        ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
-        ParentalControlCategories.ONLINE_GAMING,
-    ),
+    # Derived from the *Attrs enums: services by value (block_google_chat ->
+    # google-chat), categories by member name (BLOCK_X -> X).
+    **{
+        attr: SettingDescription(
+            ENDPOINTS[ATTR_PARENTAL_CONTROL_SERVICE],
+            ParentalControlServices(attr.removeprefix("block_").replace("_", "-")),
+        )
+        for attr in ParentalControlServicesAttrs
+    },
+    **{
+        attr: SettingDescription(
+            ENDPOINTS[ATTR_PARENTAL_CONTROL_CATEGORY],
+            ParentalControlCategories[attr.name.removeprefix("BLOCK_")],
+        )
+        for attr in ParentalControlCategoriesAttrs
+    },
 }
 
 ALLOWED_LOGS_LOCATION = ("ch", "eu", "gb", "us")
