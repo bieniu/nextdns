@@ -66,8 +66,8 @@ from .model import (
     AnalyticsStatus,
     ApiNames,
     ConnectionStatus,
-    ParentalControlCategories,
-    ParentalControlServices,
+    ParentalControlCategoriesAttrs,
+    ParentalControlServicesAttrs,
     Profile,
     ProfileInfo,
     Settings,
@@ -198,66 +198,14 @@ class NextDns:
             youtube_restricted_mode=profile_data.parental_control[
                 ApiNames.YOUTUBE_RESTRICTED_MODE
             ],
-            block_9gag=services.get(ParentalControlServices.NINEGAG, False),
-            block_amazon=services.get(ParentalControlServices.AMAZON, False),
-            block_bereal=services.get(ParentalControlServices.BEREAL, False),
-            block_blizzard=services.get(ParentalControlServices.BLIZZARD, False),
-            block_chatgpt=services.get(ParentalControlServices.CHATGPT, False),
-            block_dailymotion=services.get(ParentalControlServices.DAILYMOTION, False),
-            block_discord=services.get(ParentalControlServices.DISCORD, False),
-            block_disneyplus=services.get(ParentalControlServices.DISNEYPLUS, False),
-            block_ebay=services.get(ParentalControlServices.EBAY, False),
-            block_facebook=services.get(ParentalControlServices.FACEBOOK, False),
-            block_fortnite=services.get(ParentalControlServices.FORTNITE, False),
-            block_google_chat=services.get(ParentalControlServices.GOOGLE_CHAT, False),
-            block_hbomax=services.get(ParentalControlServices.HBOMAX, False),
-            block_hulu=services.get(ParentalControlServices.HULU, False),
-            block_imgur=services.get(ParentalControlServices.IMGUR, False),
-            block_instagram=services.get(ParentalControlServices.INSTAGRAM, False),
-            block_leagueoflegends=services.get(
-                ParentalControlServices.LEAGUEOFLEGENDS, False
-            ),
-            block_mastodon=services.get(ParentalControlServices.MASTODON, False),
-            block_messenger=services.get(ParentalControlServices.MESSENGER, False),
-            block_minecraft=services.get(ParentalControlServices.MINECRAFT, False),
-            block_netflix=services.get(ParentalControlServices.NETFLIX, False),
-            block_pinterest=services.get(ParentalControlServices.PINTEREST, False),
-            block_primevideo=services.get(ParentalControlServices.PRIMEVIDEO, False),
-            block_reddit=services.get(ParentalControlServices.REDDIT, False),
-            block_roblox=services.get(ParentalControlServices.ROBLOX, False),
-            block_signal=services.get(ParentalControlServices.SIGNAL, False),
-            block_skype=services.get(ParentalControlServices.SKYPE, False),
-            block_snapchat=services.get(ParentalControlServices.SNAPCHAT, False),
-            block_spotify=services.get(ParentalControlServices.SPOTIFY, False),
-            block_steam=services.get(ParentalControlServices.STEAM, False),
-            block_telegram=services.get(ParentalControlServices.TELEGRAM, False),
-            block_tiktok=services.get(ParentalControlServices.TIKTOK, False),
-            block_tinder=services.get(ParentalControlServices.TINDER, False),
-            block_tumblr=services.get(ParentalControlServices.TUMBLR, False),
-            block_twitch=services.get(ParentalControlServices.TWITCH, False),
-            block_twitter=services.get(ParentalControlServices.TWITTER, False),
-            block_vimeo=services.get(ParentalControlServices.VIMEO, False),
-            block_vk=services.get(ParentalControlServices.VK, False),
-            block_whatsapp=services.get(ParentalControlServices.WHATSAPP, False),
-            block_xboxlive=services.get(ParentalControlServices.XBOXLIVE, False),
-            block_youtube=services.get(ParentalControlServices.YOUTUBE, False),
-            block_zoom=services.get(ParentalControlServices.ZOOM, False),
-            block_dating=categories.get(ParentalControlCategories.DATING, False),
-            block_gambling=categories.get(ParentalControlCategories.GAMBLING, False),
-            block_piracy=categories.get(ParentalControlCategories.PIRACY, False),
-            block_playstation_network=services.get(
-                ParentalControlServices.PLAYSTATION_NETWORK, False
-            ),
-            block_porn=categories.get(ParentalControlCategories.PORN, False),
-            block_social_networks=categories.get(
-                ParentalControlCategories.SOCIAL_NETWORKS, False
-            ),
-            block_online_gaming=categories.get(
-                ParentalControlCategories.ONLINE_GAMING, False
-            ),
-            block_video_streaming=categories.get(
-                ParentalControlCategories.VIDEO_STREAMING, False
-            ),
+            **{
+                attr: services.get(MAP_SETTING[attr].name, False)
+                for attr in ParentalControlServicesAttrs
+            },
+            **{
+                attr: categories.get(MAP_SETTING[attr].name, False)
+                for attr in ParentalControlCategoriesAttrs
+            },
         )
 
     @_retry
@@ -423,41 +371,40 @@ class NextDns:
         kwargs: dict[str, Any] = {"headers": self._headers, "timeout": TIMEOUT}
         if data is not None:
             kwargs["json"] = data
-        resp = await self._session.request(method, url, **kwargs)
+        async with self._session.request(method, url, **kwargs) as resp:
+            _LOGGER.debug("Response status %s for %s", resp.status, url)
 
-        _LOGGER.debug("Response status %s for %s", resp.status, url)
+            if resp.status == HTTPStatus.FORBIDDEN:
+                raise InvalidApiKeyError
+            if resp.status == HTTPStatus.NO_CONTENT and method in (
+                "delete",
+                "patch",
+                "post",
+            ):
+                return {"success": True}
+            if resp.status == HTTPStatus.TOO_MANY_REQUESTS:
+                raise ApiError("Too many requests")
+            if resp.status == HTTP_STATUS_TIMEOUT:
+                raise TimeoutError("Timeout occurred: HTTP 524")
+            if resp.status != HTTPStatus.OK:
+                if resp.content_type == "application/json":
+                    result = await resp.json()
+                    error = result["errors"][0]
+                    raise ApiError(
+                        f"{resp.status}, {error['code']}, "
+                        f"{error.get('detail', 'no detail')}"
+                    )
+                raise ApiError(f"Error code: {resp.status}")
 
-        if resp.status == HTTPStatus.FORBIDDEN:
-            raise InvalidApiKeyError
-        if resp.status == HTTPStatus.NO_CONTENT and method in (
-            "delete",
-            "patch",
-            "post",
-        ):
-            return {"success": True}
-        if resp.status == HTTPStatus.TOO_MANY_REQUESTS:
-            raise ApiError("Too many requests")
-        if resp.status == HTTP_STATUS_TIMEOUT:
-            raise TimeoutError("Timeout occurred: HTTP 524")
-        if resp.status != HTTPStatus.OK:
             if resp.content_type == "application/json":
                 result = await resp.json()
-                error = result["errors"][0]
-                raise ApiError(
-                    f"{resp.status}, {error['code']}, "
-                    f"{error.get('detail', 'no detail')}"
-                )
-            raise ApiError(f"Error code: {resp.status}")
+            else:
+                result = await resp.text()
 
-        if resp.content_type == "application/json":
-            result = await resp.json()
-        else:
-            result = await resp.text()
+            if isinstance(result, dict) and "data" in result:
+                return result["data"]
 
-        if isinstance(result, dict) and "data" in result:
-            return result["data"]
-
-        return result
+            return result
 
     def get_profile_name(self, profile_id: str) -> str:
         """Get profile name."""
