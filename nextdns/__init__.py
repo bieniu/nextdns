@@ -150,7 +150,13 @@ class NextDns:
             web3=profile_data.settings[ATTR_WEB3],
             allow_affiliate=profile_data.privacy[ApiNames.ALLOW_AFFILIATE],
             block_disguised_trackers=profile_data.privacy[ApiNames.DISGUISED_TRACKERS],
+            block_rotating_ad_domains=profile_data.privacy[
+                ApiNames.ROTATING_AD_DOMAINS
+            ],
             ai_threat_detection=profile_data.security[ApiNames.AI_THREAT_DETECTION],
+            block_algorithmically_generated_domains=profile_data.security[
+                ApiNames.ALGORITHMICALLY_GENERATED_DOMAINS
+            ],
             block_csam=profile_data.security[ApiNames.CSAM],
             block_data_drop_services=profile_data.security[ApiNames.DATA_DROP_SERVICES],
             block_decentralized_web_gateways=profile_data.security[

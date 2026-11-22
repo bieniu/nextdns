@@ -40,11 +40,13 @@
             "fastFluxNetworks": false,
             "highRiskTlds": true,
             "newlyActiveDomains": false,
+            "algorithmicallyGeneratedDomains": false,
             "untrustedCertificates": true,
             "tlds": []
         },
         "privacy": {
             "disguisedTrackers": true,
+            "rotatingAdDomains": true,
             "allowAffiliate": true,
             "blocklists": [],
             "natives": [
