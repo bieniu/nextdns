@@ -243,6 +243,16 @@ async def test_get_logs(
             MAP_SETTING["block_high_risk_tlds"].url.format(profile_id=PROFILE_ID),
         ),
         (
+            "block_algorithmically_generated_domains",
+            MAP_SETTING["block_algorithmically_generated_domains"].url.format(
+                profile_id=PROFILE_ID
+            ),
+        ),
+        (
+            "block_rotating_ad_domains",
+            MAP_SETTING["block_rotating_ad_domains"].url.format(profile_id=PROFILE_ID),
+        ),
+        (
             "block_newly_active_domains",
             MAP_SETTING["block_newly_active_domains"].url.format(profile_id=PROFILE_ID),
         ),

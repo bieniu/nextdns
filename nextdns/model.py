@@ -158,8 +158,10 @@ class Settings(NextDnsData):
 
     allow_affiliate: bool
     block_disguised_trackers: bool
+    block_rotating_ad_domains: bool
 
     ai_threat_detection: bool
+    block_algorithmically_generated_domains: bool
     block_csam: bool
     block_data_drop_services: bool
     block_decentralized_web_gateways: bool
@@ -381,6 +383,7 @@ class ApiNames(StrEnum):
     """Names type for API."""
 
     AI_THREAT_DETECTION = "aiThreatDetection"
+    ALGORITHMICALLY_GENERATED_DOMAINS = "algorithmicallyGeneratedDomains"
     ALLOW_AFFILIATE = "allowAffiliate"
     BAV = "bav"
     BLOCK_BYPASS = "blockBypass"
@@ -407,6 +410,7 @@ class ApiNames(StrEnum):
     NRD = "nrd"
     PARKING = "parking"
     RESIDENTIAL_HOSTING = "residentialHosting"
+    ROTATING_AD_DOMAINS = "rotatingAdDomains"
     SAFESEARCH = "safeSearch"
     SERVICES = "services"
     THREAT_INTELLIGENCE_FEEDS = "threatIntelligenceFeeds"

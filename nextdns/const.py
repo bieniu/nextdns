@@ -44,8 +44,10 @@ ATTR_WEB3 = "web3"
 
 ATTR_ALLOW_AFFILIATE = "allow_affiliate"
 ATTR_BLOCK_DISGUISED_TRACKERS = "block_disguised_trackers"
+ATTR_BLOCK_ROTATING_AD_DOMAINS = "block_rotating_ad_domains"
 
 ATTR_AI_THREAT_DETECTION = "ai_threat_detection"
+ATTR_BLOCK_ALGORITHMICALLY_GENERATED_DOMAINS = "block_algorithmically_generated_domains"
 ATTR_BLOCK_CSAM = "block_csam"
 ATTR_BLOCK_DATA_DROP_SERVICES = "block_data_drop_services"
 ATTR_BLOCK_DECENTRALIZED_WEB_GATEWAYS = "block_decentralized_web_gateways"
@@ -140,8 +142,14 @@ MAP_SETTING = {
     ATTR_BLOCK_DISGUISED_TRACKERS: SettingDescription(
         ENDPOINTS[ATTR_PRIVACY], ApiNames.DISGUISED_TRACKERS
     ),
+    ATTR_BLOCK_ROTATING_AD_DOMAINS: SettingDescription(
+        ENDPOINTS[ATTR_PRIVACY], ApiNames.ROTATING_AD_DOMAINS
+    ),
     ATTR_AI_THREAT_DETECTION: SettingDescription(
         ENDPOINTS[ATTR_SECURITY], ApiNames.AI_THREAT_DETECTION
+    ),
+    ATTR_BLOCK_ALGORITHMICALLY_GENERATED_DOMAINS: SettingDescription(
+        ENDPOINTS[ATTR_SECURITY], ApiNames.ALGORITHMICALLY_GENERATED_DOMAINS
     ),
     ATTR_BLOCK_CSAM: SettingDescription(ENDPOINTS[ATTR_SECURITY], ApiNames.CSAM),
     ATTR_BLOCK_DATA_DROP_SERVICES: SettingDescription(
